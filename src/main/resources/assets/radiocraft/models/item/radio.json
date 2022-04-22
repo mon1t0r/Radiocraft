@@ -1,0 +1,11 @@
+{
+  "parent": "radiocraft:item/radio_disabled",
+  "overrides": [
+    {
+      "predicate": {
+        "radiocraft:enabled": 1
+      },
+      "model": "radiocraft:item/radio_enabled"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "radiocraft:item/radio_model_disabled",
+  "textures": {
+    "0": "radiocraft:item/radio_model_enabled",
+    "particle": "radiocraft:item/radio_model_enabled"
+  }
+}
