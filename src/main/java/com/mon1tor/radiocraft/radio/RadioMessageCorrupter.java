@@ -22,7 +22,7 @@ public class RadioMessageCorrupter {
         StringBuilder result = new StringBuilder(msg);
 
         int corruptedCharsCount = Math.round(result.length() * (distance / CORRUPT_RANGE));
-        int[] indArr = MathUtils.getUniqueIntsArray(result.length());
+        int[] indArr = MathUtils.getUniqueIntsArray(corruptedCharsCount, 0, result.length());
 
         for(int i = 0; i < corruptedCharsCount; ++i) {
             result.setCharAt(indArr[i], getRandomCorruptSymbol());

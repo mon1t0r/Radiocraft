@@ -12,12 +12,13 @@ import java.util.UUID;
 @OnlyIn(Dist.CLIENT)
 public class RadioGUIData {
     private static final int HISTORY_BUFFER_SIZE = 20;
-    private static Map<UUID, Data> dataMap = new HashMap<>();
+    private static final Map<UUID, Data> dataMap = new HashMap<>();
 
     @Nullable
     public static Data addMessage(UUID radioStackId, HistoryItem msg) {
         if (radioStackId == null)
             return null;
+        System.out.println("ADD MESSAGE WITH UUID: " + radioStackId);
         Data data = getOrCreateData(radioStackId);
 
         data.history.add(msg);
@@ -49,8 +50,7 @@ public class RadioGUIData {
     @Nullable
     public static Data getGUIDataForId(UUID radioStackId) {
         if(radioStackId != null && dataMap.containsKey(radioStackId)){
-            Data data = dataMap.get(radioStackId);
-            return data;
+            return dataMap.get(radioStackId);
         }
         return null;
     }
@@ -64,7 +64,7 @@ public class RadioGUIData {
         public String writingMessage = "";
 
         public HistoryItem[] getHistory() {
-            return history.toArray(new HistoryItem[history.size()]);
+            return history.toArray(new HistoryItem[0]);
         }
     }
     public static class HistoryItem {
