@@ -1,7 +1,12 @@
 {
+  "item.radiocraft.antenna": "Антена",
+  "item.radiocraft.battery": "Акумулятор",
+  "item.radiocraft.chip_1": "Мікросхема (Логічна)",
+  "item.radiocraft.chip_2": "Мікросхема (Силова)",
+  "item.radiocraft.display": "Дисплей",
   "item.radiocraft.radio": "Рація",
   "block.radiocraft.radio_charger": "Зарядна станція",
-  "itemGroup.radioTab": "Радіоаппаратура",
+  "itemGroup.radioTab": "Радіообладнання",
   "screen.radiocraft.radio_charger": "Зарядна станція",
   "screen.radiocraft.radio_charger.noDevice": "Пусто",
   "screen.radiocraft.radio_charger.charging": "Зарядка...",

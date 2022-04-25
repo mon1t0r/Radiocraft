@@ -1,24 +1,22 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
+    "AAA",
     "ABA",
-    "#C#"
+    "CAC"
   ],
   "key": {
     "A": {
-      "item": "minecraft:redstone_torch"
+      "item": "minecraft:glass_pane"
     },
     "B": {
       "item": "minecraft:redstone"
     },
     "C": {
-      "item": "radiocraft:chip_2"
-    },
-    "#": {
-      "item": "minecraft:iron_block"
+      "item": "minecraft:iron_bars"
     }
   },
   "result": {
-    "item": "radiocraft:radio_charger"
+    "item": "radiocraft:display"
   }
 }

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "BBB",
+    "CCC"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:redstone"
+    },
+    "B": {
+      "item": "minecraft:iron_ingot"
+    },
+    "C" : {
+      "item": "minecraft:iron_bars"
+    }
+  },
+  "result": {
+    "item": "radiocraft:chip_2"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "item.radiocraft.antenna": "Antenna",
+  "item.radiocraft.battery": "Battery",
+  "item.radiocraft.chip_1": "Logical chip",
+  "item.radiocraft.chip_2": "Power IC",
+  "item.radiocraft.display": "Display",
+  "item.radiocraft.radio": "Radio set",
+  "block.radiocraft.radio_charger": "Radio charger",
+  "itemGroup.radioTab": "Radio equipment",
+  "screen.radiocraft.radio_charger": "Radio charger",
+  "screen.radiocraft.radio_charger.noDevice": "Empty",
+  "screen.radiocraft.radio_charger.charging": "Charging...",
+  "screen.radiocraft.radio_charger.charged": "Charged",
+  "screen.radiocraft.radio_charger.status": "Status:",
+  "screen.radiocraft.radio.currentFrequency": "Frequency: %s",
+  "screen.radiocraft.radio.changeFrequency" : "Frequency changed: %s"
+}
