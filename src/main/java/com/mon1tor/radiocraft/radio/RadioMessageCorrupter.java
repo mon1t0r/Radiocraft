@@ -6,8 +6,8 @@ import net.minecraft.util.math.BlockPos;
 import java.util.Random;
 
 public class RadioMessageCorrupter {
-    public static final float MIN_CORRUPT_DIST = 20;
-    public static final float MAX_CORRUPT_DIST = 120;
+    public static final float MIN_CORRUPT_DIST = 200;
+    public static final float MAX_CORRUPT_DIST = 1200;
     private static final char[] CORRUPT_SYMBOLS = new char[] { '@', '#', '$', '%', '&', '*' };
     private static final float CORRUPT_RANGE = MAX_CORRUPT_DIST - MIN_CORRUPT_DIST;
     private static final Random random = new Random();
