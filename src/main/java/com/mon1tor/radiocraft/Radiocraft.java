@@ -28,9 +28,12 @@ public class Radiocraft
 {
     public static final String MOD_ID = "radiocraft";
     public static final Logger LOGGER = LogManager.getLogger();
-    public static final ModEventHandler eventHandler = new ModEventHandler();
+    public static Radiocraft instance;
+    public final ModEventHandler eventHandler = new ModEventHandler();
 
     public Radiocraft() {
+        instance = this;
+
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         ModItems.register(modEventBus);
