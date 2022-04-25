@@ -44,10 +44,14 @@ public class RadioItem extends Item {
         if(stack.getDamageValue() >= stack.getMaxDamage() - 1) return ActionResult.fail(stack);
         boolean isActive = isActive(stack);
         if(isActive) {
-            if(playerIn.isCrouching()) setActive(stack, false);
-            else if(worldIn.isClientSide) {
-                Minecraft mc = Minecraft.getInstance();
-                mc.setScreen(new RadioScreen(playerIn, stack, handIn));
+            if(playerIn.isCrouching())
+                setActive(stack, false);
+            else {
+                if(worldIn.isClientSide) {
+                    Minecraft mc = Minecraft.getInstance();
+                    mc.setScreen(new RadioScreen(playerIn, stack, handIn));
+                } else
+                    StackIdentifier.checkStackClientDataUUIDServer(stack);
             }
         }
         else {

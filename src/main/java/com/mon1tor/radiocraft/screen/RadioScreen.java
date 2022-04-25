@@ -18,6 +18,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -120,20 +121,31 @@ public class RadioScreen extends Screen {
         this.textField.render(matrixStack, x, y, partialTicks);
         int w = this.font.width(freqText.getString());
         this.font.draw(matrixStack, freqText, i + 185 + (59 - w) / 2.0f, j + 12, 0xFFFFFF);
+
+        int totalSizeY = 0;
         for(int k = 0; k < historyBuffer.length; ++k) {
+            totalSizeY += getItemYSize(historyBuffer[k]);
+        }
+
+        int firstBufferIndex = 0;
+        while (totalSizeY > this.ySize - 40 && firstBufferIndex < historyBuffer.length - 1) {
+            totalSizeY -= getItemYSize(historyBuffer[firstBufferIndex++]);
+        }
+
+        int currentY = j + 12;
+        for(int k = firstBufferIndex; k < historyBuffer.length; ++k) {
             RadioGUIData.HistoryItem item = historyBuffer[k];
             switch (item.type) {
                 case TEXT:
-                    this.font.draw(matrixStack, item.content, i + 14, j + 12 + (10 * k), 0xFFFFFF);
+                    this.font.drawWordWrap(new StringTextComponent(item.content), i + 14, currentY, this.xSize - 28,0xFFFFFF);
                     break;
                 case CHANGE_FREQUENCY:
                     ITextComponent text = new TranslationTextComponent("screen.radiocraft.radio.changeFrequency", item.content);
                     w = this.font.width(text.getString());
-                    this.font.draw(matrixStack, text,
-                            i + (this.xSize - w) / 2.0f, j + 12 + (10 * k), 0x5ECDF2);
+                    this.font.draw(matrixStack, text, i + (this.xSize - w) / 2.0f, currentY, 0x5ECDF2);
                     break;
             }
-
+            currentY += getItemYSize(item);
         }
     }
 
@@ -183,6 +195,16 @@ public class RadioScreen extends Screen {
     @Override
     public boolean isPauseScreen() {
         return false;
+    }
+
+    private int getItemYSize(RadioGUIData.HistoryItem item) {
+        switch (item.type) {
+            case TEXT:
+                return this.font.wordWrapHeight(item.content, this.xSize - 28) + 1;
+            case CHANGE_FREQUENCY:
+                return 10;
+        }
+        return 0;
     }
 
     private void clearTextField() {
