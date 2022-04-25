@@ -11,8 +11,6 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Supplier;
 
 public class SPacketGetAvaliableReceivers {
@@ -40,18 +38,15 @@ public class SPacketGetAvaliableReceivers {
             DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
                 Minecraft mc = Minecraft.getInstance();
                 ClientPlayerEntity player = mc.player;
-                List<Integer> avaliableRecievers = new ArrayList<>();
                 player.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).ifPresent((inv) -> {
-                    for (int i = 0; i < inv.getSlots(); i++) {
+                    for (int i = 0; i < inv.getSlots(); ++i) {
                         ItemStack stack = inv.getStackInSlot(i);
                         if(!stack.isEmpty() && stack.getItem() == ModItems.RADIO.get() && RadioItem.canDoTheJob(stack, packet.freq)) {
-                            avaliableRecievers.add(i);
+                            ModPacketHandler.sendToServer(new CPacketSendAvaliableRecievers(packet.messageId, i));
+                            break;
                         }
                     }
                 });
-                if(avaliableRecievers.size() > 0) {
-                    ModPacketHandler.sendToServer(new CPacketSendAvaliableRecievers(packet.messageId, avaliableRecievers.stream().mapToInt(i->i).toArray()));
-                }
             });
         });
         context.get().setPacketHandled(true);

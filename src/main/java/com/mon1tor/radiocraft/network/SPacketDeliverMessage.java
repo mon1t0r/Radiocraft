@@ -1,6 +1,7 @@
 package com.mon1tor.radiocraft.network;
 
 import com.mon1tor.radiocraft.item.ModItems;
+import com.mon1tor.radiocraft.item.StackIdentifier;
 import com.mon1tor.radiocraft.item.custom.RadioItem;
 import com.mon1tor.radiocraft.radio.client.RadioGUIData;
 import com.mon1tor.radiocraft.screen.RadioScreen;
@@ -45,7 +46,7 @@ public class SPacketDeliverMessage {
                         for (int i = 0; i < inv.getSlots(); ++i) {
                             ItemStack stack = inv.getStackInSlot(i);
                             if(!stack.isEmpty() && stack.getItem() == ModItems.RADIO.get() && RadioItem.getFrequency(stack) == packet.freq) {
-                                RadioGUIData.addMessage(RadioItem.getStackClientDataUUIDClient(stack),
+                                RadioGUIData.addMessage(StackIdentifier.getStackClientDataUUIDClient(stack),
                                         new RadioGUIData.HistoryItem(RadioGUIData.HistoryItemType.TEXT, packet.message));
                             }
                         }

@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "compatibilityLevel": "JAVA_8",
+  "package": "com.mon1tor.radiocraft.mixin.impl",
+  "refmap": "mixins.radiocraft.refmap.json",
+  "mixins": [
+    "ItemInteractionHook"
+  ],
+  "client": [],
+  "server": []
+}

@@ -1,6 +1,7 @@
 package com.mon1tor.radiocraft.item.custom;
 
 import com.mon1tor.radiocraft.item.ModItemGroup;
+import com.mon1tor.radiocraft.item.StackIdentifier;
 import com.mon1tor.radiocraft.screen.RadioScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -12,9 +13,6 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.UUID;
 
 public class RadioItem extends Item {
     public static final int MAX_HISTORY_LINES = 10;
@@ -54,7 +52,7 @@ public class RadioItem extends Item {
         }
         else {
             if(!worldIn.isClientSide)
-                checkStackClientDataUUIDServer(stack);
+                StackIdentifier.checkStackClientDataUUIDServer(stack);
             setActive(stack, true);
         }
         return ActionResult.success(stack);
@@ -70,16 +68,6 @@ public class RadioItem extends Item {
         return slotChanged;
     }
 
-    public static void checkStackClientDataUUIDServer(ItemStack stack) {
-        CompoundNBT nbt = getCompoundNBT(stack);
-        if(!nbt.contains("stackHistoryUUID"))
-            nbt.putUUID("stackHistoryUUID", UUID.randomUUID());
-    }
-    @Nullable
-    public static UUID getStackClientDataUUIDClient(ItemStack stack) {
-        CompoundNBT nbt = getCompoundNBT(stack);
-        return nbt.contains("stackHistoryUUID") ? nbt.getUUID("stackHistoryUUID") : null;
-    }
     public static boolean isEnabled(ItemStack stack) {
         return isActive(stack) && stack.getDamageValue() < stack.getMaxDamage() - 1;
     }

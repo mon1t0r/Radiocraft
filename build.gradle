@@ -7,12 +7,14 @@ buildscript {
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
         classpath 'org.parchmentmc:librarian:1.+'
+        classpath 'org.spongepowered:mixingradle:0.7.+'
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.parchmentmc.librarian.forgegradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
+apply plugin: 'org.spongepowered.mixin'
 
 version = '1.0'
 group = 'com.mon1tor.radiocraft'
@@ -29,6 +31,7 @@ minecraft {
 
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
+            arg "-mixin.config=mixins.radiocraft.json"
 
             mods {
                 radiocraft {
@@ -42,6 +45,7 @@ minecraft {
 
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
+            arg "-mixin.config=mixins.radiocraft.json"
 
             mods {
                 radiocraft {
@@ -55,6 +59,7 @@ minecraft {
 
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
+            arg "-mixin.config=mixins.radiocraft.json"
 
             args '--mod', 'radiocraft', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
 
@@ -74,6 +79,11 @@ dependencies {
 
     minecraft 'net.minecraftforge:forge:1.16.5-36.2.34'
 
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+}
+
+mixin {
+    add sourceSets.main, "mixins.radiocraft.refmap.json"
 }
 
 jar {
@@ -85,6 +95,7 @@ jar {
             "Implementation-Title": project.name,
             "Implementation-Version": "${version}",
             "Implementation-Vendor" :"radiocraftsareus",
+            "MixinConfigs": "mixins.radiocraft.json",
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }

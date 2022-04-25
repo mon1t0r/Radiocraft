@@ -1,10 +1,10 @@
 package com.mon1tor.radiocraft.network;
 
+import com.mon1tor.radiocraft.item.ModItems;
+import com.mon1tor.radiocraft.item.StackIdentifier;
+import com.mon1tor.radiocraft.item.custom.RadioItem;
 import com.mon1tor.radiocraft.radio.RadioMessageCorrupter;
 import com.mon1tor.radiocraft.radio.RadioMessagesQueue;
-import com.mon1tor.radiocraft.item.ModItems;
-import com.mon1tor.radiocraft.item.custom.RadioItem;
-import com.mon1tor.radiocraft.util.PacketBufferUtils;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -17,21 +17,21 @@ import java.util.function.Supplier;
 
 public class CPacketSendAvaliableRecievers {
     private final int messageId;
-    private final int[] slots;
+    private final int slot;
 
-    public CPacketSendAvaliableRecievers(int messageId, int[] slots) {
+    public CPacketSendAvaliableRecievers(int messageId, int slot) {
         this.messageId = messageId;
-        this.slots = slots;
+        this.slot = slot;
     }
 
     public static void encode(CPacketSendAvaliableRecievers packet, PacketBuffer buf) {
         buf.writeInt(packet.messageId);
-        PacketBufferUtils.writeIntArray(buf, packet.slots);
+        buf.writeInt(packet.slot);
     }
 
     public static CPacketSendAvaliableRecievers decode(PacketBuffer buf) {
         int id = buf.readInt();
-        int[] s = PacketBufferUtils.readIntArray(buf);
+        int s = buf.readInt();
         return new CPacketSendAvaliableRecievers(id, s);
     }
 
@@ -40,18 +40,12 @@ public class CPacketSendAvaliableRecievers {
             ServerPlayerEntity player = context.get().getSender();
             ServerWorld world = player.getLevel();
             RadioMessagesQueue.Message msg = RadioMessagesQueue.getMessageById(packet.messageId);
-            if(msg != null && packet.slots.length > 0) {
+            if(msg != null && packet.slot >= 0) {
                 player.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).ifPresent((inv) -> {
-                    if(packet.slots.length < inv.getSlots()) {
-                        boolean canSend = false;
-                        for(int i = 0; i < packet.slots.length; ++i) {
-                            ItemStack stack = inv.getStackInSlot(packet.slots[i]);
-                            if(!stack.isEmpty() && stack.getItem() == ModItems.RADIO.get() && RadioItem.canDoTheJob(stack, msg.freq)) {
-                                canSend = true;
-                                RadioItem.checkStackClientDataUUIDServer(stack);
-                            }
-                        }
-                        if(canSend) {
+                    if(packet.slot < inv.getSlots()) {
+                        ItemStack stack = inv.getStackInSlot(packet.slot);
+                        if(!stack.isEmpty() && stack.getItem() == ModItems.RADIO.get() && RadioItem.canDoTheJob(stack, msg.freq)) {
+                            StackIdentifier.checkStackClientDataUUIDServer(stack);
                             PlayerEntity msgSender = world.getPlayerByUUID(msg.sender);
                             String content = "<" + (msgSender == null ? msg.sender.toString() : msgSender.getDisplayName().getString()) +
                                     "> " +  RadioMessageCorrupter.corruptMessageFromDist(msg.message, msg.senderPos, player.blockPosition());

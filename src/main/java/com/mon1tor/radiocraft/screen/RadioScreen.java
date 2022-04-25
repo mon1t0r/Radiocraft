@@ -3,6 +3,7 @@ package com.mon1tor.radiocraft.screen;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mon1tor.radiocraft.Radiocraft;
+import com.mon1tor.radiocraft.item.StackIdentifier;
 import com.mon1tor.radiocraft.item.custom.RadioItem;
 import com.mon1tor.radiocraft.network.CPacketSendRadioMessage;
 import com.mon1tor.radiocraft.network.CPacketSetRadioFrequency;
@@ -46,7 +47,7 @@ public class RadioScreen extends Screen {
         super(NarratorChatListener.NO_TITLE);
         player = playerIn;
         hand = handIn;
-        stackRadioDataUUID = RadioItem.getStackClientDataUUIDClient(radio);
+        stackRadioDataUUID = StackIdentifier.getStackClientDataUUIDClient(radio);
         setFrequency(RadioItem.getFrequency(radio));
     }
 
