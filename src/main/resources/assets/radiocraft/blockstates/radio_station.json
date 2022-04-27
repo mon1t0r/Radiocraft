@@ -1,0 +1,36 @@
+{
+  "variants": {
+    "part=left,facing=east": {
+      "model": "radiocraft:block/radio_station_left",
+      "y": 90
+    },
+    "part=left,facing=north": {
+      "model": "radiocraft:block/radio_station_left",
+      "y": 0
+    },
+    "part=left,facing=south": {
+      "model": "radiocraft:block/radio_station_left",
+      "y": 180
+    },
+    "part=left,facing=west": {
+      "model": "radiocraft:block/radio_station_left",
+      "y": 270
+    },
+    "part=right,facing=east": {
+      "model": "radiocraft:block/radio_station_right",
+      "y": 90
+    },
+    "part=right,facing=north": {
+      "model": "radiocraft:block/radio_station_right",
+      "y": 0
+    },
+    "part=right,facing=south": {
+      "model": "radiocraft:block/radio_station_right",
+      "y": 180
+    },
+    "part=right,facing=west": {
+      "model": "radiocraft:block/radio_station_right",
+      "y": 270
+    }
+  }
+}

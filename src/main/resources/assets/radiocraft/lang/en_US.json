@@ -6,6 +6,7 @@
   "item.radiocraft.display": "Display",
   "item.radiocraft.radio": "Radio set",
   "block.radiocraft.radio_charger": "Radio charger",
+  "block.radiocraft.radio_station": "Stationary radio",
   "itemGroup.radioTab": "Radio equipment",
   "screen.radiocraft.radio_charger": "Radio charger",
   "screen.radiocraft.radio_charger.noDevice": "Empty",

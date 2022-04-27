@@ -2,6 +2,7 @@ package com.mon1tor.radiocraft.block;
 
 import com.mon1tor.radiocraft.Radiocraft;
 import com.mon1tor.radiocraft.block.custom.RadioChargerBlock;
+import com.mon1tor.radiocraft.block.custom.RadioStationBlock;
 import com.mon1tor.radiocraft.item.ModItemGroup;
 import com.mon1tor.radiocraft.item.ModItems;
 import net.minecraft.block.Block;
@@ -20,6 +21,8 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> RADIO_CHARGER = registerBlock("radio_charger",
             () -> new RadioChargerBlock());
+    public static final RegistryObject<Block> RADIO_STATION = registerBlock("radio_station",
+            () -> new RadioStationBlock());
 
     private static <T extends Block>RegistryObject<T> registerBlock(String name, Supplier<T> block) {
         RegistryObject<T> result = BLOCKS.register(name, block);

@@ -1,8 +1,8 @@
 package com.mon1tor.radiocraft.item.custom;
 
+import com.mon1tor.radiocraft.client.screen.RadioScreen;
 import com.mon1tor.radiocraft.item.ModItemGroup;
 import com.mon1tor.radiocraft.item.StackIdentifier;
-import com.mon1tor.radiocraft.screen.RadioScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;

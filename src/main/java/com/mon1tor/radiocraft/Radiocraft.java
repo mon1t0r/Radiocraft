@@ -1,11 +1,11 @@
 package com.mon1tor.radiocraft;
 
 import com.mon1tor.radiocraft.block.ModBlocks;
+import com.mon1tor.radiocraft.client.screen.RadioChargerScreen;
 import com.mon1tor.radiocraft.container.ModContainers;
 import com.mon1tor.radiocraft.item.ModItems;
 import com.mon1tor.radiocraft.item.custom.RadioItem;
 import com.mon1tor.radiocraft.network.ModPacketHandler;
-import com.mon1tor.radiocraft.screen.RadioChargerScreen;
 import com.mon1tor.radiocraft.tileentity.ModTileEntities;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
@@ -59,6 +59,7 @@ public class Radiocraft
         event.enqueueWork(() -> {
             ScreenManager.register(ModContainers.RADIO_CHARGER_CONTAINER.get(), RadioChargerScreen::new);
             RenderTypeLookup.setRenderLayer(ModBlocks.RADIO_CHARGER.get(), RenderType.cutout());
+            RenderTypeLookup.setRenderLayer(ModBlocks.RADIO_STATION.get(), RenderType.cutout());
             ItemModelsProperties.register(
                     ModItems.RADIO.get(), new ResourceLocation(MOD_ID, "enabled"),
                     (stack, world, entity) -> RadioItem.isActive(stack) ? 1.0F : 0.0F

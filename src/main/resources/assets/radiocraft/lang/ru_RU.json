@@ -6,6 +6,7 @@
   "item.radiocraft.display": "Дисплей",
   "item.radiocraft.radio": "Рация",
   "block.radiocraft.radio_charger": "Зарядная станция",
+  "block.radiocraft.radio_station": "Стационарная радиостанция",
   "itemGroup.radioTab": "Радиооборудование",
   "screen.radiocraft.radio_charger": "Зарядная станция",
   "screen.radiocraft.radio_charger.noDevice": "Пусто",

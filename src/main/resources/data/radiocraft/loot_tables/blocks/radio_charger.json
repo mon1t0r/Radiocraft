@@ -8,6 +8,11 @@
           "type": "item",
           "name": "radiocraft:radio_charger"
         }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
       ]
     }
   ]

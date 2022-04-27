@@ -1,4 +1,4 @@
-package com.mon1tor.radiocraft.screen;
+package com.mon1tor.radiocraft.client.screen;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;

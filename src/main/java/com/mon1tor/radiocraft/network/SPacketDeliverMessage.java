@@ -1,10 +1,10 @@
 package com.mon1tor.radiocraft.network;
 
+import com.mon1tor.radiocraft.client.screen.RadioScreen;
 import com.mon1tor.radiocraft.item.ModItems;
 import com.mon1tor.radiocraft.item.StackIdentifier;
 import com.mon1tor.radiocraft.item.custom.RadioItem;
 import com.mon1tor.radiocraft.radio.client.RadioGUIData;
-import com.mon1tor.radiocraft.screen.RadioScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.item.ItemStack;

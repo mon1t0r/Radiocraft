@@ -1,10 +1,9 @@
-package com.mon1tor.radiocraft.screen;
+package com.mon1tor.radiocraft.client.screen;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mon1tor.radiocraft.Radiocraft;
 import com.mon1tor.radiocraft.container.RadioChargerContainer;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
