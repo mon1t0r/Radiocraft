@@ -110,17 +110,23 @@ public class RadioStationBlock extends HorizontalBlock {
 
     @Override
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+        boolean isLeft = state.getValue(PART) == RadioStationPart.LEFT;
         switch (state.getValue(FACING)){
-            case NORTH: return SHAPE_N;
-            case WEST: return SHAPE_W;
-            case SOUTH: return SHAPE_S;
-            case EAST: return SHAPE_E;
+            case NORTH: return isLeft ? SHAPE_LEFT_N : SHAPE_RIGHT_N;
+            case WEST: return isLeft ? SHAPE_LEFT_W : SHAPE_RIGHT_W;
+            case SOUTH: return isLeft ? SHAPE_LEFT_S : SHAPE_RIGHT_S;
+            case EAST: return isLeft ? SHAPE_LEFT_E : SHAPE_RIGHT_E;
         }
         return  super.getShape(state, worldIn, pos, context);
     }
 
-    private static final VoxelShape SHAPE_N = Block.box(0, 0, 1, 16, 12, 15);
-    private static final VoxelShape SHAPE_W = Block.box(1, 0, 0, 15, 12, 16);
-    private static final VoxelShape SHAPE_S = Block.box(0, 0, 1, 16, 12, 15);
-    private static final VoxelShape SHAPE_E = Block.box(1, 0, 0, 15, 12, 16);
+    private static final VoxelShape SHAPE_LEFT_N = Block.box(0, 0, 3, 15, 11, 13);
+    private static final VoxelShape SHAPE_LEFT_W = Block.box(3, 0, 1, 13, 11, 16);
+    private static final VoxelShape SHAPE_LEFT_S = Block.box(1, 0, 3, 16, 11, 13);
+    private static final VoxelShape SHAPE_LEFT_E = Block.box(3, 0, 0, 13, 11, 15);
+
+    private static final VoxelShape SHAPE_RIGHT_N = Block.box(1, 0, 3, 16, 11, 13);
+    private static final VoxelShape SHAPE_RIGHT_W = Block.box(3, 0, 0, 13, 11, 15);
+    private static final VoxelShape SHAPE_RIGHT_S = Block.box(0, 0, 3, 15, 11, 13);
+    private static final VoxelShape SHAPE_RIGHT_E = Block.box(3, 0, 1, 13, 11, 16);
 }
