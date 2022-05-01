@@ -25,7 +25,8 @@ public class RadioItem extends Item {
         if(entityIn instanceof LivingEntity && isActive(stack) && entityIn.tickCount % 100 == 0) {
             if(stack.getDamageValue() >= stack.getMaxDamage() - 1) {
                 setActive(stack,false);
-                if(worldIn.isClientSide){
+                if(worldIn.isClientSide) {
+                    System.out.println("CLIENT");
                     Minecraft mc = Minecraft.getInstance();
                     if(mc.screen instanceof RadioScreen && entityIn instanceof PlayerEntity) {
                         PlayerEntity player = (PlayerEntity) entityIn;

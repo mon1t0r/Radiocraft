@@ -13,6 +13,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.chat.NarratorChatListener;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
@@ -40,7 +41,7 @@ public class RadioScreen extends Screen {
     private final UUID stackRadioDataUUID;
     private TextFieldWidget freqField;
     private TextFieldWidget textField;
-    private ITextComponent freqText;
+    private ITextComponent freqText = new TranslationTextComponent("screen.radiocraft.radio.currentFrequency");
     private RadioGUIData.HistoryItem[] historyBuffer;
     private int currentFreq;
 
@@ -59,7 +60,7 @@ public class RadioScreen extends Screen {
         this.guiLeft = (this.width - this.xSize) / 2;
         this.guiTop = (this.height - this.ySize) / 2;
 
-        this.freqField = new TextFieldWidget(this.font, this.guiLeft + 13, this.guiTop + 238, 34, 13, null);
+        this.freqField = new TextFieldWidget(this.font, this.guiLeft + 195, this.guiTop + 45, 34, 13, null);
         this.freqField.setTextColor(-1);
         this.freqField.setTextColorUneditable(-1);
         this.freqField.setBordered(false);
@@ -70,7 +71,7 @@ public class RadioScreen extends Screen {
 
         RadioGUIData.Data data = RadioGUIData.getGUIDataForId(stackRadioDataUUID);
 
-        this.textField = new TextFieldWidget(this.font, this.guiLeft + 58, this.guiTop + 238, 120, 13, null);
+        this.textField = new TextFieldWidget(this.font, this.guiLeft + 13, this.guiTop + 238, 120, 13, null);
         this.textField.setTextColor(-1);
         this.textField.setTextColorUneditable(-1);
         this.textField.setBordered(false);
@@ -79,6 +80,14 @@ public class RadioScreen extends Screen {
             this.textField.setValue(data.writingMessage);
         this.children.add(this.textField);
         this.setInitialFocus(this.textField);
+
+        this.addButton(new Button(this.guiLeft + 232, this.guiTop + 40, 19, 16, new TranslationTextComponent("screen.radiocraft.radio.ok"), (pOnPress) -> {
+            consumeFreqInput();
+        }));
+
+        this.addButton(new Button(this.guiLeft + 142, this.guiTop + 234, 43, 17, new TranslationTextComponent("screen.radiocraft.radio.send"), (pOnPress) -> {
+            consumeTextInput();
+        }));
 
         updateHistory(data);
     }
@@ -110,17 +119,24 @@ public class RadioScreen extends Screen {
     @Override
     public void render(MatrixStack matrixStack, int x, int y, float partialTicks) {
         this.renderBackground(matrixStack);
-        super.render(matrixStack, x, y, partialTicks);
         RenderSystem.color4f(1f, 1f, 1f, 1f);
         this.getMinecraft().textureManager.bind(GUI);
         int i = this.guiLeft;
         int j = this.guiTop;
-        this.blit(matrixStack, i, j, 0,0,this.xSize + 60, this.ySize);
+        this.blit(matrixStack, i, j, 0,0, this.xSize, this.ySize);
+        this.blit(matrixStack, i + this.xSize, j, this.xSize,0, 60, 62);
         RenderSystem.disableBlend();
+
+        super.render(matrixStack, x, y, partialTicks);
+
         this.freqField.render(matrixStack, x, y, partialTicks);
         this.textField.render(matrixStack, x, y, partialTicks);
         int w = this.font.width(freqText.getString());
-        this.font.draw(matrixStack, freqText, i + 185 + (59 - w) / 2.0f, j + 12, 0xFFFFFF);
+        this.font.draw(matrixStack, freqText, i + 193 + (58 - w) / 2.0f, j + 12, 0xFFFFFF);
+
+        String freqS = Integer.toString(currentFreq);
+        w = this.font.width(freqS);
+        this.font.draw(matrixStack, freqS, i + 193 + (58 - w) / 2.0f, j + 26, 0xFFFFFF);
 
         int totalSizeY = 0;
         for(int k = 0; k < historyBuffer.length; ++k) {
@@ -176,20 +192,28 @@ public class RadioScreen extends Screen {
             case GLFW.GLFW_KEY_ENTER:
             case GLFW.GLFW_KEY_KP_ENTER:
                 if(this.freqField.canConsumeInput()) {
-                    try {
-                        setFrequency(Integer.parseInt(this.freqField.getValue()), true);
-                    } catch(NumberFormatException | NullPointerException e) {
-                    }
+                    consumeFreqInput();
                 } else if(this.textField.canConsumeInput()) {
-                    String s = this.textField.getValue();
-                    if(!s.trim().isEmpty()) {
-                        sendMessageToServer(s.trim());
-                        clearTextField();
-                    }
+                    consumeTextInput();
                 }
                 break;
         }
         return false;
+    }
+
+    private void consumeFreqInput() {
+        try {
+            setFrequency(Integer.parseInt(this.freqField.getValue()), true);
+        } catch(NumberFormatException | NullPointerException e) {
+        }
+    }
+
+    private void consumeTextInput() {
+        String s = this.textField.getValue();
+        if(!s.trim().isEmpty()) {
+            sendMessageToServer(s.trim());
+            clearTextField();
+        }
     }
 
     @Override
@@ -238,7 +262,6 @@ public class RadioScreen extends Screen {
 
     private void setFrequency(int freq, boolean notify) {
         currentFreq = freq;
-        freqText = new TranslationTextComponent("screen.radiocraft.radio.currentFrequency", currentFreq);
         if(notify) {
             sendFrequencyUpdateToServer();
             RadioGUIData.Data data = RadioGUIData.addMessage(stackRadioDataUUID,
