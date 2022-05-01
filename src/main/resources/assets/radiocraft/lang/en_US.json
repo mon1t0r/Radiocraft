@@ -13,6 +13,8 @@
   "screen.radiocraft.radio_charger.charging": "Charging...",
   "screen.radiocraft.radio_charger.charged": "Charged",
   "screen.radiocraft.radio_charger.status": "Status:",
-  "screen.radiocraft.radio.currentFrequency": "Frequency: %s",
-  "screen.radiocraft.radio.changeFrequency" : "Frequency changed: %s"
+  "screen.radiocraft.radio.currentFrequency": "Frequency:",
+  "screen.radiocraft.radio.changeFrequency" : "Frequency changed: %s",
+  "screen.radiocraft.radio.apply" : "Apply",
+  "screen.radiocraft.radio.send" : "Send"
 }
