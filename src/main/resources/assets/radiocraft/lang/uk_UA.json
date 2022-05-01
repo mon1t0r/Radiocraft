@@ -15,6 +15,6 @@
   "screen.radiocraft.radio_charger.status": "Статус:",
   "screen.radiocraft.radio.currentFrequency": "Частота:",
   "screen.radiocraft.radio.changeFrequency" : "Зміна частоти: %s",
-  "screen.radiocraft.radio.ok" : "Ок",
+  "screen.radiocraft.radio.apply" : "Застосувати",
   "screen.radiocraft.radio.send" : "Відпр."
 }

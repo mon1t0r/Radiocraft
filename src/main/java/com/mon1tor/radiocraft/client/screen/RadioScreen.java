@@ -13,7 +13,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.chat.NarratorChatListener;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.gui.widget.button.ImageButton;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
@@ -31,6 +31,9 @@ import java.util.UUID;
 @OnlyIn(Dist.CLIENT)
 public class RadioScreen extends Screen {
     private static final ResourceLocation GUI = new ResourceLocation(Radiocraft.MOD_ID,"textures/gui/radio_gui.png");
+    private static final ITextComponent messageSendText = new TranslationTextComponent("screen.radiocraft.radio.send");
+    private static final ITextComponent freqText = new TranslationTextComponent("screen.radiocraft.radio.currentFrequency");
+    private static final ITextComponent applyText = new TranslationTextComponent("screen.radiocraft.radio.apply");
 
     protected int guiLeft;
     protected int guiTop;
@@ -41,7 +44,6 @@ public class RadioScreen extends Screen {
     private final UUID stackRadioDataUUID;
     private TextFieldWidget freqField;
     private TextFieldWidget textField;
-    private ITextComponent freqText = new TranslationTextComponent("screen.radiocraft.radio.currentFrequency");
     private RadioGUIData.HistoryItem[] historyBuffer;
     private int currentFreq;
 
@@ -81,13 +83,23 @@ public class RadioScreen extends Screen {
         this.children.add(this.textField);
         this.setInitialFocus(this.textField);
 
-        this.addButton(new Button(this.guiLeft + 232, this.guiTop + 40, 19, 16, new TranslationTextComponent("screen.radiocraft.radio.ok"), (pOnPress) -> {
+        /*this.addButton(new Button(this.guiLeft + 232, this.guiTop + 40, 19, 16, new TranslationTextComponent("screen.radiocraft.radio.ok"), (pOnPress) -> {
             consumeFreqInput();
-        }));
+        }));*/
 
-        this.addButton(new Button(this.guiLeft + 142, this.guiTop + 234, 43, 17, new TranslationTextComponent("screen.radiocraft.radio.send"), (pOnPress) -> {
+        /*this.addButton(new Button(this.guiLeft + 142, this.guiTop + 234, 43, 17, new TranslationTextComponent("screen.radiocraft.radio.send"), (pOnPress) -> {
+            consumeTextInput();
+        }));*/
+
+        this.addButton(new ImageButton(this.guiLeft + 142, this.guiTop + 234, 43, 17, 196, 94, 17, GUI, 256, 256, (pOnPress) -> {
             consumeTextInput();
         }));
+
+        this.addButton(new ImageButton(this.guiLeft + 232, this.guiTop + 41, 19, 16, 220, 62, 16, GUI, 256, 256, (pOnPress) -> {
+            consumeFreqInput();
+        }, (button, matrixStack, mouseX, mouseY) -> {
+            this.renderTooltip(matrixStack, applyText, mouseX, mouseY);
+        }, StringTextComponent.EMPTY));
 
         updateHistory(data);
     }
@@ -128,6 +140,8 @@ public class RadioScreen extends Screen {
         RenderSystem.disableBlend();
 
         super.render(matrixStack, x, y, partialTicks);
+
+        drawCenteredString(matrixStack, this.font, messageSendText, this.guiLeft + 142 + 43 / 2, this.guiTop + 234 + (17 - 8) / 2, 0xFFFFFF);
 
         this.freqField.render(matrixStack, x, y, partialTicks);
         this.textField.render(matrixStack, x, y, partialTicks);
