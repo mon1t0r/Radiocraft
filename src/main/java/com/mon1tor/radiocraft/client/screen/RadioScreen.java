@@ -83,14 +83,6 @@ public class RadioScreen extends Screen {
         this.children.add(this.textField);
         this.setInitialFocus(this.textField);
 
-        /*this.addButton(new Button(this.guiLeft + 232, this.guiTop + 40, 19, 16, new TranslationTextComponent("screen.radiocraft.radio.ok"), (pOnPress) -> {
-            consumeFreqInput();
-        }));*/
-
-        /*this.addButton(new Button(this.guiLeft + 142, this.guiTop + 234, 43, 17, new TranslationTextComponent("screen.radiocraft.radio.send"), (pOnPress) -> {
-            consumeTextInput();
-        }));*/
-
         this.addButton(new ImageButton(this.guiLeft + 142, this.guiTop + 234, 43, 17, 196, 94, 17, GUI, 256, 256, (pOnPress) -> {
             consumeTextInput();
         }));
