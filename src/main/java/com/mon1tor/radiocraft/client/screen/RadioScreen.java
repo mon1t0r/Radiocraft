@@ -30,7 +30,7 @@ import java.util.UUID;
 
 @OnlyIn(Dist.CLIENT)
 public class RadioScreen extends Screen {
-    private static final ResourceLocation GUI = new ResourceLocation(Radiocraft.MOD_ID,"textures/gui/radio_gui.png");
+    public static final ResourceLocation GUI = new ResourceLocation(Radiocraft.MOD_ID,"textures/gui/radio_gui.png");
     private static final ITextComponent messageSendText = new TranslationTextComponent("screen.radiocraft.radio.send");
     private static final ITextComponent freqText = new TranslationTextComponent("screen.radiocraft.radio.currentFrequency");
     private static final ITextComponent applyText = new TranslationTextComponent("screen.radiocraft.radio.apply");
@@ -205,6 +205,22 @@ public class RadioScreen extends Screen {
                 break;
         }
         return false;
+    }
+
+    @Override
+    public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
+        if(this.textField.mouseClicked(pMouseX, pMouseY, pButton)) {
+            this.textField.setFocus(true);
+            this.freqField.setFocus(false);
+            this.setFocused(this.textField);
+            return true;
+        } else if(this.freqField.mouseClicked(pMouseX, pMouseY, pButton)) {
+            this.textField.setFocus(false);
+            this.freqField.setFocus(true);
+            this.setFocused(this.freqField);
+            return true;
+        }
+        return super.mouseClicked(pMouseX, pMouseY, pButton);
     }
 
     private void consumeFreqInput() {

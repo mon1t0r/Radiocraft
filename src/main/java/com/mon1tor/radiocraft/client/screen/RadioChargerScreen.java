@@ -22,6 +22,7 @@ public class RadioChargerScreen extends ContainerScreen<RadioChargerContainer> {
                     new TranslationTextComponent("screen.radiocraft.radio_charger.charging"),
                     new TranslationTextComponent("screen.radiocraft.radio_charger.charged")
             };
+
     public RadioChargerScreen(RadioChargerContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
         super(screenContainer, inv, titleIn);
     }

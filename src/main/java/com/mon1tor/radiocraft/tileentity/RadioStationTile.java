@@ -7,7 +7,10 @@ public class RadioStationTile extends TileEntity {
     public RadioStationTile(TileEntityType<?> tileEntityType) {
         super(tileEntityType);
     }
+
     public RadioStationTile() {
         this(ModTileEntities.RADIO_STATION_TILE.get());
     }
+
+
 }

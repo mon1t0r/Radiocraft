@@ -1,24 +1,36 @@
 package com.mon1tor.radiocraft.block.custom;
 
 import com.mon1tor.radiocraft.block.properties.RadioStationPart;
+import com.mon1tor.radiocraft.container.RadioStationContainer;
 import com.mon1tor.radiocraft.tileentity.ModTileEntities;
+import com.mon1tor.radiocraft.tileentity.RadioStationTile;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.PushReaction;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 
@@ -33,12 +45,12 @@ public class RadioStationBlock extends HorizontalBlock {
     @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return ModTileEntities.RADIO_STATION_TILE.get().create();
+        return state.getValue(PART) == RadioStationPart.LEFT ? ModTileEntities.RADIO_STATION_TILE.get().create() : null;
     }
 
     @Override
     public boolean hasTileEntity(BlockState state) {
-        return true;
+        return state.getValue(PART) == RadioStationPart.LEFT;
     }
 
     @Override
@@ -49,6 +61,42 @@ public class RadioStationBlock extends HorizontalBlock {
 
     private static Direction getNeighbourDirection(RadioStationPart pPart, Direction facing) {
         return pPart == RadioStationPart.LEFT ? facing.getCounterClockWise() : facing.getClockWise();
+    }
+
+    @Override
+    public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+        if(!worldIn.isClientSide) {
+            TileEntity tileEntity;
+            if(state.getValue(PART) == RadioStationPart.RIGHT) {
+                pos = pos.relative(getNeighbourDirection(state.getValue(PART), state.getValue(FACING)));
+            }
+            tileEntity = worldIn.getBlockEntity(pos);
+
+            if(tileEntity == null) {
+                return ActionResultType.FAIL;
+            }
+
+            if(tileEntity instanceof RadioStationTile) {
+                INamedContainerProvider containerProvider = createContainerProvider(worldIn, pos);
+                NetworkHooks.openGui((ServerPlayerEntity) player, containerProvider, tileEntity.getBlockPos());
+            }
+        }
+        return ActionResultType.SUCCESS;
+    }
+
+    private INamedContainerProvider createContainerProvider(World worldIn, BlockPos pos) {
+        return new INamedContainerProvider() {
+            @Override
+            public ITextComponent getDisplayName() {
+                return new TranslationTextComponent("screen.radiocraft.radio_station");
+            }
+
+            @Nullable
+            @Override
+            public Container createMenu(int i, PlayerInventory playerInventory, PlayerEntity playerEntity) {
+                return new RadioStationContainer(i, worldIn, pos, playerInventory, playerEntity);
+            }
+        };
     }
 
     @Nullable

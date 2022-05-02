@@ -2,6 +2,7 @@ package com.mon1tor.radiocraft;
 
 import com.mon1tor.radiocraft.block.ModBlocks;
 import com.mon1tor.radiocraft.client.screen.RadioChargerScreen;
+import com.mon1tor.radiocraft.client.screen.RadioStationScreen;
 import com.mon1tor.radiocraft.container.ModContainers;
 import com.mon1tor.radiocraft.item.ModItems;
 import com.mon1tor.radiocraft.item.custom.RadioItem;
@@ -58,6 +59,8 @@ public class Radiocraft
     private void doClientStuff(final FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
             ScreenManager.register(ModContainers.RADIO_CHARGER_CONTAINER.get(), RadioChargerScreen::new);
+            ScreenManager.register(ModContainers.RADIO_STATION_CONTAINER.get(), RadioStationScreen::new);
+
             RenderTypeLookup.setRenderLayer(ModBlocks.RADIO_CHARGER.get(), RenderType.cutout());
             RenderTypeLookup.setRenderLayer(ModBlocks.RADIO_STATION.get(), RenderType.cutout());
             ItemModelsProperties.register(
