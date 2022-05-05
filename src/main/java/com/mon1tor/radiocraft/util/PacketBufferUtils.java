@@ -1,6 +1,11 @@
 package com.mon1tor.radiocraft.util;
 
+import com.mon1tor.radiocraft.radio.history.HistoryItemType;
+import com.mon1tor.radiocraft.radio.history.IHistoryItem;
 import net.minecraft.network.PacketBuffer;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class PacketBufferUtils {
     public static void writeIntArray(PacketBuffer buf, int[] arr) {
@@ -17,5 +22,33 @@ public class PacketBufferUtils {
             arr[i] = buf.readInt();
         }
         return arr;
+    }
+
+    public static void writeMessageHistory(PacketBuffer buf, List<IHistoryItem> arr) {
+        buf.writeInt(arr.size());
+        for(int i = 0; i < arr.size(); ++i) {
+            writeHistoryItem(buf, arr.get(i));
+        }
+    }
+
+    public static List<IHistoryItem> readMessageHistory(PacketBuffer buf) {
+        int len = buf.readInt();
+        List<IHistoryItem> arr = new LinkedList<>();
+        for(int i = 0; i < len; ++i) {
+            arr.add(readHistoryItem(buf));
+        }
+        return arr;
+    }
+
+    public static void writeHistoryItem(PacketBuffer buf, IHistoryItem item) {
+        HistoryItemType type = item.getType();
+        buf.writeEnum(type);
+        type.writeToBuffer(item, buf);
+    }
+
+    public static IHistoryItem readHistoryItem(PacketBuffer buf) {
+        HistoryItemType type = buf.readEnum(HistoryItemType.class);
+        IHistoryItem item = type.readFromBuffer(buf);
+        return item;
     }
 }

@@ -79,6 +79,10 @@ public class RadioStationBlock extends HorizontalBlock {
             if(tileEntity instanceof RadioStationTile) {
                 INamedContainerProvider containerProvider = createContainerProvider(worldIn, pos);
                 NetworkHooks.openGui((ServerPlayerEntity) player, containerProvider, tileEntity.getBlockPos());
+
+                RadioStationTile radioStationTile = ((RadioStationTile) tileEntity);
+
+                radioStationTile.sendHistoryUpdateToClient((ServerPlayerEntity) player);
             }
         }
         return ActionResultType.SUCCESS;

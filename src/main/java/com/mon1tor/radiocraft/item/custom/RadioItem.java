@@ -78,6 +78,9 @@ public class RadioItem extends Item {
     public static boolean canDoTheJob(ItemStack stack, int freq) {
         return isActive(stack) && getFrequency(stack) == freq && stack.getDamageValue() < stack.getMaxDamage() - 1;
     }
+    public static boolean canDoTheJob(ItemStack stack) {
+        return isActive(stack) && stack.getDamageValue() < stack.getMaxDamage() - 1;
+    }
     public static void setActive(ItemStack stack, boolean state) {
         getCompoundNBT(stack).putBoolean("active", state);
     }

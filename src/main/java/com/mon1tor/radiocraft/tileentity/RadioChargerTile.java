@@ -20,7 +20,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class RadioChargerTile extends TileEntity implements ITickableTileEntity {
-
     private final ItemStackHandler itemHandler = createHandler();
     private final LazyOptional<IItemHandler> handler = LazyOptional.of(() -> itemHandler);
     private int serverTicksCounter = 0;

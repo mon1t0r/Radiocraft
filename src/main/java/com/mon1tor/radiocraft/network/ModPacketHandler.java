@@ -30,6 +30,11 @@ public class ModPacketHandler {
         CHANNEL.registerMessage(id++, SPacketGetAvaliableReceivers.class, SPacketGetAvaliableReceivers::encode, SPacketGetAvaliableReceivers::decode, SPacketGetAvaliableReceivers::handle);
         CHANNEL.registerMessage(id++, CPacketSendAvaliableRecievers.class, CPacketSendAvaliableRecievers::encode, CPacketSendAvaliableRecievers::decode, CPacketSendAvaliableRecievers::handle);
         CHANNEL.registerMessage(id++, SPacketDeliverMessage.class, SPacketDeliverMessage::encode, SPacketDeliverMessage::decode, SPacketDeliverMessage::handle);
+        CHANNEL.registerMessage(id++, CPacketSetRadioStationRecieveFrequency.class, CPacketSetRadioStationRecieveFrequency::encode, CPacketSetRadioStationRecieveFrequency::decode, CPacketSetRadioStationRecieveFrequency::handle);
+        CHANNEL.registerMessage(id++, CPacketSetRadioStationSendFrequency.class, CPacketSetRadioStationSendFrequency::encode, CPacketSetRadioStationSendFrequency::decode, CPacketSetRadioStationSendFrequency::handle);
+        CHANNEL.registerMessage(id++, CPacketSendRadioStationMessage.class, CPacketSendRadioStationMessage::encode, CPacketSendRadioStationMessage::decode, CPacketSendRadioStationMessage::handle);
+        CHANNEL.registerMessage(id++, CPacketSetRadioStationEnabled.class, CPacketSetRadioStationEnabled::encode, CPacketSetRadioStationEnabled::decode, CPacketSetRadioStationEnabled::handle);
+        CHANNEL.registerMessage(id++, SPacketSendRadioStationHistory.class, SPacketSendRadioStationHistory::encode, SPacketSendRadioStationHistory::decode, SPacketSendRadioStationHistory::handle);
 
         if (id >= 255) {
             Radiocraft.LOGGER.error("DEVELOPMENT ERROR: Number of packet types has reached the maximum of {}}!", id);

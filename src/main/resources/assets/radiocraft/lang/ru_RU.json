@@ -16,5 +16,12 @@
   "screen.radiocraft.radio.currentFrequency": "Частота:",
   "screen.radiocraft.radio.changeFrequency" : "Смена частоты: %s",
   "screen.radiocraft.radio.apply" : "Применить",
-  "screen.radiocraft.radio.send" : "Отпр."
+  "screen.radiocraft.radio.send" : "Отпр.",
+  "screen.radiocraft.radio_station.send" : "Отпр.",
+  "screen.radiocraft.radio_station.apply" : "Применить",
+  "screen.radiocraft.radio_station.freqRec" : "Диапазон частот приёма: ",
+  "screen.radiocraft.radio_station.freqRecContent" : "%s - %s",
+  "screen.radiocraft.radio_station.freqSend" : "Частота передачи:",
+  "screen.radiocraft.radio_station.changeRecieveFrequency" : "Смена частоты приёма: %s - %s",
+  "screen.radiocraft.radio_station.changeSendFrequency" : "Смена частоты передачи: %s"
 }

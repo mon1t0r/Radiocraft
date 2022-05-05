@@ -6,39 +6,53 @@ import net.minecraft.util.math.BlockPos;
 import java.util.Random;
 
 public class RadioMessageCorrupter {
-    public static final float MIN_CORRUPT_DIST = 200;
-    public static final float MAX_CORRUPT_DIST = 1200;
     private static final char[] CORRUPT_SYMBOLS = new char[] { '@', '#', '$', '%', '&', '*' };
-    private static final float CORRUPT_RANGE = MAX_CORRUPT_DIST - MIN_CORRUPT_DIST;
-    private static final Random random = new Random();
 
-    public static String corruptMessageFromDist(String msg, float distance) {
-        if(distance < MIN_CORRUPT_DIST)
+    public static String corruptMessageFromDist(String msg, float distance, SenderType sender, long corruptSeed) {
+        Random random = new Random(corruptSeed);
+        if(distance < sender.minCorruptDist)
             return msg;
-        if(msg.length() <= 0 || distance > MAX_CORRUPT_DIST)
+        if(msg.length() <= 0 || distance > sender.maxCorruptDist)
             return "";
-        distance -= MIN_CORRUPT_DIST;
+        distance -= sender.minCorruptDist;
 
         StringBuilder result = new StringBuilder(msg);
 
-        int corruptedCharsCount = Math.round(result.length() * (distance / CORRUPT_RANGE));
-        int[] indArr = MathUtils.getUniqueIntsArray(corruptedCharsCount, 0, result.length());
+        int corruptedCharsCount = Math.round(result.length() * (distance / (sender.maxCorruptDist - sender.minCorruptDist)));
+        int[] indArr = MathUtils.getUniqueIntsArray(random, corruptedCharsCount, 0, result.length());
 
         for(int i = 0; i < corruptedCharsCount; ++i) {
-            result.setCharAt(indArr[i], getRandomCorruptSymbol());
+            result.setCharAt(indArr[i], getRandomCorruptSymbol(random));
         }
         return result.toString();
     }
 
-    public static String corruptMessageFromDist(String msg, BlockPos pos1, BlockPos pos2) {
-        return corruptMessageFromDist(msg, MathUtils.getDistance(pos1, pos2));
+    public static String corruptMessageFromDist(String msg, float distance, SenderType sender) {
+        return corruptMessageFromDist(msg, distance, sender, -1);
     }
 
-    public static boolean isDistanceReachable(BlockPos pos1, BlockPos pos2) {
-        return MathUtils.getDistance(pos1, pos2) <= MAX_CORRUPT_DIST;
+    public static String corruptMessageFromDist(String msg, BlockPos pos1, BlockPos pos2, SenderType sender) {
+        return corruptMessageFromDist(msg, MathUtils.getDistance(pos1, pos2), sender);
+    }
+    public static String corruptMessageFromDist(String msg, BlockPos pos1, BlockPos pos2, SenderType sender, long seed) {
+        return corruptMessageFromDist(msg, MathUtils.getDistance(pos1, pos2), sender, seed);
     }
 
-    private static char getRandomCorruptSymbol() {
+    private static char getRandomCorruptSymbol(Random random) {
         return CORRUPT_SYMBOLS[random.nextInt(CORRUPT_SYMBOLS.length)];
+    }
+
+    public enum SenderType {
+        RADIO(20, 100),
+        RADIO_STATION(50, 200);
+
+        float minCorruptDist;
+        float maxCorruptDist;
+
+        SenderType(float minCorruptDist, float maxCorruptDist) {
+            this.minCorruptDist = minCorruptDist;
+            this.maxCorruptDist = maxCorruptDist;
+        }
+
     }
 }

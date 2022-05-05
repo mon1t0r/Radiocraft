@@ -3,13 +3,14 @@ package com.mon1tor.radiocraft.util;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class MathUtils {
     public static float getDistance(BlockPos pos1, BlockPos pos2) {
         return (float) Math.sqrt(pos1.distSqr(pos2));
     }
 
-    public static int[] getUniqueIntsArray(int len, int min, int max) {
+    public static int[] getUniqueIntsArray(Random random, int len, int min, int max) {
         if(len > max - min)
             len = max - min;
 
@@ -20,7 +21,7 @@ public class MathUtils {
 
         int[] res = new int[len];
         for (int i = 0; i < len; ++i) {
-            int ind = (int) (Math.random() * list.size());
+            int ind = (int) (random.nextDouble() * list.size());
             res[i] = list.get(ind);
             list.remove(ind);
         }

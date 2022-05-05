@@ -283,8 +283,9 @@ public class RadioScreen extends Screen {
     }
 
     private void setFrequency(int freq, boolean notify) {
+        boolean changed = freq != currentFreq;
         currentFreq = freq;
-        if(notify) {
+        if(notify && changed) {
             sendFrequencyUpdateToServer();
             RadioGUIData.Data data = RadioGUIData.addMessage(stackRadioDataUUID,
                     new RadioGUIData.HistoryItem(RadioGUIData.HistoryItemType.CHANGE_FREQUENCY, Integer.toString(freq)));
@@ -293,7 +294,7 @@ public class RadioScreen extends Screen {
     }
 
     private void sendMessageToServer(String msg) {
-        ModPacketHandler.sendToServer(new CPacketSendRadioMessage(currentFreq, getRadioSlot(), msg));
+        ModPacketHandler.sendToServer(new CPacketSendRadioMessage(getRadioSlot(), msg));
     }
 
     private void sendFrequencyUpdateToServer() {

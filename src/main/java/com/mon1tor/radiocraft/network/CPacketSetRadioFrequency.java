@@ -35,7 +35,7 @@ public class CPacketSetRadioFrequency {
             ServerPlayerEntity player = context.get().getSender();
             player.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).ifPresent((inv) -> {
                 ItemStack radio;
-                if(packet.slot >= 0 && !(radio = inv.getStackInSlot(packet.slot)).isEmpty() && RadioItem.isEnabled(radio)) {
+                if(packet.slot >= 0 && !(radio = inv.getStackInSlot(packet.slot)).isEmpty() && RadioItem.isEnabled(radio) && RadioItem.getFrequency(radio) != packet.freq) {
                     RadioItem.setFrequency(radio, packet.freq);
                     Radiocraft.LOGGER.info("Client {} sent frequency update at {}", player.getName().getString(), packet.freq);
                 }
