@@ -18,7 +18,7 @@ public class TextHistoryItem implements IHistoryItem {
 
     @Override
     public ITextComponent getDisplayText() {
-        return new StringTextComponent("<" + sender + "@" + TimeUtils.timestampToString(timestamp) + ">" + message);
+        return new StringTextComponent("<" + sender + "-" + TimeUtils.timestampToString(timestamp) + "> " + message);
     }
 
     @Override

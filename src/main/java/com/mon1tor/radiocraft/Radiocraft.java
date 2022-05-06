@@ -1,8 +1,8 @@
 package com.mon1tor.radiocraft;
 
 import com.mon1tor.radiocraft.block.ModBlocks;
-import com.mon1tor.radiocraft.client.screen.RadioChargerScreen;
-import com.mon1tor.radiocraft.client.screen.RadioStationScreen;
+import com.mon1tor.radiocraft.client.gui.screen.RadioChargerScreen;
+import com.mon1tor.radiocraft.client.gui.screen.RadioStationScreen;
 import com.mon1tor.radiocraft.container.ModContainers;
 import com.mon1tor.radiocraft.item.ModItems;
 import com.mon1tor.radiocraft.item.custom.RadioItem;

@@ -15,7 +15,7 @@ import javax.annotation.Nullable;
 import java.util.*;
 
 public class RadioMessageRegistry {
-    private static final int MESSAGE_BUFFER_SIZE = 20; //Per frequency
+    private static final int MESSAGE_BUFFER_SIZE = 50; //Per frequency
     private static final Map<Integer, List<MessageHistoryItem>> messageMap = new HashMap<>(); //Frequency - Info
 
     public static void sendMessageOnFrequency(int freq, MessageHistoryItem msg, ServerWorld world, BlockPos pos, RadioMessageCorrupter.SenderType senderType) {
@@ -23,25 +23,25 @@ public class RadioMessageRegistry {
 
         ModPacketHandler.sendToAllInRange(new SPacketGetAvaliableReceivers(freq, id),
                 world.dimension(), pos, senderType.maxCorruptDist);
-        syncStationHistoryToAllPlayersInRange(world, pos, senderType.maxCorruptDist);
+        syncStationHistoryToAllPlayersInRange(world, pos, senderType);
     }
 
-    public static void syncStationHistoryToAllPlayersInRange(ServerWorld world, BlockPos pos, float range) {
+    public static void syncStationHistoryToAllPlayersInRange(ServerWorld world, BlockPos pos, RadioMessageCorrupter.SenderType senderType) {
         for(ServerPlayerEntity player : world.players()) {
-            if (MathUtils.getDistance(pos, player.blockPosition()) <= range && player.containerMenu instanceof RadioStationContainer) {
+            if (MathUtils.getDistance(pos, player.blockPosition()) <= senderType.maxCorruptDist && player.containerMenu instanceof RadioStationContainer) {
                 RadioStationContainer c = (RadioStationContainer) player.containerMenu;
                 if(c.tileEntity != null) {
-                    c.tileEntity.sendHistoryUpdateToClient(player);
+                    c.tileEntity.sendHistoryUpdateToClient(player, senderType);
                 }
             }
         }
     }
 
-    public static void syncStationHistoryToAllPlayersWatchingTileEntity(ServerWorld world, BlockPos pos) {
+    public static void syncStationHistoryToAllPlayersWatchingTileEntity(ServerWorld world, BlockPos pos, RadioMessageCorrupter.SenderType senderType) {
         for(ServerPlayerEntity player : world.players()) {
             RadioStationContainer c;
             if (player.containerMenu instanceof RadioStationContainer && (c = (RadioStationContainer) player.containerMenu).tileEntity.getBlockPos() == pos) {
-                c.tileEntity.sendHistoryUpdateToClient(player);
+                c.tileEntity.sendHistoryUpdateToClient(player, senderType);
             }
         }
     }
@@ -91,7 +91,7 @@ public class RadioMessageRegistry {
         Collections.sort(list, (m1, m2) -> (int) (m1.getTimestamp() - m2.getTimestamp()));
         if(list.size() <= MESSAGE_BUFFER_SIZE)
             return list;
-        return list.subList(list.size() - MESSAGE_BUFFER_SIZE, list.size() - 1);
+        return list.subList(list.size() - MESSAGE_BUFFER_SIZE, list.size());
     }
 
     public static List<TextHistoryItem> convertMessageToTextList(List<MessageHistoryItem> list) {
@@ -103,11 +103,11 @@ public class RadioMessageRegistry {
         return res;
     }
 
-    public static List<TextHistoryItem> convertMessageToTextListAndCorrupt(List<MessageHistoryItem> list, BlockPos recieverPos) {
+    public static List<TextHistoryItem> convertMessageToTextListAndCorrupt(List<MessageHistoryItem> list, BlockPos recieverPos, RadioMessageCorrupter.SenderType senderType) {
         List<TextHistoryItem> res = new LinkedList<>();
         for(int i = 0; i < list.size(); ++i) {
             MessageHistoryItem msg = list.get(i);
-            res.add(new TextHistoryItem(msg.sender, RadioMessageCorrupter.corruptMessageFromDist(msg.message, recieverPos, msg.pos, RadioMessageCorrupter.SenderType.RADIO_STATION, msg.getTimestamp()), msg.getTimestamp()));
+            res.add(new TextHistoryItem(msg.sender, RadioMessageCorrupter.corruptMessageFromDist(msg.message, recieverPos, msg.pos, senderType, msg.getTimestamp()), msg.getTimestamp()));
         }
         return res;
     }

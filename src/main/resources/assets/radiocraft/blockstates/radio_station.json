@@ -1,19 +1,35 @@
 {
   "variants": {
-    "part=left,facing=east": {
-      "model": "radiocraft:block/radio_station_left",
+    "part=left,enabled=false,facing=east": {
+      "model": "radiocraft:block/radio_station_left_disabled",
       "y": 90
     },
-    "part=left,facing=north": {
-      "model": "radiocraft:block/radio_station_left",
+    "part=left,enabled=false,facing=north": {
+      "model": "radiocraft:block/radio_station_left_disabled",
       "y": 0
     },
-    "part=left,facing=south": {
-      "model": "radiocraft:block/radio_station_left",
+    "part=left,enabled=false,facing=south": {
+      "model": "radiocraft:block/radio_station_left_disabled",
       "y": 180
     },
-    "part=left,facing=west": {
-      "model": "radiocraft:block/radio_station_left",
+    "part=left,enabled=false,facing=west": {
+      "model": "radiocraft:block/radio_station_left_disabled",
+      "y": 270
+    },
+    "part=left,enabled=true,facing=east": {
+      "model": "radiocraft:block/radio_station_left_enabled",
+      "y": 90
+    },
+    "part=left,enabled=true,facing=north": {
+      "model": "radiocraft:block/radio_station_left_enabled",
+      "y": 0
+    },
+    "part=left,enabled=true,facing=south": {
+      "model": "radiocraft:block/radio_station_left_enabled",
+      "y": 180
+    },
+    "part=left,enabled=true,facing=west": {
+      "model": "radiocraft:block/radio_station_left_enabled",
       "y": 270
     },
     "part=right,facing=east": {

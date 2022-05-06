@@ -19,9 +19,8 @@
   "screen.radiocraft.radio.send" : "Send",
   "screen.radiocraft.radio_station.send" : "Send",
   "screen.radiocraft.radio_station.apply" : "Apply",
-  "screen.radiocraft.radio_station.freqRec" : "Receive frequency range: ",
-  "screen.radiocraft.radio_station.freqRecContent" : "%s - %s",
-  "screen.radiocraft.radio_station.freqSend" : "Transmit frequency:",
+  "screen.radiocraft.radio_station.freqRec" : "Receive frequency range: %s - %s",
+  "screen.radiocraft.radio_station.freqSend" : "Transmit frequency: %s",
   "screen.radiocraft.radio_station.changeRecieveFrequency" : "Receive frequency change: %s - %s",
   "screen.radiocraft.radio_station.changeSendFrequency" : "Transmit frequency change: %s"
 }

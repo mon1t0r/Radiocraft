@@ -1,6 +1,5 @@
 package com.mon1tor.radiocraft.network;
 
-import com.mon1tor.radiocraft.Radiocraft;
 import com.mon1tor.radiocraft.item.custom.RadioItem;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -37,7 +36,6 @@ public class CPacketSetRadioFrequency {
                 ItemStack radio;
                 if(packet.slot >= 0 && !(radio = inv.getStackInSlot(packet.slot)).isEmpty() && RadioItem.isEnabled(radio) && RadioItem.getFrequency(radio) != packet.freq) {
                     RadioItem.setFrequency(radio, packet.freq);
-                    Radiocraft.LOGGER.info("Client {} sent frequency update at {}", player.getName().getString(), packet.freq);
                 }
             });
 

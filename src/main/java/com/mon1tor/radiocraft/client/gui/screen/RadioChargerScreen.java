@@ -1,12 +1,11 @@
-package com.mon1tor.radiocraft.client.screen;
+package com.mon1tor.radiocraft.client.gui.screen;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mon1tor.radiocraft.Radiocraft;
+import com.mon1tor.radiocraft.client.ModTextures;
 import com.mon1tor.radiocraft.container.RadioChargerContainer;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
@@ -14,7 +13,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class RadioChargerScreen extends ContainerScreen<RadioChargerContainer> {
-    private static final ResourceLocation GUI = new ResourceLocation(Radiocraft.MOD_ID,"textures/gui/radio_charger_gui.png");
     private static final ITextComponent chargingStatusText = new TranslationTextComponent("screen.radiocraft.radio_charger.status");
     private static final ITextComponent[] chargingStatusTexts =
             new ITextComponent[] {
@@ -37,7 +35,7 @@ public class RadioChargerScreen extends ContainerScreen<RadioChargerContainer> {
     @Override
     protected void renderBg(MatrixStack matrixStack, float partialTicks, int x, int y) {
         RenderSystem.color4f(1f, 1f, 1f, 1f);
-        getMinecraft().textureManager.bind(GUI);
+        getMinecraft().textureManager.bind(ModTextures.RADIO_CHARGER_GUI);
         int i = this.leftPos;
         int j = this.topPos;
         this.blit(matrixStack, i, j, 0,0,this.imageWidth,this.imageHeight);

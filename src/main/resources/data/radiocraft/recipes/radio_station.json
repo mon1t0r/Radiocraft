@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ADC",
+    "BDC",
+    "###"
+  ],
+  "key": {
+    "A": {
+      "item": "radiocraft:antenna"
+    },
+    "B": {
+      "item": "radiocraft:display"
+    },
+    "C": {
+      "item": "radiocraft:chip_1"
+    },
+    "D": {
+      "item": "radiocraft:chip_2"
+    },
+    "#": {
+      "item": "minecraft:iron_block"
+    }
+  },
+  "result": {
+    "item": "radiocraft:radio_station"
+  }
+}

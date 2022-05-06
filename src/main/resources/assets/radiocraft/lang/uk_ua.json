@@ -19,9 +19,8 @@
   "screen.radiocraft.radio.send" : "Відпр.",
   "screen.radiocraft.radio_station.send" : "Відпр.",
   "screen.radiocraft.radio_station.apply" : "Застосувати",
-  "screen.radiocraft.radio_station.freqRec" : "Діапазон частот прийому: ",
-  "screen.radiocraft.radio_station.freqRecContent" : "%s - %s",
-  "screen.radiocraft.radio_station.freqSend" : "Частота передачі:",
+  "screen.radiocraft.radio_station.freqRec" : "Діапазон частот прийому: %s - %s",
+  "screen.radiocraft.radio_station.freqSend" : "Частота передачі: %s",
   "screen.radiocraft.radio_station.changeRecieveFrequency" : "Зміна частоти прийому: %s - %s",
   "screen.radiocraft.radio_station.changeSendFrequency" : "Зміна частоти передачі: %s"
 }

@@ -2,6 +2,7 @@ package com.mon1tor.radiocraft.block.custom;
 
 import com.mon1tor.radiocraft.block.properties.RadioStationPart;
 import com.mon1tor.radiocraft.container.RadioStationContainer;
+import com.mon1tor.radiocraft.radio.RadioMessageCorrupter;
 import com.mon1tor.radiocraft.tileentity.ModTileEntities;
 import com.mon1tor.radiocraft.tileentity.RadioStationTile;
 import net.minecraft.block.*;
@@ -15,6 +16,7 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
@@ -36,6 +38,7 @@ import javax.annotation.Nullable;
 
 public class RadioStationBlock extends HorizontalBlock {
     public static final EnumProperty<RadioStationPart> PART = EnumProperty.create("part", RadioStationPart.class);
+    public static final BooleanProperty ENABLED = BooleanProperty.create("enabled");
     private static final RadioStationPart DEFAULT_PART = RadioStationPart.LEFT;
     
     public RadioStationBlock() {
@@ -56,6 +59,7 @@ public class RadioStationBlock extends HorizontalBlock {
     @Override
     protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(PART);
+        builder.add(ENABLED);
         builder.add(FACING);
     }
 
@@ -81,8 +85,8 @@ public class RadioStationBlock extends HorizontalBlock {
                 NetworkHooks.openGui((ServerPlayerEntity) player, containerProvider, tileEntity.getBlockPos());
 
                 RadioStationTile radioStationTile = ((RadioStationTile) tileEntity);
-
-                radioStationTile.sendHistoryUpdateToClient((ServerPlayerEntity) player);
+                if(radioStationTile.isEnabled())
+                    radioStationTile.sendHistoryUpdateToClient((ServerPlayerEntity) player, RadioMessageCorrupter.SenderType.RADIO_STATION);
             }
         }
         return ActionResultType.SUCCESS;
@@ -111,9 +115,9 @@ public class RadioStationBlock extends HorizontalBlock {
         BlockPos pos = pContext.getClickedPos();
 
         if (world.getBlockState(pos.relative(getNeighbourDirection(DEFAULT_PART, facing))).canBeReplaced(pContext)) {
-            return this.defaultBlockState().setValue(PART, DEFAULT_PART).setValue(FACING, facing);
+            return this.defaultBlockState().setValue(PART, DEFAULT_PART).setValue(FACING, facing).setValue(ENABLED, false);
         } else if(world.getBlockState(pos.relative(getNeighbourDirection(DEFAULT_PART.opposite(), facing))).canBeReplaced(pContext)) {
-            return this.defaultBlockState().setValue(PART, DEFAULT_PART.opposite()).setValue(FACING, facing);
+            return this.defaultBlockState().setValue(PART, DEFAULT_PART.opposite()).setValue(FACING, facing).setValue(ENABLED, false);
         }
         return null;
     }

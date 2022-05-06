@@ -1,6 +1,6 @@
 package com.mon1tor.radiocraft.network;
 
-import com.mon1tor.radiocraft.client.screen.RadioScreen;
+import com.mon1tor.radiocraft.client.gui.screen.RadioScreen;
 import com.mon1tor.radiocraft.item.ModItems;
 import com.mon1tor.radiocraft.item.StackIdentifier;
 import com.mon1tor.radiocraft.item.custom.RadioItem;
@@ -41,7 +41,6 @@ public class SPacketDeliverMessage {
             DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
                 Minecraft mc = Minecraft.getInstance();
                 ClientPlayerEntity player = mc.player;
-                System.out.println("RECIEVED MESSAGE FROM SERVER: " + player.getDisplayName().getString());
                     player.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).ifPresent((inv) -> {
                         for (int i = 0; i < inv.getSlots(); ++i) {
                             ItemStack stack = inv.getStackInSlot(i);

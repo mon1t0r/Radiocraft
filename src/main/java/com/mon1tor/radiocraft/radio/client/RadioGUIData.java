@@ -18,7 +18,6 @@ public class RadioGUIData {
     public static Data addMessage(UUID radioStackId, HistoryItem msg) {
         if (radioStackId == null)
             return null;
-        System.out.println("ADD MESSAGE WITH UUID: " + radioStackId);
         Data data = getOrCreateData(radioStackId);
 
         data.history.add(msg);

@@ -1,6 +1,8 @@
 package com.mon1tor.radiocraft.tileentity;
 
+import com.mon1tor.radiocraft.block.custom.RadioStationBlock;
 import com.mon1tor.radiocraft.network.*;
+import com.mon1tor.radiocraft.radio.RadioMessageCorrupter;
 import com.mon1tor.radiocraft.radio.RadioMessageRegistry;
 import com.mon1tor.radiocraft.radio.history.IHistoryItem;
 import com.mon1tor.radiocraft.radio.history.RadioStationRecieveFrequencyHistoryItem;
@@ -19,6 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class RadioStationTile extends TileEntity {
+    public static final int MAX_RECIEVE_FREQUENCY_RANGE = 50;
     private static final int MAX_FREQ_CHANGE_HISTORY = 20;
 
     private int[] freqRec = new int[] { 0, 0 };
@@ -81,7 +84,15 @@ public class RadioStationTile extends TileEntity {
     }
 
     public void loadRadioData(CompoundNBT nbt) {
-        freqRec = new int[] { nbt.getInt("freqRecMin"), nbt.getInt("freqRecMax") };
+        int[] rec = new int[] { nbt.getInt("freqRecMin"), nbt.getInt("freqRecMax") };
+        if(rec[0] > rec[1]){
+            int t = rec[1];
+            rec[1] = rec[0];
+            rec[0] = t;
+        }
+        if(rec[1] - rec[0] > MAX_RECIEVE_FREQUENCY_RANGE)
+            rec[1] = rec[0] + MAX_RECIEVE_FREQUENCY_RANGE;
+        freqRec = rec;
         freqSend = nbt.getInt("freqSend");
         enabled = nbt.getBoolean("enabled");
     }
@@ -101,6 +112,8 @@ public class RadioStationTile extends TileEntity {
             max = min;
             min = t;
         }
+        if(max - min > MAX_RECIEVE_FREQUENCY_RANGE)
+            max = min + MAX_RECIEVE_FREQUENCY_RANGE;
         if(freqRec[0] == min && freqRec[1] == max)
             return;
         freqRec[0] = min;
@@ -151,6 +164,10 @@ public class RadioStationTile extends TileEntity {
     public void setEnabled(boolean state) {
         enabled = state;
 
+        if(this.hasLevel()) {
+            this.getLevel().setBlockAndUpdate(this.getBlockPos(), this.getBlockState().setValue(RadioStationBlock.ENABLED, state));
+        }
+
         if(level.isClientSide) {
             CPacketSetRadioStationEnabled packet = new CPacketSetRadioStationEnabled(state, this.worldPosition);
             ModPacketHandler.sendToServer(packet);
@@ -187,7 +204,7 @@ public class RadioStationTile extends TileEntity {
         return list;
     }
 
-    public void sendHistoryUpdateToClient(ServerPlayerEntity player) {
+    public void sendHistoryUpdateToClient(ServerPlayerEntity player, RadioMessageCorrupter.SenderType senderType) {
         List<RadioStationRecieveFrequencyHistoryItem> freqRecChangeHistory = getFreqRecChangeHistory();
         List<RadioStationSendFrequencyHistoryItem> freqSendChangeHistory = getFreqSendChangeHistory();
         List<IHistoryItem> historyList = new LinkedList<>();
@@ -198,7 +215,7 @@ public class RadioStationTile extends TileEntity {
         historyList.addAll(
                 RadioMessageRegistry.convertMessageToTextListAndCorrupt(
                         RadioMessageRegistry.getMessagesFromFreqRange(getEnableTimeStamp(), firstStamp, zeroFreq[0], zeroFreq[1]),
-                        this.worldPosition
+                        this.worldPosition, senderType
                 ));
 
         if(freqRecChangeHistory.size() > 2) {
@@ -209,7 +226,7 @@ public class RadioStationTile extends TileEntity {
                 historyList.addAll(
                         RadioMessageRegistry.convertMessageToTextListAndCorrupt(
                                 RadioMessageRegistry.getMessagesFromFreqRange(prev.getTimestamp(), cur.getTimestamp(), prev.newFreq[0], prev.newFreq[1]),
-                                this.worldPosition
+                                this.worldPosition, senderType
                         ));
             }
         }
@@ -219,8 +236,8 @@ public class RadioStationTile extends TileEntity {
 
             historyList.addAll(
                     RadioMessageRegistry.convertMessageToTextListAndCorrupt(
-                            RadioMessageRegistry.getMessagesFromFreqRange(last.getTimestamp(), System.currentTimeMillis(), last.newFreq[0], last.newFreq[1]),
-                            this.worldPosition
+                            RadioMessageRegistry.getMessagesFromFreqRange(last.getTimestamp(), Long.MAX_VALUE, last.newFreq[0], last.newFreq[1]),
+                            this.worldPosition, senderType
                     ));
         }
 

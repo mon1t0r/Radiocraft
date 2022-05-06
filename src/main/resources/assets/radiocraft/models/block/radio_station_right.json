@@ -2,8 +2,8 @@
   "credit": "Made with Blockbench",
   "texture_size": [128, 128],
   "textures": {
-    "0": "radiocraft:block/radio_station",
-    "particle": "radiocraft:block/radio_station"
+    "0": "radiocraft:block/radio_station_disabled",
+    "particle": "radiocraft:block/radio_station_particles"
   },
   "elements": [
     {

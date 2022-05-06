@@ -1,6 +1,6 @@
 package com.mon1tor.radiocraft.network;
 
-import com.mon1tor.radiocraft.client.screen.RadioStationScreen;
+import com.mon1tor.radiocraft.client.gui.screen.RadioStationScreen;
 import com.mon1tor.radiocraft.radio.history.IHistoryItem;
 import com.mon1tor.radiocraft.util.PacketBufferUtils;
 import net.minecraft.client.Minecraft;
@@ -34,6 +34,10 @@ public class SPacketSendRadioStationHistory {
                 Minecraft mc = Minecraft.getInstance();
                 if(mc.screen instanceof RadioStationScreen) {
                     ((RadioStationScreen) mc.screen).setHistory(packet.messages);
+                    /*System.out.println("RECIEVED HISTORY");
+                    for(IHistoryItem m : packet.messages) {
+                        System.out.println(m.getDisplayText().getString());
+                    }*/
                 }
             });
         });

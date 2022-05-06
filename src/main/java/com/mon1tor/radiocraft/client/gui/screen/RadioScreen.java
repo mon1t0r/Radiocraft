@@ -1,8 +1,8 @@
-package com.mon1tor.radiocraft.client.screen;
+package com.mon1tor.radiocraft.client.gui.screen;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mon1tor.radiocraft.Radiocraft;
+import com.mon1tor.radiocraft.client.ModTextures;
 import com.mon1tor.radiocraft.item.StackIdentifier;
 import com.mon1tor.radiocraft.item.custom.RadioItem;
 import com.mon1tor.radiocraft.network.CPacketSendRadioMessage;
@@ -17,7 +17,6 @@ import net.minecraft.client.gui.widget.button.ImageButton;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -30,7 +29,7 @@ import java.util.UUID;
 
 @OnlyIn(Dist.CLIENT)
 public class RadioScreen extends Screen {
-    public static final ResourceLocation GUI = new ResourceLocation(Radiocraft.MOD_ID,"textures/gui/radio_gui.png");
+
     private static final ITextComponent messageSendText = new TranslationTextComponent("screen.radiocraft.radio.send");
     private static final ITextComponent freqText = new TranslationTextComponent("screen.radiocraft.radio.currentFrequency");
     private static final ITextComponent applyText = new TranslationTextComponent("screen.radiocraft.radio.apply");
@@ -83,11 +82,11 @@ public class RadioScreen extends Screen {
         this.children.add(this.textField);
         this.setInitialFocus(this.textField);
 
-        this.addButton(new ImageButton(this.guiLeft + 142, this.guiTop + 234, 43, 17, 196, 94, 17, GUI, 256, 256, (pOnPress) -> {
+        this.addButton(new ImageButton(this.guiLeft + 142, this.guiTop + 234, 43, 17, 0, 0, 17, ModTextures.BUTTONS, 256, 256, (pOnPress) -> {
             consumeTextInput();
         }));
 
-        this.addButton(new ImageButton(this.guiLeft + 232, this.guiTop + 41, 19, 16, 220, 62, 16, GUI, 256, 256, (pOnPress) -> {
+        this.addButton(new ImageButton(this.guiLeft + 232, this.guiTop + 41, 19, 16, 43, 0, 16, ModTextures.BUTTONS, 256, 256, (pOnPress) -> {
             consumeFreqInput();
         }, (button, matrixStack, mouseX, mouseY) -> {
             this.renderTooltip(matrixStack, applyText, mouseX, mouseY);
@@ -124,7 +123,7 @@ public class RadioScreen extends Screen {
     public void render(MatrixStack matrixStack, int x, int y, float partialTicks) {
         this.renderBackground(matrixStack);
         RenderSystem.color4f(1f, 1f, 1f, 1f);
-        this.getMinecraft().textureManager.bind(GUI);
+        this.getMinecraft().textureManager.bind(ModTextures.RADIO_GUI);
         int i = this.guiLeft;
         int j = this.guiTop;
         this.blit(matrixStack, i, j, 0,0, this.xSize, this.ySize);
