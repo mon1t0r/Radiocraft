@@ -17,7 +17,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.function.Supplier;
 
 public class ModBlocks {
-    public static final DeferredRegister BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS,  Radiocraft.MOD_ID);
+    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS,  Radiocraft.MOD_ID);
 
     public static final RegistryObject<Block> RADIO_CHARGER = registerBlock("radio_charger",
             () -> new RadioChargerBlock(), new Item.Properties().tab(ModItemGroup.RADIO_GROUP).stacksTo(1));
