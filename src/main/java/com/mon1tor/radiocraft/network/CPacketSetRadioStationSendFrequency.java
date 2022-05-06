@@ -1,6 +1,5 @@
 package com.mon1tor.radiocraft.network;
 
-import com.mon1tor.radiocraft.radio.RadioMessageCorrupter;
 import com.mon1tor.radiocraft.radio.RadioMessageRegistry;
 import com.mon1tor.radiocraft.tileentity.RadioStationTile;
 import net.minecraft.block.BlockState;
@@ -37,7 +36,7 @@ public class CPacketSetRadioStationSendFrequency {
             RadioStationTile tileEntity;
             if((tileEntity = (RadioStationTile) world.getBlockEntity(packet.blockPos)) != null && tileEntity.isAvaliableForWork()) {
                 tileEntity.setSendFrequency(packet.freq);
-                RadioMessageRegistry.syncStationHistoryToAllPlayersWatchingTileEntity(world, tileEntity.getBlockPos(), RadioMessageCorrupter.SenderType.RADIO_STATION);
+                RadioMessageRegistry.syncStationHistoryToAllPlayersWatchingTileEntity(world, tileEntity.getBlockPos());
                 BlockState state = tileEntity.getBlockState();
                 world.sendBlockUpdated(tileEntity.getBlockPos(), state, state, 0);
             }

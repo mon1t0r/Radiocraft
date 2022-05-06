@@ -42,7 +42,7 @@ public class CPacketSendRadioMessage {
             !packet.message.trim().isEmpty()) {
                 RadioMessageRegistry.sendMessageOnFrequency(RadioItem.getFrequency(radio),
                         new MessageHistoryItem(player.getDisplayName().getString(), packet.message, player.blockPosition(),
-                                System.currentTimeMillis()), world, player.blockPosition(), RadioMessageCorrupter.SenderType.RADIO);
+                                RadioMessageCorrupter.SenderType.RADIO, System.currentTimeMillis()), world);
 
             }
         });

@@ -1,5 +1,6 @@
 package com.mon1tor.radiocraft.radio.history;
 
+import com.mon1tor.radiocraft.radio.RadioMessageCorrupter;
 import net.minecraft.util.math.BlockPos;
 
 public class MessageHistoryItem {
@@ -8,19 +9,21 @@ public class MessageHistoryItem {
     public final String sender;
     public final String message;
     public final BlockPos pos;
+    public final RadioMessageCorrupter.SenderType senderType;
     public final int id;
     private final long timestamp;
 
-    public MessageHistoryItem(String sender, String message, BlockPos pos, long timestamp) {
+    public MessageHistoryItem(String sender, String message, BlockPos pos, RadioMessageCorrupter.SenderType senderType, long timestamp) {
         this.sender = sender;
         this.message = message;
-        this.pos = pos;
+        this.pos = new BlockPos(pos);
+        this.senderType = senderType;
         this.timestamp = timestamp;
         id = getNextAvaliableMessageId();
     }
 
     public String getDisplayText() {
-        return pos + " - " + sender + " - " + timestamp + " - " + message;
+        return pos + " - " + sender + " - " + senderType + " - " + timestamp + " - " + message;
     }
 
     public long getTimestamp() {

@@ -2,7 +2,6 @@ package com.mon1tor.radiocraft.tileentity;
 
 import com.mon1tor.radiocraft.block.custom.RadioStationBlock;
 import com.mon1tor.radiocraft.network.*;
-import com.mon1tor.radiocraft.radio.RadioMessageCorrupter;
 import com.mon1tor.radiocraft.radio.RadioMessageRegistry;
 import com.mon1tor.radiocraft.radio.history.IHistoryItem;
 import com.mon1tor.radiocraft.radio.history.RadioStationRecieveFrequencyHistoryItem;
@@ -204,7 +203,7 @@ public class RadioStationTile extends TileEntity {
         return list;
     }
 
-    public void sendHistoryUpdateToClient(ServerPlayerEntity player, RadioMessageCorrupter.SenderType senderType) {
+    public void sendHistoryUpdateToClient(ServerPlayerEntity player) {
         List<RadioStationRecieveFrequencyHistoryItem> freqRecChangeHistory = getFreqRecChangeHistory();
         List<RadioStationSendFrequencyHistoryItem> freqSendChangeHistory = getFreqSendChangeHistory();
         List<IHistoryItem> historyList = new LinkedList<>();
@@ -215,7 +214,7 @@ public class RadioStationTile extends TileEntity {
         historyList.addAll(
                 RadioMessageRegistry.convertMessageToTextListAndCorrupt(
                         RadioMessageRegistry.getMessagesFromFreqRange(getEnableTimeStamp(), firstStamp, zeroFreq[0], zeroFreq[1]),
-                        this.worldPosition, senderType
+                        this.getBlockPos()
                 ));
 
         if(freqRecChangeHistory.size() > 2) {
@@ -226,7 +225,7 @@ public class RadioStationTile extends TileEntity {
                 historyList.addAll(
                         RadioMessageRegistry.convertMessageToTextListAndCorrupt(
                                 RadioMessageRegistry.getMessagesFromFreqRange(prev.getTimestamp(), cur.getTimestamp(), prev.newFreq[0], prev.newFreq[1]),
-                                this.worldPosition, senderType
+                                this.getBlockPos()
                         ));
             }
         }
@@ -237,7 +236,7 @@ public class RadioStationTile extends TileEntity {
             historyList.addAll(
                     RadioMessageRegistry.convertMessageToTextListAndCorrupt(
                             RadioMessageRegistry.getMessagesFromFreqRange(last.getTimestamp(), Long.MAX_VALUE, last.newFreq[0], last.newFreq[1]),
-                            this.worldPosition, senderType
+                            this.getBlockPos()
                     ));
         }
 

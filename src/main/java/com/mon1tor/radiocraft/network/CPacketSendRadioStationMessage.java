@@ -42,7 +42,7 @@ public class CPacketSendRadioStationMessage {
             !packet.message.trim().isEmpty()) {
                 RadioMessageRegistry.sendMessageOnFrequency(tileEntity.getSendFrequency(),
                         new MessageHistoryItem(player.getDisplayName().getString(), packet.message, player.blockPosition(),
-                                System.currentTimeMillis()), world, player.blockPosition(), RadioMessageCorrupter.SenderType.RADIO_STATION);
+                                RadioMessageCorrupter.SenderType.RADIO_STATION, System.currentTimeMillis()), world);
             }
         });
         context.get().setPacketHandled(true);

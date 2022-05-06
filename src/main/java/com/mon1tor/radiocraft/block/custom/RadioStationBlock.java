@@ -2,7 +2,6 @@ package com.mon1tor.radiocraft.block.custom;
 
 import com.mon1tor.radiocraft.block.properties.RadioStationPart;
 import com.mon1tor.radiocraft.container.RadioStationContainer;
-import com.mon1tor.radiocraft.radio.RadioMessageCorrupter;
 import com.mon1tor.radiocraft.tileentity.ModTileEntities;
 import com.mon1tor.radiocraft.tileentity.RadioStationTile;
 import net.minecraft.block.*;
@@ -86,7 +85,7 @@ public class RadioStationBlock extends HorizontalBlock {
 
                 RadioStationTile radioStationTile = ((RadioStationTile) tileEntity);
                 if(radioStationTile.isEnabled())
-                    radioStationTile.sendHistoryUpdateToClient((ServerPlayerEntity) player, RadioMessageCorrupter.SenderType.RADIO_STATION);
+                    radioStationTile.sendHistoryUpdateToClient((ServerPlayerEntity) player);
             }
         }
         return ActionResultType.SUCCESS;
