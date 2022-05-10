@@ -20,30 +20,26 @@ public class ModBlocks {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS,  Radiocraft.MOD_ID);
 
     public static final RegistryObject<Block> RADIO_CHARGER = registerBlock("radio_charger",
-            () -> new RadioChargerBlock(), new Item.Properties().tab(ModItemGroup.RADIO_GROUP).stacksTo(1));
+            RadioChargerBlock::new, new Item.Properties().tab(ModItemGroup.RADIO_GROUP).stacksTo(1));
     public static final RegistryObject<Block> RADIO_STATION = registerBlock("radio_station",
-            () -> new RadioStationBlock(), new Item.Properties().tab(ModItemGroup.RADIO_GROUP).stacksTo(1));
+            RadioStationBlock::new, new Item.Properties().tab(ModItemGroup.RADIO_GROUP).stacksTo(1));
 
-    private static <T extends Block>RegistryObject<T> registerBlock(String name, Supplier<T> block, ItemGroup itemGroup) {
+    private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block, ItemGroup itemGroup) {
         RegistryObject<T> result = BLOCKS.register(name, block);
         registerBlockItem(name, result, itemGroup);
         return result;
     }
 
-    private static <T extends Block>RegistryObject<T> registerBlock(String name, Supplier<T> block, Item.Properties properties) {
+    private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block, Item.Properties properties) {
         RegistryObject<T> result = BLOCKS.register(name, block);
         registerBlockItem(name, result, properties);
         return result;
     }
 
-    private static <T extends Block>RegistryObject<T> registerBlock(String name, Supplier<T> block) {
+    private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
         RegistryObject<T> result = BLOCKS.register(name, block);
-        registerBlockItem(name, result);
+        registerBlockItem(name, result, ModItemGroup.RADIO_GROUP);
         return result;
-    }
-
-    private static <T extends Block> void registerBlockItem(String name, RegistryObject<T> block) {
-        registerBlockItem(name, block, ModItemGroup.RADIO_GROUP);
     }
 
     private static <T extends Block> void registerBlockItem(String name, RegistryObject<T> block, ItemGroup itemGroup) {

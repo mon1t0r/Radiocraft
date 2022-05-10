@@ -11,7 +11,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class ModItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Radiocraft.MOD_ID);
 
-    public static final RegistryObject<Item> RADIO = ITEMS.register("radio", () -> new RadioItem());
+    public static final RegistryObject<Item> RADIO = ITEMS.register("radio", RadioItem::new);
     public static final RegistryObject<Item> ANTENNA = ITEMS.register("antenna", () -> new Item(new Item.Properties().tab(ModItemGroup.RADIO_GROUP)));
     public static final RegistryObject<Item> BATTERY = ITEMS.register("battery", () -> new Item(new Item.Properties().tab(ModItemGroup.RADIO_GROUP)));
     public static final RegistryObject<Item> DISPLAY = ITEMS.register("display", () -> new Item(new Item.Properties().tab(ModItemGroup.RADIO_GROUP)));

@@ -15,6 +15,7 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.pathfinding.PathType;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
@@ -161,6 +162,11 @@ public class RadioStationBlock extends HorizontalBlock {
     @Override
     public PushReaction getPistonPushReaction(BlockState pState) {
         return PushReaction.DESTROY;
+    }
+
+    @Override
+    public boolean isPathfindable(BlockState pState, IBlockReader pLevel, BlockPos pPos, PathType pType) {
+        return false;
     }
 
     @Override
