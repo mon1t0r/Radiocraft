@@ -1,0 +1,11 @@
+{
+  "parent": "radiocraft:item/direction_finder_disabled",
+  "overrides": [
+    {
+      "predicate": {
+        "radiocraft:enabled": 1
+      },
+      "model": "radiocraft:item/direction_finder_enabled"
+    }
+  ]
+}

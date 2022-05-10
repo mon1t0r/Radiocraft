@@ -1,6 +1,6 @@
 package com.mon1tor.radiocraft.mixin;
 
-import com.mon1tor.radiocraft.item.StackIdentifier;
+import com.mon1tor.radiocraft.item.nbt.StackIdentifierNBT;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.ClickType;
 import net.minecraft.inventory.container.Container;
@@ -16,9 +16,9 @@ public class OnItemInteract {
             Slot slot = c.slots.get(pSlotId);
             if (slot != null && slot.hasItem() && slot.getItem().equals(carried, false)) {
                 CompoundNBT tag = carried.getTag();
-                if(tag.contains(StackIdentifier.NBT_NAME)) {
-                    tag.remove(StackIdentifier.NBT_NAME);
-                    StackIdentifier.checkStackClientDataUUIDServer(carried);
+                if(tag.contains(StackIdentifierNBT.NBT_NAME)) {
+                    tag.remove(StackIdentifierNBT.NBT_NAME);
+                    StackIdentifierNBT.checkStackClientDataUUIDServer(carried);
                 }
             }
         }

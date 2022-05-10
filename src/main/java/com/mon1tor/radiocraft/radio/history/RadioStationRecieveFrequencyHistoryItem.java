@@ -29,7 +29,7 @@ public class RadioStationRecieveFrequencyHistoryItem implements IHistoryItem {
 
     @Override
     public HistoryItemType getType() {
-        return HistoryItemType.RADIO_STATION_RECIEVE_FREQUENCY_CHANGE;
+        return HistoryItemType.RADIO_STATION_RECEIVE_FREQUENCY_CHANGE;
     }
 
     public static void write(RadioStationRecieveFrequencyHistoryItem item, PacketBuffer buf) {

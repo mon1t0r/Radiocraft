@@ -3,6 +3,7 @@ package com.mon1tor.radiocraft.util;
 import com.mon1tor.radiocraft.radio.history.HistoryItemType;
 import com.mon1tor.radiocraft.radio.history.IHistoryItem;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.math.vector.Vector2f;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -50,5 +51,16 @@ public class PacketBufferUtils {
         HistoryItemType type = buf.readEnum(HistoryItemType.class);
         IHistoryItem item = type.readFromBuffer(buf);
         return item;
+    }
+
+    public static void writeVector2f(PacketBuffer buf, Vector2f vec) {
+        buf.writeFloat(vec.x);
+        buf.writeFloat(vec.y);
+    }
+
+    public static Vector2f readVector2f(PacketBuffer buf) {
+        float x = buf.readFloat();
+        float y = buf.readFloat();
+        return new Vector2f(x, y);
     }
 }

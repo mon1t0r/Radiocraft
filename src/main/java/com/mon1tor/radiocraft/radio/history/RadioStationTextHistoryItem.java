@@ -5,12 +5,12 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 
-public class TextHistoryItem implements IHistoryItem {
+public class RadioStationTextHistoryItem implements IHistoryItem {
     public final String sender;
     public final String message;
     private final long timestamp;
 
-    public TextHistoryItem(String sender, String message, long timestamp) {
+    public RadioStationTextHistoryItem(String sender, String message, long timestamp) {
         this.sender = sender;
         this.message = message;
         this.timestamp = timestamp;
@@ -28,19 +28,19 @@ public class TextHistoryItem implements IHistoryItem {
 
     @Override
     public HistoryItemType getType() {
-        return HistoryItemType.TEXT;
+        return HistoryItemType.RADIO_STATION_TEXT;
     }
 
-    public static void write(TextHistoryItem item, PacketBuffer buf) {
+    public static void write(RadioStationTextHistoryItem item, PacketBuffer buf) {
         buf.writeUtf(item.sender);
         buf.writeUtf(item.message);
         buf.writeLong(item.timestamp);
     }
 
-    public static TextHistoryItem read(PacketBuffer buf) {
+    public static RadioStationTextHistoryItem read(PacketBuffer buf) {
         String s = buf.readUtf();
         String m = buf.readUtf();
         long time = buf.readLong();
-        return new TextHistoryItem(s, m, time);
+        return new RadioStationTextHistoryItem(s, m, time);
     }
 }

@@ -5,8 +5,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mon1tor.radiocraft.client.ModTextures;
 import com.mon1tor.radiocraft.item.nbt.StackFrequencyNBT;
 import com.mon1tor.radiocraft.item.nbt.StackIdentifierNBT;
-import com.mon1tor.radiocraft.network.CPacketSendRadioMessage;
-import com.mon1tor.radiocraft.network.CPacketSetRadioFrequency;
+import com.mon1tor.radiocraft.network.CPacketSetDirectionFinderFrequency;
 import com.mon1tor.radiocraft.network.ModPacketHandler;
 import com.mon1tor.radiocraft.radio.client.HistoryGUIItemData;
 import com.mon1tor.radiocraft.radio.history.IHistoryItem;
@@ -30,9 +29,8 @@ import org.lwjgl.glfw.GLFW;
 import java.util.UUID;
 
 @OnlyIn(Dist.CLIENT)
-public class RadioScreen extends Screen {
-    private static final ITextComponent messageSendText = new TranslationTextComponent("screen.radiocraft.radio.send");
-    private static final ITextComponent applyText = new TranslationTextComponent("screen.radiocraft.radio.apply");
+public class DirectionFinderScreen extends Screen {
+    private static final ITextComponent applyText = new TranslationTextComponent("screen.radiocraft.direction_finder.apply");
 
     protected int guiLeft;
     protected int guiTop;
@@ -42,11 +40,10 @@ public class RadioScreen extends Screen {
     private final Hand hand;
     private final UUID stackRadioDataUUID;
     private TextFieldWidget freqField;
-    private TextFieldWidget textField;
     private IHistoryItem[] historyBuffer;
     private int currentFreq;
 
-    public RadioScreen(PlayerEntity playerIn, ItemStack radio, Hand handIn) {
+    public DirectionFinderScreen(PlayerEntity playerIn, ItemStack radio, Hand handIn) {
         super(NarratorChatListener.NO_TITLE);
         player = playerIn;
         hand = handIn;
@@ -70,51 +67,30 @@ public class RadioScreen extends Screen {
         this.freqField.setValue(Integer.toString(currentFreq));
         this.children.add(this.freqField);
 
-        HistoryGUIItemData.Data data = HistoryGUIItemData.getGUIDataForId(stackRadioDataUUID);
-
-        this.textField = new TextFieldWidget(this.font, this.guiLeft + 13, this.guiTop + 238, 120, 13, null);
-        this.textField.setTextColor(-1);
-        this.textField.setTextColorUneditable(-1);
-        this.textField.setBordered(false);
-        this.textField.setMaxLength(CPacketSendRadioMessage.MAX_MESSAGE_LENGTH);
-        if(data != null)
-            this.textField.setValue(data.writingMessage);
-        this.children.add(this.textField);
-        this.setInitialFocus(this.textField);
-
-        this.addButton(new ImageButton(this.guiLeft + 142, this.guiTop + 234, 43, 17, 0, 0, 17, ModTextures.BUTTONS, 256, 256, (pOnPress) -> {
-            consumeTextInput();
-        }));
-
         this.addButton(new ImageButton(this.guiLeft + 232, this.guiTop + 41, 19, 16, 43, 0, 16, ModTextures.BUTTONS, 256, 256, (pOnPress) -> {
             consumeFreqInput();
         }, (button, matrixStack, mouseX, mouseY) -> {
             this.renderTooltip(matrixStack, applyText, mouseX, mouseY);
         }, StringTextComponent.EMPTY));
 
-        updateHistory(data);
+        updateHistory();
     }
 
     @Override
     public void tick() {
         super.tick();
         this.freqField.tick();
-        this.textField.tick();
     }
 
     @Override
     public void resize(Minecraft minecraft, int width, int height) {
-        String s1 = this.freqField.getValue();
-        String s2 = this.textField.getValue();
+        String s = this.freqField.getValue();
         this.init(minecraft, width, height);
-        this.freqField.setValue(s1);
-        this.textField.setValue(s2);
+        this.freqField.setValue(s);
     }
 
     @Override
     public void removed() {
-        if(!this.textField.getValue().trim().isEmpty())
-            HistoryGUIItemData.setWritingMessage(stackRadioDataUUID, this.textField.getValue().trim());
         super.removed();
         this.getMinecraft().keyboardHandler.setSendRepeatsToGui(false);
     }
@@ -123,7 +99,7 @@ public class RadioScreen extends Screen {
     public void render(MatrixStack matrixStack, int x, int y, float partialTicks) {
         this.renderBackground(matrixStack);
         RenderSystem.color4f(1f, 1f, 1f, 1f);
-        this.getMinecraft().textureManager.bind(ModTextures.RADIO_GUI);
+        this.getMinecraft().textureManager.bind(ModTextures.DIRECTION_FINDER_GUI);
         int i = this.guiLeft;
         int j = this.guiTop;
         this.blit(matrixStack, i, j, 0,0, this.xSize, this.ySize);
@@ -132,12 +108,9 @@ public class RadioScreen extends Screen {
 
         super.render(matrixStack, x, y, partialTicks);
 
-        drawCenteredString(matrixStack, this.font, messageSendText, this.guiLeft + 142 + 43 / 2, this.guiTop + 234 + (17 - 8) / 2, 0xFFFFFF);
-
         this.freqField.render(matrixStack, x, y, partialTicks);
-        this.textField.render(matrixStack, x, y, partialTicks);
 
-        ITextComponent freqText = new TranslationTextComponent("screen.radiocraft.radio.currentFrequency", currentFreq);
+        ITextComponent freqText = new TranslationTextComponent("screen.radiocraft.direction_finder.currentFrequency", currentFreq);
         ScreenUtils.drawWordWrapCentered(this.font, matrixStack, freqText, i + 193 + 58 / 2, j + 12, 57, 0xFFFFFF);
 
         int totalSizeY = 0;
@@ -152,9 +125,9 @@ public class RadioScreen extends Screen {
 
         int currentY = j + 12;
         for(int k = firstBufferIndex; k < historyBuffer.length; ++k) {
-            IHistoryItem item = historyBuffer[k];
+           IHistoryItem item = historyBuffer[k];
             switch (item.getType()) {
-                case RADIO_TEXT:
+                case DIRECTION_FINDER_TEXT:
                     this.font.drawWordWrap(item.getDisplayText(), i + 14, currentY, this.xSize - 28,0xFFFFFF);
                     break;
                 default:
@@ -182,9 +155,6 @@ public class RadioScreen extends Screen {
         if(this.freqField.keyPressed(keyCode, scanCode, modifiers)){
             return true;
         }
-        if(this.textField.keyPressed(keyCode, scanCode, modifiers)){
-            return true;
-        }
         if (super.keyPressed(keyCode, scanCode, modifiers)) {
             return true;
         }
@@ -193,42 +163,16 @@ public class RadioScreen extends Screen {
             case GLFW.GLFW_KEY_KP_ENTER:
                 if(this.freqField.canConsumeInput()) {
                     consumeFreqInput();
-                } else if(this.textField.canConsumeInput()) {
-                    consumeTextInput();
                 }
                 break;
         }
         return false;
     }
 
-    @Override
-    public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
-        if(this.textField.mouseClicked(pMouseX, pMouseY, pButton)) {
-            this.textField.setFocus(true);
-            this.freqField.setFocus(false);
-            this.setFocused(this.textField);
-            return true;
-        } else if(this.freqField.mouseClicked(pMouseX, pMouseY, pButton)) {
-            this.textField.setFocus(false);
-            this.freqField.setFocus(true);
-            this.setFocused(this.freqField);
-            return true;
-        }
-        return super.mouseClicked(pMouseX, pMouseY, pButton);
-    }
-
     private void consumeFreqInput() {
         try {
             setFrequency(Integer.parseInt(this.freqField.getValue()), true);
         } catch(NumberFormatException | NullPointerException e) {
-        }
-    }
-
-    private void consumeTextInput() {
-        String s = this.textField.getValue();
-        if(!s.trim().isEmpty()) {
-            sendMessageToServer(s.trim());
-            clearTextField();
         }
     }
 
@@ -239,11 +183,6 @@ public class RadioScreen extends Screen {
 
     private int getItemYSize(IHistoryItem item) {
         return this.font.wordWrapHeight(item.getDisplayText().getString(), this.xSize - 28) + 1;
-    }
-
-    private void clearTextField() {
-        this.textField.setValue("");
-        HistoryGUIItemData.setWritingMessage(stackRadioDataUUID, "");
     }
 
     public void updateHistory(@Nullable HistoryGUIItemData.Data data) {
@@ -258,7 +197,7 @@ public class RadioScreen extends Screen {
         updateHistory(HistoryGUIItemData.getGUIDataForId(stackRadioDataUUID));
     }
 
-    public int getRadioSlot() {
+    public int getDirFinderSlot() {
         return this.hand == Hand.MAIN_HAND ? this.player.inventory.selected : 40;
     }
 
@@ -275,16 +214,13 @@ public class RadioScreen extends Screen {
         currentFreq = freq;
         if(notify && changed) {
             sendFrequencyUpdateToServer();
-            HistoryGUIItemData.Data data = HistoryGUIItemData.addItem(stackRadioDataUUID, new RadioFrequencyChangeHistoryItem(freq));
+            HistoryGUIItemData.Data data = HistoryGUIItemData.addItem(stackRadioDataUUID,
+                    new RadioFrequencyChangeHistoryItem(freq));
             updateHistory(data);
         }
     }
 
-    private void sendMessageToServer(String msg) {
-        ModPacketHandler.sendToServer(new CPacketSendRadioMessage(getRadioSlot(), msg));
-    }
-
     private void sendFrequencyUpdateToServer() {
-        ModPacketHandler.sendToServer(new CPacketSetRadioFrequency(currentFreq, getRadioSlot()));
+        ModPacketHandler.sendToServer(new CPacketSetDirectionFinderFrequency(currentFreq, getDirFinderSlot()));
     }
 }

@@ -4,14 +4,11 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 
-
-public class RadioFrequencyHistoryItem implements IHistoryItem {
+public class RadioFrequencyChangeHistoryItem implements IHistoryItem {
     public final int newFreq;
-    private final long timestamp;
 
-    public RadioFrequencyHistoryItem(int newFreq, long timestamp) {
+    public RadioFrequencyChangeHistoryItem(int newFreq) {
         this.newFreq = newFreq;
-        this.timestamp = timestamp;
     }
 
     @Override
@@ -21,22 +18,20 @@ public class RadioFrequencyHistoryItem implements IHistoryItem {
 
     @Override
     public long getTimestamp() {
-        return timestamp;
+        return 0;
     }
 
     @Override
-    public HistoryItemType getType(){
+    public HistoryItemType getType() {
         return HistoryItemType.RADIO_FREQUENCY_CHANGE;
     }
 
-    public static void write(RadioFrequencyHistoryItem item, PacketBuffer buf) {
+    public static void write(RadioFrequencyChangeHistoryItem item, PacketBuffer buf) {
         buf.writeInt(item.newFreq);
-        buf.writeLong(item.timestamp);
     }
 
-    public static RadioFrequencyHistoryItem read(PacketBuffer buf) {
+    public static RadioFrequencyChangeHistoryItem read(PacketBuffer buf) {
         int f = buf.readInt();
-        long time = buf.readLong();
-        return new RadioFrequencyHistoryItem(f, time);
+        return new RadioFrequencyChangeHistoryItem(f);
     }
 }

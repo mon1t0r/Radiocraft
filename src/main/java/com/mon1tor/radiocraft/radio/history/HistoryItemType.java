@@ -6,10 +6,12 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 public enum HistoryItemType {
-    RADIO_FREQUENCY_CHANGE(RadioFrequencyHistoryItem::write, RadioFrequencyHistoryItem::read),
-    RADIO_STATION_RECIEVE_FREQUENCY_CHANGE(RadioStationRecieveFrequencyHistoryItem::write, RadioStationRecieveFrequencyHistoryItem::read),
+    RADIO_STATION_RECEIVE_FREQUENCY_CHANGE(RadioStationRecieveFrequencyHistoryItem::write, RadioStationRecieveFrequencyHistoryItem::read),
     RADIO_STATION_SEND_FREQUENCY_CHANGE(RadioStationSendFrequencyHistoryItem::write, RadioStationSendFrequencyHistoryItem::read),
-    TEXT(TextHistoryItem::write, TextHistoryItem::read);
+    RADIO_STATION_TEXT(RadioStationTextHistoryItem::write, RadioStationTextHistoryItem::read),
+    RADIO_TEXT(RadioTextHistoryItem::write, RadioTextHistoryItem::read),
+    DIRECTION_FINDER_TEXT(DirectionFinderTextHistoryItem::write, DirectionFinderTextHistoryItem::read),
+    RADIO_FREQUENCY_CHANGE(RadioFrequencyChangeHistoryItem::write, RadioFrequencyChangeHistoryItem::read);
 
     private final BiConsumer<IHistoryItem, PacketBuffer> encoder;
     private final Function<PacketBuffer, IHistoryItem> decoder;

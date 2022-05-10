@@ -1,7 +1,6 @@
 package com.mon1tor.radiocraft.network;
 
-import com.mon1tor.radiocraft.item.ModItems;
-import com.mon1tor.radiocraft.item.custom.RadioItem;
+import com.mon1tor.radiocraft.item.template.IRadioReceivable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -11,6 +10,8 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.items.CapabilityItemHandler;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.function.Supplier;
 
 public class SPacketGetAvaliableReceivers {
@@ -39,13 +40,14 @@ public class SPacketGetAvaliableReceivers {
                 Minecraft mc = Minecraft.getInstance();
                 ClientPlayerEntity player = mc.player;
                 player.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).ifPresent((inv) -> {
+                    List<Integer> slots = new LinkedList<>();
                     for (int i = 0; i < inv.getSlots(); ++i) {
                         ItemStack stack = inv.getStackInSlot(i);
-                        if(!stack.isEmpty() && stack.getItem() == ModItems.RADIO.get() && RadioItem.canDoTheJob(stack, packet.freq)) {
-                            ModPacketHandler.sendToServer(new CPacketSendAvaliableRecievers(packet.messageId, i));
-                            break;
+                        if(!stack.isEmpty() && stack.getItem() instanceof IRadioReceivable && ((IRadioReceivable) stack.getItem()).canReceive(stack, packet.freq)) {
+                            slots.add(i);
                         }
                     }
+                    ModPacketHandler.sendToServer(new CPacketSendAvaliableRecievers(packet.messageId, packet.freq, slots.stream().mapToInt(i->i).toArray()));
                 });
             });
         });

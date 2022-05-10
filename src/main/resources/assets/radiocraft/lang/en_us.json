@@ -5,6 +5,7 @@
   "item.radiocraft.chip_2": "Power IC",
   "item.radiocraft.display": "Display",
   "item.radiocraft.radio": "Radio set",
+  "item.radiocraft.direction_finder": "Direction finder",
   "block.radiocraft.radio_charger": "Radio charger",
   "block.radiocraft.radio_station": "Stationary radio",
   "itemGroup.radioTab": "Radio equipment",
@@ -13,8 +14,8 @@
   "screen.radiocraft.radio_charger.charging": "Charging...",
   "screen.radiocraft.radio_charger.charged": "Charged",
   "screen.radiocraft.radio_charger.status": "Status:",
-  "screen.radiocraft.radio.currentFrequency": "Frequency:",
-  "screen.radiocraft.radio.changeFrequency" : "Frequency changed: %s",
+  "screen.radiocraft.radio.currentFrequency": "Frequency: %s",
+  "screen.radiocraft.radio.changeFrequency" : "Frequency change: %s",
   "screen.radiocraft.radio.apply" : "Apply",
   "screen.radiocraft.radio.send" : "Send",
   "screen.radiocraft.radio_station.send" : "Send",
@@ -22,5 +23,8 @@
   "screen.radiocraft.radio_station.freqRec" : "Receive frequency range: %s - %s",
   "screen.radiocraft.radio_station.freqSend" : "Transmit frequency: %s",
   "screen.radiocraft.radio_station.changeRecieveFrequency" : "Receive frequency change: %s - %s",
-  "screen.radiocraft.radio_station.changeSendFrequency" : "Transmit frequency change: %s"
+  "screen.radiocraft.radio_station.changeSendFrequency" : "Transmit frequency change: %s",
+  "screen.radiocraft.direction_finder.currentFrequency" : "Frequency: %s",
+  "screen.radiocraft.direction_finder.changeFrequency" : "Frequency change: %s",
+  "screen.radiocraft.direction_finder.apply" : "Apply"
 }

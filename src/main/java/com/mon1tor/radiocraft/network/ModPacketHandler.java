@@ -35,6 +35,7 @@ public class ModPacketHandler {
         CHANNEL.registerMessage(id++, CPacketSendRadioStationMessage.class, CPacketSendRadioStationMessage::encode, CPacketSendRadioStationMessage::decode, CPacketSendRadioStationMessage::handle);
         CHANNEL.registerMessage(id++, CPacketSetRadioStationEnabled.class, CPacketSetRadioStationEnabled::encode, CPacketSetRadioStationEnabled::decode, CPacketSetRadioStationEnabled::handle);
         CHANNEL.registerMessage(id++, SPacketSendRadioStationHistory.class, SPacketSendRadioStationHistory::encode, SPacketSendRadioStationHistory::decode, SPacketSendRadioStationHistory::handle);
+        CHANNEL.registerMessage(id++, CPacketSetDirectionFinderFrequency.class, CPacketSetDirectionFinderFrequency::encode, CPacketSetDirectionFinderFrequency::decode, CPacketSetDirectionFinderFrequency::handle);
 
         if (id >= 255) {
             Radiocraft.LOGGER.error("DEVELOPMENT ERROR: Number of packet types has reached the maximum of {}}!", id);

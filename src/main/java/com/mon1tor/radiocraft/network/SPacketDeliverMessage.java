@@ -1,10 +1,11 @@
 package com.mon1tor.radiocraft.network;
 
 import com.mon1tor.radiocraft.client.gui.screen.RadioScreen;
-import com.mon1tor.radiocraft.item.ModItems;
-import com.mon1tor.radiocraft.item.StackIdentifier;
-import com.mon1tor.radiocraft.item.custom.RadioItem;
-import com.mon1tor.radiocraft.radio.client.RadioGUIData;
+import com.mon1tor.radiocraft.item.nbt.StackIdentifierNBT;
+import com.mon1tor.radiocraft.item.template.IRadioReceivable;
+import com.mon1tor.radiocraft.radio.client.HistoryGUIItemData;
+import com.mon1tor.radiocraft.radio.history.IHistoryItem;
+import com.mon1tor.radiocraft.util.PacketBufferUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -14,26 +15,27 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.items.CapabilityItemHandler;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 public class SPacketDeliverMessage {
     private final int freq;
-    private final String message;
+    private final List<IHistoryItem> items;
 
-    public SPacketDeliverMessage(int frequency, String message) {
+    public SPacketDeliverMessage(int frequency, List<IHistoryItem> items) {
         freq = frequency;
-        this.message = message;
+        this.items = items;
     }
 
     public static void encode(SPacketDeliverMessage packet, PacketBuffer buf) {
         buf.writeInt(packet.freq);
-        buf.writeUtf(packet.message);
+        PacketBufferUtils.writeMessageHistory(buf, packet.items);
     }
 
     public static SPacketDeliverMessage decode(PacketBuffer buf) {
         int f = buf.readInt();
-        String s = buf.readUtf();
-        return new SPacketDeliverMessage(f, s);
+        List<IHistoryItem> i = PacketBufferUtils.readMessageHistory(buf);
+        return new SPacketDeliverMessage(f, i);
     }
 
     public static void handle(SPacketDeliverMessage packet, Supplier<NetworkEvent.Context> context) {
@@ -44,9 +46,15 @@ public class SPacketDeliverMessage {
                     player.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).ifPresent((inv) -> {
                         for (int i = 0; i < inv.getSlots(); ++i) {
                             ItemStack stack = inv.getStackInSlot(i);
-                            if(!stack.isEmpty() && stack.getItem() == ModItems.RADIO.get() && RadioItem.getFrequency(stack) == packet.freq) {
-                                RadioGUIData.addMessage(StackIdentifier.getStackClientDataUUIDClient(stack),
-                                        new RadioGUIData.HistoryItem(RadioGUIData.HistoryItemType.TEXT, packet.message));
+                            IRadioReceivable rec;
+                            if(!stack.isEmpty() && stack.getItem() instanceof IRadioReceivable && (rec = (IRadioReceivable) stack.getItem()).canReceive(stack, packet.freq)) {
+                                for(int j = 0; j < packet.items.size(); ++j) {
+                                    IHistoryItem item = packet.items.get(j);
+                                    if(rec.getTextHistoryItemType() == item.getType()) {
+                                        HistoryGUIItemData.addItem(StackIdentifierNBT.getStackClientDataUUIDClient(stack), item);
+                                        break;
+                                    }
+                                }
                             }
                         }
 

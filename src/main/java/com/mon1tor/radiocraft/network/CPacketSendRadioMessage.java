@@ -1,6 +1,7 @@
 package com.mon1tor.radiocraft.network;
 
 import com.mon1tor.radiocraft.item.custom.RadioItem;
+import com.mon1tor.radiocraft.item.nbt.StackFrequencyNBT;
 import com.mon1tor.radiocraft.radio.RadioMessageCorrupter;
 import com.mon1tor.radiocraft.radio.RadioMessageRegistry;
 import com.mon1tor.radiocraft.radio.history.MessageHistoryItem;
@@ -38,9 +39,9 @@ public class CPacketSendRadioMessage {
             ServerPlayerEntity player = context.get().getSender();
             ServerWorld world = player.getLevel();
             ItemStack radio;
-            if(packet.slot >= 0 && !(radio = player.inventory.getItem(packet.slot)).isEmpty() && RadioItem.canDoTheJob(radio) &&
+            if(packet.slot >= 0 && !(radio = player.inventory.getItem(packet.slot)).isEmpty() && RadioItem.isEnabled(radio) &&
             !packet.message.trim().isEmpty()) {
-                RadioMessageRegistry.sendMessageOnFrequency(RadioItem.getFrequency(radio),
+                RadioMessageRegistry.sendMessageOnFrequency(StackFrequencyNBT.getFrequency(radio),
                         new MessageHistoryItem(player.getDisplayName().getString(), packet.message, player.blockPosition(),
                                 RadioMessageCorrupter.SenderType.RADIO, System.currentTimeMillis()), world);
 

@@ -5,7 +5,7 @@ import com.mon1tor.radiocraft.network.ModPacketHandler;
 import com.mon1tor.radiocraft.network.SPacketGetAvaliableReceivers;
 import com.mon1tor.radiocraft.radio.history.IHistoryItem;
 import com.mon1tor.radiocraft.radio.history.MessageHistoryItem;
-import com.mon1tor.radiocraft.radio.history.TextHistoryItem;
+import com.mon1tor.radiocraft.radio.history.RadioStationTextHistoryItem;
 import com.mon1tor.radiocraft.util.MathUtils;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
@@ -94,21 +94,21 @@ public class RadioMessageRegistry {
         return list.subList(list.size() - MESSAGE_BUFFER_SIZE, list.size());
     }
 
-    public static List<TextHistoryItem> convertMessageToTextList(List<MessageHistoryItem> list) {
-        List<TextHistoryItem> res = new LinkedList<>();
+    public static List<RadioStationTextHistoryItem> convertMessageToTextList(List<MessageHistoryItem> list) {
+        List<RadioStationTextHistoryItem> res = new LinkedList<>();
         for(int i = 0; i < list.size(); ++i) {
             MessageHistoryItem msg = list.get(i);
-            res.add(new TextHistoryItem(msg.sender, msg.message, msg.getTimestamp()));
+            res.add(new RadioStationTextHistoryItem(msg.sender, msg.message, msg.getTimestamp()));
         }
         return res;
     }
 
-    public static List<TextHistoryItem> convertMessageToTextListAndCorrupt(List<MessageHistoryItem> list, BlockPos recieverPos) {
-        List<TextHistoryItem> res = new LinkedList<>();
+    public static List<RadioStationTextHistoryItem> convertMessageToTextListAndCorrupt(List<MessageHistoryItem> list, BlockPos recieverPos) {
+        List<RadioStationTextHistoryItem> res = new LinkedList<>();
         for(int i = 0; i < list.size(); ++i) {
             MessageHistoryItem msg = list.get(i);
             System.out.print(msg.getDisplayText() + " " + recieverPos + "\n");
-            res.add(new TextHistoryItem(msg.sender, RadioMessageCorrupter.corruptMessageFromDist(msg.message, recieverPos, msg.pos, msg.senderType, msg.getTimestamp()), msg.getTimestamp()));
+            res.add(new RadioStationTextHistoryItem(msg.sender, RadioMessageCorrupter.corruptMessageFromDist(msg.message, recieverPos, msg.pos, msg.senderType, msg.getTimestamp()), msg.getTimestamp()));
         }
         return res;
     }

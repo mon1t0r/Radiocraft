@@ -5,6 +5,7 @@
   "item.radiocraft.chip_2": "Мікросхема (Силова)",
   "item.radiocraft.display": "Дисплей",
   "item.radiocraft.radio": "Рація",
+  "item.radiocraft.direction_finder": "Радіопеленгатор",
   "block.radiocraft.radio_charger": "Зарядна станція",
   "block.radiocraft.radio_station": "Стаціонарна радіостанція",
   "itemGroup.radioTab": "Радіообладнання",
@@ -13,7 +14,7 @@
   "screen.radiocraft.radio_charger.charging": "Зарядка...",
   "screen.radiocraft.radio_charger.charged": "Заряджено",
   "screen.radiocraft.radio_charger.status": "Статус:",
-  "screen.radiocraft.radio.currentFrequency": "Частота:",
+  "screen.radiocraft.radio.currentFrequency": "Частота: %s",
   "screen.radiocraft.radio.changeFrequency" : "Зміна частоти: %s",
   "screen.radiocraft.radio.apply" : "Застосувати",
   "screen.radiocraft.radio.send" : "Відпр.",
@@ -22,5 +23,8 @@
   "screen.radiocraft.radio_station.freqRec" : "Діапазон частот прийому: %s - %s",
   "screen.radiocraft.radio_station.freqSend" : "Частота передачі: %s",
   "screen.radiocraft.radio_station.changeRecieveFrequency" : "Зміна частоти прийому: %s - %s",
-  "screen.radiocraft.radio_station.changeSendFrequency" : "Зміна частоти передачі: %s"
+  "screen.radiocraft.radio_station.changeSendFrequency" : "Зміна частоти передачі: %s",
+  "screen.radiocraft.direction_finder.currentFrequency" : "Частота: %s",
+  "screen.radiocraft.direction_finder.changeFrequency" : "Зміна частоти: %s",
+  "screen.radiocraft.direction_finder.apply" : "Застосувати"
 }

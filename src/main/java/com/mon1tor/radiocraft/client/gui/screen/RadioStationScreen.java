@@ -12,16 +12,17 @@ import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.ImageButton;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.ITextProperties;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.LinkedList;
 import java.util.List;
 
+@OnlyIn(Dist.CLIENT)
 public class RadioStationScreen extends ContainerScreen<RadioStationContainer> {
     private static final ITextComponent messageSendText = new TranslationTextComponent("screen.radiocraft.radio_station.send");
     private static final ITextComponent applyText = new TranslationTextComponent("screen.radiocraft.radio_station.apply");
@@ -54,9 +55,9 @@ public class RadioStationScreen extends ContainerScreen<RadioStationContainer> {
             this.freqSendField.render(matrixStack, x, y, partialTicks);
             this.textField.render(matrixStack, x, y, partialTicks);
 
-            drawWordWrapCentered(matrixStack, new TranslationTextComponent("screen.radiocraft.radio_station.freqRec", getFreqRec(0), getFreqRec(1)), i + rightPartOffset + 148 + 97 / 2, j + 6 + (16 - 8) / 2, 95, 0xFFFFFF);
+            ScreenUtils.drawWordWrapCentered(this.font, matrixStack, new TranslationTextComponent("screen.radiocraft.radio_station.freqRec", getFreqRec(0), getFreqRec(1)), i + rightPartOffset + 148 + 97 / 2, j + 6 + (16 - 8) / 2, 95, 0xFFFFFF);
 
-            drawWordWrapCentered(matrixStack, new TranslationTextComponent("screen.radiocraft.radio_station.freqSend", getFreqSend()), i + rightPartOffset + 148 + 97 / 2, j + 62 + (16 - 8) / 2, 95, 0xFFFFFF);
+            ScreenUtils.drawWordWrapCentered(this.font, matrixStack, new TranslationTextComponent("screen.radiocraft.radio_station.freqSend", getFreqSend()), i + rightPartOffset + 148 + 97 / 2, j + 62 + (16 - 8) / 2, 95, 0xFFFFFF);
 
             int totalSizeY = 0;
             for(int k = 0; k < historyBuffer.size(); ++k) {
@@ -73,12 +74,12 @@ public class RadioStationScreen extends ContainerScreen<RadioStationContainer> {
             for(int k = firstBufferIndex; k < historyBuffer.size(); ++k) {
                 IHistoryItem item = historyBuffer.get(k);
                 switch (item.getType()) {
-                    case TEXT:
+                    case RADIO_STATION_TEXT:
                         this.font.drawWordWrap(item.getDisplayText(), i + 14, currentY, this.imageWidth - rightPartOffset - 35 - 14,0xFFFFFF);
                         break;
                     case RADIO_STATION_SEND_FREQUENCY_CHANGE:
-                    case RADIO_STATION_RECIEVE_FREQUENCY_CHANGE:
-                        drawWordWrapCentered(matrixStack, item.getDisplayText(), i + 14 + 211 / 2, currentY, this.imageWidth - rightPartOffset - 35 - 14, 0x5ECDF2);
+                    case RADIO_STATION_RECEIVE_FREQUENCY_CHANGE:
+                        ScreenUtils.drawWordWrapCentered(this.font, matrixStack, item.getDisplayText(), i + 14 + 211 / 2, currentY, this.imageWidth - rightPartOffset - 35 - 14, 0x5ECDF2);
                         break;
                 }
                 currentY += getItemYSize(item);
@@ -321,20 +322,12 @@ public class RadioStationScreen extends ContainerScreen<RadioStationContainer> {
         return this.menu.tileEntity.getSendFrequency();
     }
 
-    private void drawWordWrapCentered(MatrixStack pMatrixStack, ITextProperties pTextProperties, int pX, int pY, int pMax, int pColor) {
-        for(IReorderingProcessor ireorderingprocessor : this.font.split(pTextProperties, pMax)) {
-            this.font.drawShadow(pMatrixStack, ireorderingprocessor, (float)(pX - this.font.width(ireorderingprocessor) / 2), (float)pY, pColor);
-            pY += 9;
-        }
-    }
-
     private int getItemYSize(IHistoryItem msg) {
         switch (msg.getType()) {
-            case TEXT:
+            case RADIO_STATION_TEXT:
                 return this.font.wordWrapHeight(msg.getDisplayText().getString(), this.imageWidth - rightPartOffset - 35 - 14) + 1;
             case RADIO_STATION_SEND_FREQUENCY_CHANGE:
-            case RADIO_STATION_RECIEVE_FREQUENCY_CHANGE:
-            case RADIO_FREQUENCY_CHANGE:
+            case RADIO_STATION_RECEIVE_FREQUENCY_CHANGE:
                 return this.font.split(msg.getDisplayText(), this.imageWidth - rightPartOffset - 35 - 14).size() * 9;
         }
         return 0;

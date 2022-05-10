@@ -1,6 +1,7 @@
 package com.mon1tor.radiocraft.item;
 
 import com.mon1tor.radiocraft.Radiocraft;
+import com.mon1tor.radiocraft.item.custom.DirectionFinderItem;
 import com.mon1tor.radiocraft.item.custom.RadioItem;
 import net.minecraft.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -12,6 +13,7 @@ public class ModItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Radiocraft.MOD_ID);
 
     public static final RegistryObject<Item> RADIO = ITEMS.register("radio", RadioItem::new);
+    public static final RegistryObject<Item> DIRECTION_FINDER = ITEMS.register("direction_finder", DirectionFinderItem::new);
     public static final RegistryObject<Item> ANTENNA = ITEMS.register("antenna", () -> new Item(new Item.Properties().tab(ModItemGroup.RADIO_GROUP)));
     public static final RegistryObject<Item> BATTERY = ITEMS.register("battery", () -> new Item(new Item.Properties().tab(ModItemGroup.RADIO_GROUP)));
     public static final RegistryObject<Item> DISPLAY = ITEMS.register("display", () -> new Item(new Item.Properties().tab(ModItemGroup.RADIO_GROUP)));

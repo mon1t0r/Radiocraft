@@ -1,0 +1,6 @@
+{
+  "parent": "radiocraft:item/direction_finder_disabled",
+  "textures": {
+    "0": "radiocraft:item/direction_finder_enabled"
+  }
+}

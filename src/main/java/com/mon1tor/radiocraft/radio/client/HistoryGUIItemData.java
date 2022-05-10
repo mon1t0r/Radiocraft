@@ -1,5 +1,6 @@
 package com.mon1tor.radiocraft.radio.client;
 
+import com.mon1tor.radiocraft.radio.history.IHistoryItem;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
@@ -10,22 +11,22 @@ import java.util.Map;
 import java.util.UUID;
 
 @OnlyIn(Dist.CLIENT)
-public class RadioGUIData {
+public class HistoryGUIItemData {
     private static final int HISTORY_BUFFER_SIZE = 20;
     private static final Map<UUID, Data> dataMap = new HashMap<>();
 
     @Nullable
-    public static Data addMessage(UUID radioStackId, HistoryItem msg) {
-        if (radioStackId == null)
+    public static Data addItem(UUID stackId, IHistoryItem item) {
+        if (stackId == null)
             return null;
-        Data data = getOrCreateData(radioStackId);
+        Data data = getOrCreateData(stackId);
 
-        data.history.add(msg);
+        data.history.add(item);
 
         if(data.history.size() > HISTORY_BUFFER_SIZE)
             data.history.remove(0);
 
-        dataMap.put(radioStackId, data);
+        dataMap.put(stackId, data);
         return data;
     }
 
@@ -40,16 +41,13 @@ public class RadioGUIData {
     }
 
     private static Data getOrCreateData(UUID radioStackId) {
-        Data data = dataMap.get(radioStackId);
-        if(data == null)
-            data = new Data();
-        return data;
+        return dataMap.getOrDefault(radioStackId, new Data());
     }
 
     @Nullable
-    public static Data getGUIDataForId(UUID radioStackId) {
-        if(radioStackId != null && dataMap.containsKey(radioStackId)){
-            return dataMap.get(radioStackId);
+    public static Data getGUIDataForId(UUID stackId) {
+        if(stackId != null && dataMap.containsKey(stackId)){
+            return dataMap.get(stackId);
         }
         return null;
     }
@@ -59,24 +57,11 @@ public class RadioGUIData {
     }
 
     public static class Data {
-        public final LinkedList<HistoryItem> history = new LinkedList<>();
+        public final LinkedList<IHistoryItem> history = new LinkedList<>();
         public String writingMessage = "";
 
-        public HistoryItem[] getHistory() {
-            return history.toArray(new HistoryItem[0]);
+        public IHistoryItem[] getHistory() {
+            return history.toArray(new IHistoryItem[0]);
         }
-    }
-    public static class HistoryItem {
-        public final HistoryItemType type;
-        public final String content;
-
-        public HistoryItem(HistoryItemType type, String content) {
-            this.type = type;
-            this.content = content;
-        }
-    }
-    public enum HistoryItemType {
-        TEXT,
-        CHANGE_FREQUENCY
     }
 }
