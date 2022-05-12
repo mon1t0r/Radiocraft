@@ -6,7 +6,6 @@ import com.mon1tor.radiocraft.item.template.IRadioReceivable;
 import com.mon1tor.radiocraft.radio.RadioMessageRegistry;
 import com.mon1tor.radiocraft.radio.history.HistoryItemType;
 import com.mon1tor.radiocraft.radio.history.IHistoryItem;
-import com.mon1tor.radiocraft.radio.history.MessageHistoryItem;
 import com.mon1tor.radiocraft.util.PacketBufferUtils;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -60,7 +59,7 @@ public class CPacketSendAvaliableRecievers {
                             if(freq != packet.freq)
                                 continue;
 
-                            MessageHistoryItem msg;
+                            RadioMessageRegistry.MessageItem msg;
                             if((msg = RadioMessageRegistry.getMessageFromFreqById(freq, packet.messageId)) != null) {
                                 StackIdentifierNBT.checkStackClientDataUUIDServer(stack);
                                 IHistoryItem item = rec.getCorruptedTextHistoryItem(msg, player.blockPosition());

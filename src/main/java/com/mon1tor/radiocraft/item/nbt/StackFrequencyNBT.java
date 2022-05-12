@@ -1,6 +1,8 @@
 package com.mon1tor.radiocraft.item.nbt;
 
+import com.mon1tor.radiocraft.radio.FrequencyConstants;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 
 public class StackFrequencyNBT {
     public static final String NBT_NAME = "stackFrequency";
@@ -8,6 +10,10 @@ public class StackFrequencyNBT {
         stack.getOrCreateTagElement(NBT_NAME).putInt(NBT_NAME, freq);
     }
     public static int getFrequency(ItemStack stack) {
-        return stack.getOrCreateTagElement(NBT_NAME).getInt(NBT_NAME);
+        CompoundNBT tag = stack.getOrCreateTag();
+        if(!tag.contains(NBT_NAME)) {
+            tag.putInt(NBT_NAME, FrequencyConstants.MIN_FREQUENCY);
+        }
+        return tag.getInt(NBT_NAME);
     }
 }

@@ -26,5 +26,21 @@
   "screen.radiocraft.radio_station.changeSendFrequency" : "Transmit frequency change: %s",
   "screen.radiocraft.direction_finder.currentFrequency" : "Frequency: %s",
   "screen.radiocraft.direction_finder.changeFrequency" : "Frequency change: %s",
-  "screen.radiocraft.direction_finder.apply" : "Apply"
+  "screen.radiocraft.direction_finder.apply" : "Apply",
+  "screen.radiocraft.direction_finder.select" : "Select",
+  "screen.radiocraft.direction_finder.type" : "Type: %s",
+  "screen.radiocraft.direction_finder.type.message" : "Message",
+  "screen.radiocraft.direction_finder.type.beacon" : "Radio-beacon",
+  "screen.radiocraft.direction_finder.sender" : "Call sign: %s",
+  "screen.radiocraft.direction_finder.receivePos" : "Receive position: [%s / %s / %s]",
+  "screen.radiocraft.direction_finder.time" : "Receive time: %s",
+  "screen.radiocraft.direction_finder.direction" : "Receive direction: %s",
+  "screen.radiocraft.direction.north" : "North",
+  "screen.radiocraft.direction.east" : "East",
+  "screen.radiocraft.direction.south" : "South",
+  "screen.radiocraft.direction.west" : "West",
+  "screen.radiocraft.direction.northeast" : "Northeast",
+  "screen.radiocraft.direction.southeast" : "Southeast",
+  "screen.radiocraft.direction.southwest" : "Southwest",
+  "screen.radiocraft.direction.northwest" : "Northwest"
 }

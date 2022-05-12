@@ -4,7 +4,6 @@ import com.mon1tor.radiocraft.item.custom.RadioItem;
 import com.mon1tor.radiocraft.item.nbt.StackFrequencyNBT;
 import com.mon1tor.radiocraft.radio.RadioMessageCorrupter;
 import com.mon1tor.radiocraft.radio.RadioMessageRegistry;
-import com.mon1tor.radiocraft.radio.history.MessageHistoryItem;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
@@ -42,7 +41,7 @@ public class CPacketSendRadioMessage {
             if(packet.slot >= 0 && !(radio = player.inventory.getItem(packet.slot)).isEmpty() && RadioItem.isEnabled(radio) &&
             !packet.message.trim().isEmpty()) {
                 RadioMessageRegistry.sendMessageOnFrequency(StackFrequencyNBT.getFrequency(radio),
-                        new MessageHistoryItem(player.getDisplayName().getString(), packet.message, player.blockPosition(),
+                        new RadioMessageRegistry.MessageItem(player.getDisplayName().getString(), packet.message, player.blockPosition(),
                                 RadioMessageCorrupter.SenderType.RADIO, System.currentTimeMillis()), world);
 
             }

@@ -2,6 +2,7 @@ package com.mon1tor.radiocraft.network;
 
 import com.mon1tor.radiocraft.item.custom.RadioItem;
 import com.mon1tor.radiocraft.item.nbt.StackFrequencyNBT;
+import com.mon1tor.radiocraft.radio.FrequencyConstants;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
@@ -35,8 +36,9 @@ public class CPacketSetDirectionFinderFrequency {
             ServerPlayerEntity player = context.get().getSender();
             player.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).ifPresent((inv) -> {
                 ItemStack dirFinder;
-                if(packet.slot >= 0 && !(dirFinder = inv.getStackInSlot(packet.slot)).isEmpty() && RadioItem.isEnabled(dirFinder) && StackFrequencyNBT.getFrequency(dirFinder) != packet.freq) {
-                    StackFrequencyNBT.setFrequency(dirFinder, packet.freq);
+                if(packet.slot >= 0 && !(dirFinder = inv.getStackInSlot(packet.slot)).isEmpty() && RadioItem.isEnabled(dirFinder)
+                        && StackFrequencyNBT.getFrequency(dirFinder) != packet.freq) {
+                    StackFrequencyNBT.setFrequency(dirFinder, FrequencyConstants.clampFreq(packet.freq));
                 }
             });
 

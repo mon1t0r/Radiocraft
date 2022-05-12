@@ -9,6 +9,7 @@ import com.mon1tor.radiocraft.network.CPacketSendRadioMessage;
 import com.mon1tor.radiocraft.network.CPacketSetRadioFrequency;
 import com.mon1tor.radiocraft.network.ModPacketHandler;
 import com.mon1tor.radiocraft.radio.client.HistoryGUIItemData;
+import com.mon1tor.radiocraft.radio.client.guidata.RadioAdditionalData;
 import com.mon1tor.radiocraft.radio.history.IHistoryItem;
 import com.mon1tor.radiocraft.radio.history.RadioFrequencyChangeHistoryItem;
 import net.minecraft.client.Minecraft;
@@ -24,9 +25,9 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
+import javax.annotation.Nullable;
 import java.util.UUID;
 
 @OnlyIn(Dist.CLIENT)
@@ -70,15 +71,12 @@ public class RadioScreen extends Screen {
         this.freqField.setValue(Integer.toString(currentFreq));
         this.children.add(this.freqField);
 
-        HistoryGUIItemData.Data data = HistoryGUIItemData.getGUIDataForId(stackRadioDataUUID);
-
         this.textField = new TextFieldWidget(this.font, this.guiLeft + 13, this.guiTop + 238, 120, 13, null);
         this.textField.setTextColor(-1);
         this.textField.setTextColorUneditable(-1);
         this.textField.setBordered(false);
         this.textField.setMaxLength(CPacketSendRadioMessage.MAX_MESSAGE_LENGTH);
-        if(data != null)
-            this.textField.setValue(data.writingMessage);
+        this.textField.setValue(getWritingMessage());
         this.children.add(this.textField);
         this.setInitialFocus(this.textField);
 
@@ -92,7 +90,7 @@ public class RadioScreen extends Screen {
             this.renderTooltip(matrixStack, applyText, mouseX, mouseY);
         }, StringTextComponent.EMPTY));
 
-        updateHistory(data);
+        updateHistory();
     }
 
     @Override
@@ -113,8 +111,9 @@ public class RadioScreen extends Screen {
 
     @Override
     public void removed() {
-        if(!this.textField.getValue().trim().isEmpty())
-            HistoryGUIItemData.setWritingMessage(stackRadioDataUUID, this.textField.getValue().trim());
+        if(!this.textField.getValue().trim().isEmpty()) {
+            setWritingMessage(this.textField.getValue().trim());
+        }
         super.removed();
         this.getMinecraft().keyboardHandler.setSendRepeatsToGui(false);
     }
@@ -243,7 +242,7 @@ public class RadioScreen extends Screen {
 
     private void clearTextField() {
         this.textField.setValue("");
-        HistoryGUIItemData.setWritingMessage(stackRadioDataUUID, "");
+        setWritingMessage("");
     }
 
     public void updateHistory(@Nullable HistoryGUIItemData.Data data) {
@@ -255,7 +254,7 @@ public class RadioScreen extends Screen {
     }
 
     public void updateHistory() {
-        updateHistory(HistoryGUIItemData.getGUIDataForId(stackRadioDataUUID));
+        updateHistory(HistoryGUIItemData.getOrCreateData(stackRadioDataUUID, RadioAdditionalData::new));
     }
 
     public int getRadioSlot() {
@@ -278,6 +277,21 @@ public class RadioScreen extends Screen {
             HistoryGUIItemData.Data data = HistoryGUIItemData.addItem(stackRadioDataUUID, new RadioFrequencyChangeHistoryItem(freq));
             updateHistory(data);
         }
+    }
+
+    private void setWritingMessage(String msg) {
+        HistoryGUIItemData.Data data = HistoryGUIItemData.getOrCreateData(stackRadioDataUUID, RadioAdditionalData::new);
+        if(data.additionalData instanceof RadioAdditionalData) {
+            ((RadioAdditionalData) data.additionalData).setWritingMessage(this.textField.getValue().trim());
+        }
+    }
+
+    private String getWritingMessage() {
+        HistoryGUIItemData.Data data = HistoryGUIItemData.getOrCreateData(stackRadioDataUUID, RadioAdditionalData::new);
+        if(data.additionalData instanceof RadioAdditionalData) {
+            return ((RadioAdditionalData) data.additionalData).getWritingMessage();
+        }
+        return "";
     }
 
     private void sendMessageToServer(String msg) {

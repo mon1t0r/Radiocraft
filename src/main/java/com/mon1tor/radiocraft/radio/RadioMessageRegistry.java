@@ -4,7 +4,6 @@ import com.mon1tor.radiocraft.container.RadioStationContainer;
 import com.mon1tor.radiocraft.network.ModPacketHandler;
 import com.mon1tor.radiocraft.network.SPacketGetAvaliableReceivers;
 import com.mon1tor.radiocraft.radio.history.IHistoryItem;
-import com.mon1tor.radiocraft.radio.history.MessageHistoryItem;
 import com.mon1tor.radiocraft.radio.history.RadioStationTextHistoryItem;
 import com.mon1tor.radiocraft.util.MathUtils;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -16,9 +15,9 @@ import java.util.*;
 
 public class RadioMessageRegistry {
     private static final int MESSAGE_BUFFER_SIZE = 50; //Per frequency
-    private static final Map<Integer, List<MessageHistoryItem>> messageMap = new HashMap<>(); //Frequency - Info
+    private static final Map<Integer, List<MessageItem>> messageMap = new HashMap<>(); //Frequency - Info
 
-    public static void sendMessageOnFrequency(int freq, MessageHistoryItem msg, ServerWorld world) {
+    public static void sendMessageOnFrequency(int freq, MessageItem msg, ServerWorld world) {
         int id = addMessageToFrequency(freq, msg);
 
         ModPacketHandler.sendToAllInRange(new SPacketGetAvaliableReceivers(freq, id),
@@ -46,8 +45,8 @@ public class RadioMessageRegistry {
         }
     }
 
-    public static int addMessageToFrequency(int freq, MessageHistoryItem msg) {
-        List<MessageHistoryItem> list = getMessagesFromFrequency(freq);
+    public static int addMessageToFrequency(int freq, MessageItem msg) {
+        List<MessageItem> list = getMessagesFromFrequency(freq);
         list.add(msg);
         while (list.size() > MESSAGE_BUFFER_SIZE)
             list.remove(0);
@@ -55,32 +54,32 @@ public class RadioMessageRegistry {
         return msg.id;
     }
 
-    public static List<MessageHistoryItem> getMessagesFromFrequency(int freq) {
+    public static List<MessageItem> getMessagesFromFrequency(int freq) {
         return messageMap.getOrDefault(freq, new LinkedList<>());
     }
 
-    public static List<MessageHistoryItem> getMessagesFromFrequencySince(int freq, long timeStart, long timeEnd) {
-        List<MessageHistoryItem> list = new LinkedList<>(getMessagesFromFrequency(freq));
+    public static List<MessageItem> getMessagesFromFrequencySince(int freq, long timeStart, long timeEnd) {
+        List<MessageItem> list = new LinkedList<>(getMessagesFromFrequency(freq));
         list.removeIf((msg) -> {
             return msg.getTimestamp() < timeStart || msg.getTimestamp() > timeEnd;
         });
         return list;
     }
 
-    public static List<MessageHistoryItem> getMessagesFromFreqRange(long timeStart, long timeEnd, int minFreq, int maxFreq) {
-        List<MessageHistoryItem> all = new LinkedList<>();
+    public static List<MessageItem> getMessagesFromFreqRange(long timeStart, long timeEnd, int minFreq, int maxFreq) {
+        List<MessageItem> all = new LinkedList<>();
         for(int i = minFreq; i <= maxFreq; ++i) {
-            List<MessageHistoryItem> temp = getMessagesFromFrequencySince(i, timeStart, timeEnd);
+            List<MessageItem> temp = getMessagesFromFrequencySince(i, timeStart, timeEnd);
             all.addAll(temp);
         }
         return all;
     }
 
     @Nullable
-    public static MessageHistoryItem getMessageFromFreqById(int freq, int id) {
-        List<MessageHistoryItem> list = getMessagesFromFrequency(freq);
+    public static MessageItem getMessageFromFreqById(int freq, int id) {
+        List<MessageItem> list = getMessagesFromFrequency(freq);
         for(int i = 0; i < list.size(); ++i) {
-            MessageHistoryItem item = list.get(i);
+            MessageItem item = list.get(i);
             if(item.id == id)
                 return item;
         }
@@ -94,37 +93,55 @@ public class RadioMessageRegistry {
         return list.subList(list.size() - MESSAGE_BUFFER_SIZE, list.size());
     }
 
-    public static List<RadioStationTextHistoryItem> convertMessageToTextList(List<MessageHistoryItem> list) {
+    public static List<RadioStationTextHistoryItem> convertMessageToTextList(List<MessageItem> list) {
         List<RadioStationTextHistoryItem> res = new LinkedList<>();
         for(int i = 0; i < list.size(); ++i) {
-            MessageHistoryItem msg = list.get(i);
+            MessageItem msg = list.get(i);
             res.add(new RadioStationTextHistoryItem(msg.sender, msg.message, msg.getTimestamp()));
         }
         return res;
     }
 
-    public static List<RadioStationTextHistoryItem> convertMessageToTextListAndCorrupt(List<MessageHistoryItem> list, BlockPos recieverPos) {
+    public static List<RadioStationTextHistoryItem> convertMessageToTextListAndCorrupt(List<MessageItem> list, BlockPos recieverPos) {
         List<RadioStationTextHistoryItem> res = new LinkedList<>();
         for(int i = 0; i < list.size(); ++i) {
-            MessageHistoryItem msg = list.get(i);
-            System.out.print(msg.getDisplayText() + " " + recieverPos + "\n");
+            MessageItem msg = list.get(i);
             res.add(new RadioStationTextHistoryItem(msg.sender, RadioMessageCorrupter.corruptMessageFromDist(msg.message, recieverPos, msg.pos, msg.senderType, msg.getTimestamp()), msg.getTimestamp()));
         }
         return res;
     }
 
-    public static void printRadioHistory() {
-        Integer[] keys = messageMap.keySet().toArray(new Integer[0]);
-        for(int i = 0; i < keys.length; ++i) {
-            int f = keys[i];
-            if(!messageMap.containsKey(f)) continue;
-            System.out.print("---" + f + "---\n");
-            List<MessageHistoryItem> msgs = messageMap.get(f);
-            for(int j = 0; j < msgs.size(); ++j) {
-                MessageHistoryItem msg = msgs.get(j);
-                System.out.print(msg.getDisplayText() + "\n");
-            }
-            System.out.print("\n");
+    public static class MessageItem {
+        private static int lastMessageId = 0;
+
+        public final String sender;
+        public final String message;
+        public final BlockPos pos;
+        public final RadioMessageCorrupter.SenderType senderType;
+        public final int id;
+        private final long timestamp;
+
+        public MessageItem(String sender, String message, BlockPos pos, RadioMessageCorrupter.SenderType senderType, long timestamp) {
+            this.sender = sender;
+            this.message = message;
+            this.pos = new BlockPos(pos);
+            this.senderType = senderType;
+            this.timestamp = timestamp;
+            id = getNextAvaliableMessageId();
+        }
+
+        public String getDisplayText() {
+            return pos + " - " + sender + " - " + senderType + " - " + timestamp + " - " + message;
+        }
+
+        public long getTimestamp() {
+            return timestamp;
+        }
+
+        private static int getNextAvaliableMessageId() {
+            if(lastMessageId >= Integer.MAX_VALUE - 1)
+                lastMessageId = 0;
+            return lastMessageId++;
         }
     }
 }

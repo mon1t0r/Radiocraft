@@ -2,6 +2,7 @@ package com.mon1tor.radiocraft.util;
 
 import com.mon1tor.radiocraft.radio.history.HistoryItemType;
 import com.mon1tor.radiocraft.radio.history.IHistoryItem;
+import com.mon1tor.radiocraft.util.direction.DirectionRange;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.vector.Vector2f;
 
@@ -62,5 +63,16 @@ public class PacketBufferUtils {
         float x = buf.readFloat();
         float y = buf.readFloat();
         return new Vector2f(x, y);
+    }
+
+    public static void writeDirectionRange(PacketBuffer buf, DirectionRange dr) {
+        buf.writeFloat(dr.angleFrom);
+        buf.writeFloat(dr.angleTo);
+    }
+
+    public static DirectionRange readDirectionRange(PacketBuffer buf) {
+        float f = buf.readFloat();
+        float t = buf.readFloat();
+        return new DirectionRange(f, t);
     }
 }

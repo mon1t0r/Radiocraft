@@ -7,10 +7,11 @@ import com.mon1tor.radiocraft.item.nbt.StackIdentifierNBT;
 import com.mon1tor.radiocraft.item.template.IRadioReceivable;
 import com.mon1tor.radiocraft.item.template.TickDamageUniqueItemBase;
 import com.mon1tor.radiocraft.radio.RadioMessageCorrupter;
+import com.mon1tor.radiocraft.radio.RadioMessageRegistry;
 import com.mon1tor.radiocraft.radio.history.DirectionFinderTextHistoryItem;
 import com.mon1tor.radiocraft.radio.history.HistoryItemType;
 import com.mon1tor.radiocraft.radio.history.IHistoryItem;
-import com.mon1tor.radiocraft.radio.history.MessageHistoryItem;
+import com.mon1tor.radiocraft.util.direction.DirectionUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -18,12 +19,16 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector2f;
 import net.minecraft.world.World;
 
 public class DirectionFinderItem extends TickDamageUniqueItemBase implements IRadioReceivable {
     public DirectionFinderItem() {
         super(new Item.Properties().tab(ModItemGroup.RADIO_GROUP).durability(150).setNoRepair(), 100);
+    }
+
+    @Override
+    public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+        return super.shouldCauseReequipAnimation(oldStack, newStack, slotChanged);
     }
 
     @Override
@@ -69,12 +74,12 @@ public class DirectionFinderItem extends TickDamageUniqueItemBase implements IRa
     }
 
     @Override
-    public IHistoryItem getCorruptedTextHistoryItem(MessageHistoryItem item, BlockPos recieverPos) {
+    public IHistoryItem getCorruptedTextHistoryItem(RadioMessageRegistry.MessageItem item, BlockPos recieverPos) {
         return new DirectionFinderTextHistoryItem(
                 item.sender,
                 RadioMessageCorrupter.corruptMessageFromDist(item.message, item.pos, recieverPos, item.senderType, item.getTimestamp()),
                 recieverPos,
-                new Vector2f(0,0),
+                DirectionUtils.getRandomDirectionRangeFromPos(recieverPos, item.pos),
                 item.getTimestamp());
     }
 

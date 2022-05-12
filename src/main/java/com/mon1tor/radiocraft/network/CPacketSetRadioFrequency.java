@@ -2,6 +2,7 @@ package com.mon1tor.radiocraft.network;
 
 import com.mon1tor.radiocraft.item.custom.RadioItem;
 import com.mon1tor.radiocraft.item.nbt.StackFrequencyNBT;
+import com.mon1tor.radiocraft.radio.FrequencyConstants;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
@@ -35,8 +36,9 @@ public class CPacketSetRadioFrequency {
             ServerPlayerEntity player = context.get().getSender();
             player.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).ifPresent((inv) -> {
                 ItemStack radio;
-                if(packet.slot >= 0 && !(radio = inv.getStackInSlot(packet.slot)).isEmpty() && RadioItem.isEnabled(radio) && StackFrequencyNBT.getFrequency(radio) != packet.freq) {
-                    StackFrequencyNBT.setFrequency(radio, packet.freq);
+                if(packet.slot >= 0 && !(radio = inv.getStackInSlot(packet.slot)).isEmpty() && RadioItem.isEnabled(radio)
+                        && StackFrequencyNBT.getFrequency(radio) != packet.freq) {
+                    StackFrequencyNBT.setFrequency(radio, FrequencyConstants.clampFreq(packet.freq));
                 }
             });
 

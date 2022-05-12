@@ -5,9 +5,9 @@ import com.mon1tor.radiocraft.item.ModItemGroup;
 import com.mon1tor.radiocraft.item.nbt.StackFrequencyNBT;
 import com.mon1tor.radiocraft.item.template.IRadioReceivable;
 import com.mon1tor.radiocraft.item.template.TickDamageUniqueItemBase;
+import com.mon1tor.radiocraft.radio.RadioMessageRegistry;
 import com.mon1tor.radiocraft.radio.history.HistoryItemType;
 import com.mon1tor.radiocraft.radio.history.IHistoryItem;
-import com.mon1tor.radiocraft.radio.history.MessageHistoryItem;
 import com.mon1tor.radiocraft.radio.history.RadioTextHistoryItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -62,7 +62,7 @@ public class RadioItem extends TickDamageUniqueItemBase implements IRadioReceiva
     }
 
     @Override
-    public IHistoryItem getCorruptedTextHistoryItem(MessageHistoryItem item, BlockPos recieverPos) {
+    public IHistoryItem getCorruptedTextHistoryItem(RadioMessageRegistry.MessageItem item, BlockPos recieverPos) {
         return new RadioTextHistoryItem(item.sender, item.message);
     }
 

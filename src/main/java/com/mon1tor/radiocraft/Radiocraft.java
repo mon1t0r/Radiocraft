@@ -3,6 +3,7 @@ package com.mon1tor.radiocraft;
 import com.mon1tor.radiocraft.block.ModBlocks;
 import com.mon1tor.radiocraft.client.gui.screen.RadioChargerScreen;
 import com.mon1tor.radiocraft.client.gui.screen.RadioStationScreen;
+import com.mon1tor.radiocraft.client.sound.ModSoundEvents;
 import com.mon1tor.radiocraft.container.ModContainers;
 import com.mon1tor.radiocraft.item.ModItems;
 import com.mon1tor.radiocraft.item.custom.DirectionFinderItem;
@@ -29,7 +30,6 @@ public class Radiocraft
     public static final String MOD_ID = "radiocraft";
     public static final Logger LOGGER = LogManager.getLogger();
     public static Radiocraft instance;
-    public final ModEventHandler eventHandler = new ModEventHandler();
 
     public Radiocraft() {
         instance = this;
@@ -40,13 +40,13 @@ public class Radiocraft
         ModBlocks.register(modEventBus);
         ModTileEntities.register(modEventBus);
         ModContainers.register(modEventBus);
+        ModSoundEvents.register(modEventBus);
         ModPacketHandler.register();
 
         modEventBus.addListener(this::onSetup);
         modEventBus.addListener(this::onClientSetup);
 
         MinecraftForge.EVENT_BUS.register(this);
-        MinecraftForge.EVENT_BUS.register(eventHandler);
     }
 
     private void onSetup(final FMLCommonSetupEvent event) {

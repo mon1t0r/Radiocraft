@@ -26,5 +26,21 @@
   "screen.radiocraft.radio_station.changeSendFrequency" : "Смена частоты передачи: %s",
   "screen.radiocraft.direction_finder.currentFrequency" : "Частота: %s",
   "screen.radiocraft.direction_finder.changeFrequency" : "Смена частоты: %s",
-  "screen.radiocraft.direction_finder.apply" : "Применить"
+  "screen.radiocraft.direction_finder.apply" : "Применить",
+  "screen.radiocraft.direction_finder.select" : "Выбрать",
+  "screen.radiocraft.direction_finder.type" : "Тип: %s",
+  "screen.radiocraft.direction_finder.type.message" : "Сообщение",
+  "screen.radiocraft.direction_finder.type.beacon" : "Радиомаяк",
+  "screen.radiocraft.direction_finder.sender" : "Позывной: %s",
+  "screen.radiocraft.direction_finder.receivePos" : "Место приёма: [%s / %s / %s]",
+  "screen.radiocraft.direction_finder.time" : "Время приёма: %s",
+  "screen.radiocraft.direction_finder.direction" : "Направление приёма: %s",
+  "screen.radiocraft.direction.north" : "Север",
+  "screen.radiocraft.direction.east" : "Восток",
+  "screen.radiocraft.direction.south" : "Юг",
+  "screen.radiocraft.direction.west" : "Запад",
+  "screen.radiocraft.direction.northeast" : "Северо-восток",
+  "screen.radiocraft.direction.southeast" : "Юго-восток",
+  "screen.radiocraft.direction.southwest" : "Юго-запад",
+  "screen.radiocraft.direction.northwest" : "Северо-запад"
 }

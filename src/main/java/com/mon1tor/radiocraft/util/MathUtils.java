@@ -27,4 +27,27 @@ public class MathUtils {
         }
         return res;
     }
+
+    public static float normalizeAngle(float angle) {
+        while(angle > 360)
+            angle -= 360;
+        while (angle < 0)
+            angle += 360;
+        return angle;
+    }
+
+    public static float distBetweenAngles(float a1, float a2) {
+        float phi = Math.abs(a1 - a2) % 360;
+        return phi > 180.0f ? 360.0f - phi : phi;
+    }
+
+    public static boolean isAngleBetween(float angle, float angle1, float angle2) {
+        angle = normalizeAngle(angle);
+        angle1 = normalizeAngle(angle1);
+        angle2 = normalizeAngle(angle2);
+
+        if (angle1 < angle2)
+            return angle1 <= angle && angle <= angle2;
+        return angle1 <= angle || angle <= angle2;
+    }
 }

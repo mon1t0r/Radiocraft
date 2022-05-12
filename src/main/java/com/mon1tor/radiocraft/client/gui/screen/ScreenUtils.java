@@ -12,4 +12,9 @@ public class ScreenUtils {
             pY += 9;
         }
     }
+
+    public static int drawWordWrap(FontRenderer font, MatrixStack pMatrixStack, ITextProperties pTextProperties, int pX, int pY, int pMax, int pColor) {
+        font.drawWordWrap(pTextProperties, pX, pY, pMax, pColor);
+        return font.split(pTextProperties, pMax).size() * 9;
+    }
 }
