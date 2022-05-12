@@ -9,6 +9,7 @@ import com.mon1tor.radiocraft.item.ModItems;
 import com.mon1tor.radiocraft.item.custom.DirectionFinderItem;
 import com.mon1tor.radiocraft.item.custom.RadioItem;
 import com.mon1tor.radiocraft.network.ModPacketHandler;
+import com.mon1tor.radiocraft.recipe.ModCustomRecipes;
 import com.mon1tor.radiocraft.tileentity.ModTileEntities;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
@@ -41,6 +42,7 @@ public class Radiocraft
         ModTileEntities.register(modEventBus);
         ModContainers.register(modEventBus);
         ModSoundEvents.register(modEventBus);
+        ModCustomRecipes.register(modEventBus);
         ModPacketHandler.register();
 
         modEventBus.addListener(this::onSetup);

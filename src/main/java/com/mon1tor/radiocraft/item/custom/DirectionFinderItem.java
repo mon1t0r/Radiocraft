@@ -4,6 +4,7 @@ import com.mon1tor.radiocraft.client.gui.screen.DirectionFinderScreen;
 import com.mon1tor.radiocraft.item.ModItemGroup;
 import com.mon1tor.radiocraft.item.nbt.StackFrequencyNBT;
 import com.mon1tor.radiocraft.item.nbt.StackIdentifierNBT;
+import com.mon1tor.radiocraft.item.template.IBatteryChargeable;
 import com.mon1tor.radiocraft.item.template.IRadioReceivable;
 import com.mon1tor.radiocraft.item.template.TickDamageUniqueItemBase;
 import com.mon1tor.radiocraft.radio.RadioMessageCorrupter;
@@ -21,9 +22,9 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class DirectionFinderItem extends TickDamageUniqueItemBase implements IRadioReceivable {
+public class DirectionFinderItem extends TickDamageUniqueItemBase implements IRadioReceivable, IBatteryChargeable {
     public DirectionFinderItem() {
-        super(new Item.Properties().tab(ModItemGroup.RADIO_GROUP).durability(150).setNoRepair(), 100);
+        super(new Item.Properties().tab(ModItemGroup.RADIO_GROUP).durability(BatteryItem.BATTERY_CAPACITY).setNoRepair(), 100);
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.mon1tor.radiocraft.item.custom;
 import com.mon1tor.radiocraft.client.gui.screen.RadioScreen;
 import com.mon1tor.radiocraft.item.ModItemGroup;
 import com.mon1tor.radiocraft.item.nbt.StackFrequencyNBT;
+import com.mon1tor.radiocraft.item.template.IBatteryChargeable;
 import com.mon1tor.radiocraft.item.template.IRadioReceivable;
 import com.mon1tor.radiocraft.item.template.TickDamageUniqueItemBase;
 import com.mon1tor.radiocraft.radio.RadioMessageRegistry;
@@ -18,9 +19,9 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class RadioItem extends TickDamageUniqueItemBase implements IRadioReceivable { //TODO: Frame clone bug
+public class RadioItem extends TickDamageUniqueItemBase implements IRadioReceivable, IBatteryChargeable { //TODO: Frame clone bug
     public RadioItem() {
-        super(new Item.Properties().tab(ModItemGroup.RADIO_GROUP).durability(150).setNoRepair(), 100);
+        super(new Item.Properties().tab(ModItemGroup.RADIO_GROUP).durability(BatteryItem.BATTERY_CAPACITY).setNoRepair(), 100);
     }
 
     @Override
