@@ -43,8 +43,8 @@ public class RadioMessageCorrupter {
     }
 
     public enum SenderType {
-        RADIO(20, 100),
-        RADIO_STATION(50, 200);
+        RADIO(400, 1000),
+        RADIO_STATION(1200, 2500);
 
         float minCorruptDist;
         float maxCorruptDist;
