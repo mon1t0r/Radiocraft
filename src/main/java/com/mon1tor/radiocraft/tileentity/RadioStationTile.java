@@ -24,7 +24,7 @@ public class RadioStationTile extends TileEntity {
     public static final int MAX_RECIEVE_FREQUENCY_RANGE = 50;
     private static final int MAX_FREQ_CHANGE_HISTORY = 20;
 
-    private int[] freqRec = new int[] { FrequencyConstants.MIN_FREQUENCY,  FrequencyConstants.MAX_FREQUENCY + MAX_RECIEVE_FREQUENCY_RANGE };
+    private int[] freqRec = new int[] { FrequencyConstants.MIN_FREQUENCY,  FrequencyConstants.MIN_FREQUENCY + MAX_RECIEVE_FREQUENCY_RANGE };
     private int freqSend = FrequencyConstants.MIN_FREQUENCY;
     private boolean enabled = false;
     private LinkedList<Pair<Long, int[]>> freqRecChangeList = new LinkedList<>();

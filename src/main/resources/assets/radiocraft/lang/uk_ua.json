@@ -9,6 +9,7 @@
   "block.radiocraft.radio_charger": "Зарядна станція",
   "block.radiocraft.radio_station": "Стаціонарна радіостанція",
   "itemGroup.radioTab": "Радіообладнання",
+  "itemGroup.radioComponentsTab": "Радіодеталі",
   "screen.radiocraft.radio_charger": "Зарядна станція",
   "screen.radiocraft.radio_charger.noDevice": "Пусто",
   "screen.radiocraft.radio_charger.charging": "Зарядка...",

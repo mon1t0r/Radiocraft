@@ -10,4 +10,11 @@ public class ModItemGroup {
             return new ItemStack(ModItems.RADIO.get());
         }
     };
+
+    public static final ItemGroup RADIO_COMPONENTS = new ItemGroup("radioComponentsTab") {
+        @Override
+        public ItemStack makeIcon() {
+            return new ItemStack(ModItems.CHIP_2.get());
+        }
+    };
 }

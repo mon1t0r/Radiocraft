@@ -37,7 +37,7 @@ public class ModClientEvents {
     @SubscribeEvent
     public static void onRenderOverlay(final RenderGameOverlayEvent.Post event) {
         Minecraft mc = Minecraft.getInstance();
-        if(mc.gameMode.getPlayerMode() != GameType.SPECTATOR && !mc.options.hideGui) {
+        if(mc.gameMode.getPlayerMode() != GameType.SPECTATOR && !mc.options.hideGui && !mc.options.renderDebug) {
             MatrixStack matrixStack = event.getMatrixStack();
             ItemStack dirFinderStack = ItemStack.EMPTY;
 
@@ -68,7 +68,7 @@ public class ModClientEvents {
                         dist /= 180.0f;
 
                         mc.getTextureManager().bind(ModTextures.DIRECTION_FINDER_GUI_OVERLAY);
-                        AbstractGui.blit(matrixStack, 0, 0, -180, 0, 0, 196, 95, 256, 256);
+                        AbstractGui.blit(matrixStack, 0, 0, 0, 0, 0, 196, 95, 256, 256);
 
                         RenderSystem.pushMatrix();
                         RenderSystem.disableTexture();
@@ -76,13 +76,11 @@ public class ModClientEvents {
                         Tessellator tessellator = Tessellator.getInstance();
                         BufferBuilder buffer = tessellator.getBuilder();
 
-
-                        RenderSystem.color3f(0.0f, 0.8f, 0.0f);
                         RenderSystem.lineWidth(2);
-                        buffer.begin(GL11.GL_LINE_STRIP, DefaultVertexFormats.POSITION);
+                        buffer.begin(GL11.GL_LINE_STRIP, DefaultVertexFormats.POSITION_COLOR);
 
                         Matrix4f matrix = matrixStack.last().pose();
-                        RenderUtils.renderGraph(matrix, buffer, 12, 16, 113, 15, (mc.gui.getGuiTicks() + event.getPartialTicks()) * 20, dist);
+                        RenderUtils.renderGraph(matrix, buffer, 11.5f, 8.5f, 113.5f, 15.0f, (mc.gui.getGuiTicks() + event.getPartialTicks()) * 20, dist);
 
                         tessellator.end();
                         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);

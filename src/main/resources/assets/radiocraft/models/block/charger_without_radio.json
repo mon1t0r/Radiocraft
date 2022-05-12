@@ -3,7 +3,7 @@
 	"texture_size": [48, 48],
 	"textures": {
 		"0": "radiocraft:block/radio_charger",
-		"particle": "radiocraft:block/radio_charger"
+		"particle": "radiocraft:block/radio_particle"
 	},
 	"gui_light": "side",
 	"elements": [

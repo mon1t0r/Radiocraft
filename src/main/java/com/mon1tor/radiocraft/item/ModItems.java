@@ -14,11 +14,11 @@ public class ModItems {
 
     public static final RegistryObject<Item> RADIO = ITEMS.register("radio", RadioItem::new);
     public static final RegistryObject<Item> DIRECTION_FINDER = ITEMS.register("direction_finder", DirectionFinderItem::new);
-    public static final RegistryObject<Item> ANTENNA = ITEMS.register("antenna", () -> new Item(new Item.Properties().tab(ModItemGroup.RADIO_GROUP)));
-    public static final RegistryObject<Item> BATTERY = ITEMS.register("battery", () -> new Item(new Item.Properties().tab(ModItemGroup.RADIO_GROUP)));
-    public static final RegistryObject<Item> DISPLAY = ITEMS.register("display", () -> new Item(new Item.Properties().tab(ModItemGroup.RADIO_GROUP)));
-    public static final RegistryObject<Item> CHIP_1 = ITEMS.register("chip_1", () -> new Item(new Item.Properties().tab(ModItemGroup.RADIO_GROUP)));
-    public static final RegistryObject<Item> CHIP_2 = ITEMS.register("chip_2", () -> new Item(new Item.Properties().tab(ModItemGroup.RADIO_GROUP)));
+    public static final RegistryObject<Item> ANTENNA = ITEMS.register("antenna", () -> new Item(new Item.Properties().tab(ModItemGroup.RADIO_COMPONENTS)));
+    public static final RegistryObject<Item> BATTERY = ITEMS.register("battery", () -> new Item(new Item.Properties().tab(ModItemGroup.RADIO_COMPONENTS)));
+    public static final RegistryObject<Item> DISPLAY = ITEMS.register("display", () -> new Item(new Item.Properties().tab(ModItemGroup.RADIO_COMPONENTS)));
+    public static final RegistryObject<Item> CHIP_1 = ITEMS.register("chip_1", () -> new Item(new Item.Properties().tab(ModItemGroup.RADIO_COMPONENTS)));
+    public static final RegistryObject<Item> CHIP_2 = ITEMS.register("chip_2", () -> new Item(new Item.Properties().tab(ModItemGroup.RADIO_COMPONENTS)));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
