@@ -4,8 +4,7 @@ import com.mon1tor.radiocraft.client.gui.screen.DirectionFinderScreen;
 import com.mon1tor.radiocraft.item.ModItemGroup;
 import com.mon1tor.radiocraft.item.nbt.StackFrequencyNBT;
 import com.mon1tor.radiocraft.item.nbt.StackIdentifierNBT;
-import com.mon1tor.radiocraft.item.template.IBatteryChargeable;
-import com.mon1tor.radiocraft.item.template.IRadioReceivable;
+import com.mon1tor.radiocraft.item.template.IRadioReceivableItem;
 import com.mon1tor.radiocraft.item.template.TickDamageUniqueItemBase;
 import com.mon1tor.radiocraft.radio.RadioMessageCorrupter;
 import com.mon1tor.radiocraft.radio.RadioMessageRegistry;
@@ -22,7 +21,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class DirectionFinderItem extends TickDamageUniqueItemBase implements IRadioReceivable, IBatteryChargeable {
+public class DirectionFinderItem extends TickDamageUniqueItemBase implements IRadioReceivableItem {
     public DirectionFinderItem() {
         super(new Item.Properties().tab(ModItemGroup.RADIO_GROUP).durability(BatteryItem.BATTERY_CAPACITY).setNoRepair(), 100);
     }
@@ -75,12 +74,12 @@ public class DirectionFinderItem extends TickDamageUniqueItemBase implements IRa
     }
 
     @Override
-    public IHistoryItem getCorruptedTextHistoryItem(RadioMessageRegistry.MessageItem item, BlockPos recieverPos) {
+    public IHistoryItem getCorruptedTextHistoryItem(RadioMessageRegistry.MessageItem item, BlockPos receiverPos) {
         return new DirectionFinderTextHistoryItem(
                 item.sender,
-                RadioMessageCorrupter.corruptMessageFromDist(item.message, item.pos, recieverPos, item.senderType, item.getTimestamp()),
-                recieverPos,
-                DirectionUtils.getRandomDirectionRangeFromPos(recieverPos, item.pos),
+                RadioMessageCorrupter.corruptMessageFromDist(item.message, item.pos, receiverPos, item.senderType, item.getTimestamp()),
+                receiverPos,
+                DirectionUtils.getRandomDirectionRangeFromPos(receiverPos, item.pos),
                 item.getTimestamp());
     }
 

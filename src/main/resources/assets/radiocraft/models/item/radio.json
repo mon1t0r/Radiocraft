@@ -3,9 +3,17 @@
   "overrides": [
     {
       "predicate": {
+        "radiocraft:highlight": 0,
         "radiocraft:enabled": 1
       },
       "model": "radiocraft:item/radio_enabled"
+    },
+    {
+      "predicate": {
+        "radiocraft:highlight": 1,
+        "radiocraft:enabled": 1
+      },
+      "model": "radiocraft:item/radio_highlight"
     }
   ]
 }

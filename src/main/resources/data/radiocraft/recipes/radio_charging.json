@@ -1,0 +1,4 @@
+{
+  "type": "radiocraft:battery_charging",
+  "charging_item": "radiocraft:radio"
+}

@@ -1,6 +1,6 @@
 package com.mon1tor.radiocraft.network;
 
-import com.mon1tor.radiocraft.item.template.IRadioReceivable;
+import com.mon1tor.radiocraft.item.template.IRadioReceivableItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -43,7 +43,7 @@ public class SPacketGetAvaliableReceivers {
                     List<Integer> slots = new LinkedList<>();
                     for (int i = 0; i < inv.getSlots(); ++i) {
                         ItemStack stack = inv.getStackInSlot(i);
-                        if(!stack.isEmpty() && stack.getItem() instanceof IRadioReceivable && ((IRadioReceivable) stack.getItem()).canReceive(stack, packet.freq)) {
+                        if(!stack.isEmpty() && stack.getItem() instanceof IRadioReceivableItem && ((IRadioReceivableItem) stack.getItem()).canReceive(stack, packet.freq)) {
                             slots.add(i);
                         }
                     }

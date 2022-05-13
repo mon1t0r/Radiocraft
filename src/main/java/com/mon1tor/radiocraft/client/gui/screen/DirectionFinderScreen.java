@@ -256,7 +256,7 @@ public class DirectionFinderScreen extends Screen {
             }
             if(index >= list.size())
                 return;
-            selectedItem = list.get(index); //TODO: May need copy
+            selectedItem = list.get(index); //May need copy
             saveHistoryItemData();
         } catch(NumberFormatException | NullPointerException e) {
         }

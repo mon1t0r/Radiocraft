@@ -2,7 +2,7 @@ package com.mon1tor.radiocraft.tileentity;
 
 import com.mon1tor.radiocraft.block.custom.RadioStationBlock;
 import com.mon1tor.radiocraft.network.*;
-import com.mon1tor.radiocraft.radio.FrequencyConstants;
+import com.mon1tor.radiocraft.radio.Constants;
 import com.mon1tor.radiocraft.radio.RadioMessageRegistry;
 import com.mon1tor.radiocraft.radio.history.IHistoryItem;
 import com.mon1tor.radiocraft.radio.history.RadioStationRecieveFrequencyHistoryItem;
@@ -24,8 +24,8 @@ public class RadioStationTile extends TileEntity {
     public static final int MAX_RECIEVE_FREQUENCY_RANGE = 50;
     private static final int MAX_FREQ_CHANGE_HISTORY = 20;
 
-    private int[] freqRec = new int[] { FrequencyConstants.MIN_FREQUENCY,  FrequencyConstants.MIN_FREQUENCY + MAX_RECIEVE_FREQUENCY_RANGE };
-    private int freqSend = FrequencyConstants.MIN_FREQUENCY;
+    private int[] freqRec = new int[] { Constants.Frequency.MIN_FREQUENCY,  Constants.Frequency.MIN_FREQUENCY + MAX_RECIEVE_FREQUENCY_RANGE };
+    private int freqSend = Constants.Frequency.MIN_FREQUENCY;
     private boolean enabled = false;
     private LinkedList<Pair<Long, int[]>> freqRecChangeList = new LinkedList<>();
     private LinkedList<Pair<Long, Integer>> freqSendChangeList = new LinkedList<>();

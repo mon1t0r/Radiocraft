@@ -12,7 +12,6 @@ import com.mon1tor.radiocraft.radio.client.guidata.DirectionFinderAdditionalData
 import com.mon1tor.radiocraft.radio.history.DirectionFinderTextHistoryItem;
 import com.mon1tor.radiocraft.radio.history.IHistoryItem;
 import com.mon1tor.radiocraft.util.MathUtils;
-import com.mon1tor.radiocraft.util.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -80,7 +79,18 @@ public class ModClientEvents {
                         buffer.begin(GL11.GL_LINE_STRIP, DefaultVertexFormats.POSITION_COLOR);
 
                         Matrix4f matrix = matrixStack.last().pose();
-                        RenderUtils.renderGraph(matrix, buffer, 11.5f, 8.5f, 113.5f, 15.0f, (mc.gui.getGuiTicks() + event.getPartialTicks()) * 20, dist);
+
+                        final float xPos = 11.5f;
+                        final float yPos = 8.5f;
+                        final float xSize = 113.5f;
+                        final float ySize = 15.0f;
+                        float deltaX = (mc.gui.getGuiTicks() + event.getPartialTicks()) * 20;
+
+                        for(float x = -180.0f; x <= 180.0f; x += 0.1) {
+                            float sin = (float) Math.sin(Math.toRadians(x / (dist + 0.1f) + deltaX));
+                            buffer.vertex(matrix, xPos + (x / 360.0f) * xSize + xSize / 2.0f, yPos + (sin + 1.0f) * ySize, 0)
+                                    .color((Math.abs(sin) * 130.0f) / 225.0f, 170.0f / 255.0f, (Math.abs(sin) * 130.0f) / 225.0f, 1.0f).endVertex();
+                        }
 
                         tessellator.end();
                         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);

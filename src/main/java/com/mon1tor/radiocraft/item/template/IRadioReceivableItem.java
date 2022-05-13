@@ -6,9 +6,9 @@ import com.mon1tor.radiocraft.radio.history.IHistoryItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 
-public interface IRadioReceivable {
+public interface IRadioReceivableItem {
     boolean canReceive(ItemStack stack, int freq);
     boolean canReceive(ItemStack stack);
-    IHistoryItem getCorruptedTextHistoryItem(RadioMessageRegistry.MessageItem item, BlockPos recieverPos);
+    IHistoryItem getCorruptedTextHistoryItem(RadioMessageRegistry.MessageItem item, BlockPos receiverPos);
     HistoryItemType getTextHistoryItemType();
 }

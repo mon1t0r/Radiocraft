@@ -3,8 +3,7 @@ package com.mon1tor.radiocraft.item.custom;
 import com.mon1tor.radiocraft.client.gui.screen.RadioScreen;
 import com.mon1tor.radiocraft.item.ModItemGroup;
 import com.mon1tor.radiocraft.item.nbt.StackFrequencyNBT;
-import com.mon1tor.radiocraft.item.template.IBatteryChargeable;
-import com.mon1tor.radiocraft.item.template.IRadioReceivable;
+import com.mon1tor.radiocraft.item.template.IRadioReceivableItem;
 import com.mon1tor.radiocraft.item.template.TickDamageUniqueItemBase;
 import com.mon1tor.radiocraft.radio.RadioMessageRegistry;
 import com.mon1tor.radiocraft.radio.history.HistoryItemType;
@@ -15,11 +14,12 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class RadioItem extends TickDamageUniqueItemBase implements IRadioReceivable, IBatteryChargeable { //TODO: Frame clone bug
+public class RadioItem extends TickDamageUniqueItemBase implements IRadioReceivableItem {
     public RadioItem() {
         super(new Item.Properties().tab(ModItemGroup.RADIO_GROUP).durability(BatteryItem.BATTERY_CAPACITY).setNoRepair(), 100);
     }
@@ -41,6 +41,7 @@ public class RadioItem extends TickDamageUniqueItemBase implements IRadioReceiva
     @Override
     public void onEnableUse(World world, PlayerEntity player, Hand hand) {
         ItemStack stack = player.getItemInHand(hand);
+        resetMessageHighlightTimestamp(stack);
         if(world.isClientSide) {
             Minecraft mc = Minecraft.getInstance();
             mc.setScreen(new RadioScreen(player, stack, hand));
@@ -63,12 +64,33 @@ public class RadioItem extends TickDamageUniqueItemBase implements IRadioReceiva
     }
 
     @Override
-    public IHistoryItem getCorruptedTextHistoryItem(RadioMessageRegistry.MessageItem item, BlockPos recieverPos) {
+    public IHistoryItem getCorruptedTextHistoryItem(RadioMessageRegistry.MessageItem item, BlockPos receiverPos) {
         return new RadioTextHistoryItem(item.sender, item.message);
     }
 
     @Override
     public HistoryItemType getTextHistoryItemType() {
         return HistoryItemType.RADIO_TEXT;
+    }
+
+    public static final String MESSAGE_HIGHLIGHT_TIMESTAMP_NBT_NAME = "messageHighlightTimestamp";
+
+    public static boolean needsMessageHighlight(ItemStack stack) {
+        return System.currentTimeMillis() < getMessageHighlightTimestamp(stack);
+    }
+
+    public static long getMessageHighlightTimestamp(ItemStack stack) {
+        CompoundNBT nbt = stack.getOrCreateTag();
+        if(nbt.contains(MESSAGE_HIGHLIGHT_TIMESTAMP_NBT_NAME))
+            return nbt.getLong(MESSAGE_HIGHLIGHT_TIMESTAMP_NBT_NAME);
+        return Long.MIN_VALUE;
+    }
+
+    public static void setMessageHighlightTimestamp(ItemStack stack, long timestamp) {
+        stack.getOrCreateTag().putLong(MESSAGE_HIGHLIGHT_TIMESTAMP_NBT_NAME, timestamp);
+    }
+
+    public static void resetMessageHighlightTimestamp(ItemStack stack) {
+        setMessageHighlightTimestamp(stack, Long.MIN_VALUE);
     }
 }

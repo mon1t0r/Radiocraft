@@ -3,7 +3,6 @@ package com.mon1tor.radiocraft.recipe;
 import com.mon1tor.radiocraft.Radiocraft;
 import com.mon1tor.radiocraft.recipe.custom.BatteryChargingRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.SpecialRecipeSerializer;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -14,7 +13,7 @@ public class ModCustomRecipes {
             DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, Radiocraft.MOD_ID);
 
     public static final RegistryObject<IRecipeSerializer<?>> BATTERY_CHARGING = RECIPE_SERIALIZERS.register("battery_charging",
-            () -> new SpecialRecipeSerializer<>(BatteryChargingRecipe::new));
+            BatteryChargingRecipe.Serializer::new);
 
     public static void register(IEventBus eventBus) {
         RECIPE_SERIALIZERS.register(eventBus);

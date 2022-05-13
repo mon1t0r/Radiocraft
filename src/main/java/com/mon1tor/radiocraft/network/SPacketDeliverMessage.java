@@ -2,7 +2,7 @@ package com.mon1tor.radiocraft.network;
 
 import com.mon1tor.radiocraft.client.gui.screen.RadioScreen;
 import com.mon1tor.radiocraft.item.nbt.StackIdentifierNBT;
-import com.mon1tor.radiocraft.item.template.IRadioReceivable;
+import com.mon1tor.radiocraft.item.template.IRadioReceivableItem;
 import com.mon1tor.radiocraft.radio.client.HistoryGUIItemData;
 import com.mon1tor.radiocraft.radio.history.IHistoryItem;
 import com.mon1tor.radiocraft.util.PacketBufferUtils;
@@ -46,8 +46,8 @@ public class SPacketDeliverMessage {
                     player.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).ifPresent((inv) -> {
                         for (int i = 0; i < inv.getSlots(); ++i) {
                             ItemStack stack = inv.getStackInSlot(i);
-                            IRadioReceivable rec;
-                            if(!stack.isEmpty() && stack.getItem() instanceof IRadioReceivable && (rec = (IRadioReceivable) stack.getItem()).canReceive(stack, packet.freq)) {
+                            IRadioReceivableItem rec;
+                            if(!stack.isEmpty() && stack.getItem() instanceof IRadioReceivableItem && (rec = (IRadioReceivableItem) stack.getItem()).canReceive(stack, packet.freq)) {
                                 for(int j = 0; j < packet.items.size(); ++j) {
                                     IHistoryItem item = packet.items.get(j);
                                     if(rec.getTextHistoryItemType() == item.getType()) {

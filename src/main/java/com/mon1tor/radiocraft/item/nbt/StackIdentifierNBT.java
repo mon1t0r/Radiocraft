@@ -13,6 +13,15 @@ public class StackIdentifierNBT {
         if(!nbt.contains(NBT_NAME))
             nbt.putUUID(NBT_NAME, UUID.randomUUID());
     }
+
+    public static void stackClientDataUUIDReassignServer(ItemStack stack) {
+        CompoundNBT tag = stack.getOrCreateTag();
+        if(tag.contains(NBT_NAME)) {
+            tag.remove(NBT_NAME);
+            StackIdentifierNBT.checkStackClientDataUUIDServer(stack);
+        }
+    }
+
     @Nullable
     public static UUID getStackClientDataUUIDClient(ItemStack stack) {
         CompoundNBT nbt = stack.getOrCreateTag();

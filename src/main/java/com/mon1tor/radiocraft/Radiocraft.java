@@ -68,6 +68,10 @@ public class Radiocraft
                     (stack, world, entity) -> RadioItem.isActive(stack) ? 1.0F : 0.0F
             );
             ItemModelsProperties.register(
+                    ModItems.RADIO.get(), new ResourceLocation(MOD_ID, "highlight"),
+                    (stack, world, entity) -> RadioItem.needsMessageHighlight(stack) ? 1.0F : 0.0F
+            );
+            ItemModelsProperties.register(
                     ModItems.DIRECTION_FINDER.get(), new ResourceLocation(MOD_ID, "enabled"),
                     (stack, world, entity) -> DirectionFinderItem.isActive(stack) ? 1.0F : 0.0F
             );

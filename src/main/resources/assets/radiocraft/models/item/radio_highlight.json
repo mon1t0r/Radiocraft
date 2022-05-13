@@ -1,0 +1,15 @@
+{
+  "loader": "forge:separate-perspective",
+  "gui_light": "front",
+  "base": {
+    "parent": "radiocraft:item/radio_model_highlight"
+  },
+  "perspectives": {
+    "gui": {
+      "parent": "item/generated",
+      "textures": {
+        "layer0": "radiocraft:item/radio_icon_highlight"
+      }
+    }
+  }
+}
