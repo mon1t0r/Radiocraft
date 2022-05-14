@@ -46,8 +46,8 @@ public class RadioMessageCorrupter {
         RADIO(400, 1000),
         RADIO_STATION(1200, 2500);
 
-        float minCorruptDist;
-        float maxCorruptDist;
+        final float minCorruptDist;
+        final float maxCorruptDist;
 
         SenderType(float minCorruptDist, float maxCorruptDist) {
             this.minCorruptDist = minCorruptDist;

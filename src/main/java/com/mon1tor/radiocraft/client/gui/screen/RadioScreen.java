@@ -169,7 +169,7 @@ public class RadioScreen extends Screen implements IItemScreenHistoryUpdatable {
         if(super.charTyped(codePoint, modifiers))
             return true;
         switch (codePoint){
-            case 'e':
+            case 'e': //TODO: Fix other languages
                 this.onClose();
                 return true;
         }

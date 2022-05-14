@@ -13,7 +13,7 @@ public class ModCustomRecipes {
             DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, Radiocraft.MOD_ID);
 
     public static final RegistryObject<IRecipeSerializer<?>> BATTERY_CHARGING = RECIPE_SERIALIZERS.register("battery_charging",
-            BatteryChargingRecipe.Serializer::new);
+            BatteryChargingRecipe.Serializer::new);//TODO: Crafting recipes with discharged battery
 
     public static void register(IEventBus eventBus) {
         RECIPE_SERIALIZERS.register(eventBus);
