@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.UUID;
 
 @OnlyIn(Dist.CLIENT)
-public class DirectionFinderScreen extends Screen {
+public class DirectionFinderScreen extends Screen implements IItemScreenHistoryUpdatable {
     private static final ITextComponent applyText = new TranslationTextComponent("screen.radiocraft.direction_finder.apply");
     private static final ITextComponent selectText = new TranslationTextComponent("screen.radiocraft.direction_finder.select");
     private static final ITextComponent[] signalTypes = new ITextComponent[] {
@@ -325,5 +325,10 @@ public class DirectionFinderScreen extends Screen {
 
     private void sendFrequencyUpdateToServer() {
         ModPacketHandler.sendToServer(new CPacketSetDirectionFinderFrequency(currentFreq, getDirFinderSlot()));
+    }
+
+    @Override
+    public void onHistoryUpdate() {
+        updateHistory();
     }
 }

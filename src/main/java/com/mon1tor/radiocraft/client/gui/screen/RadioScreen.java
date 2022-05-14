@@ -31,7 +31,7 @@ import javax.annotation.Nullable;
 import java.util.UUID;
 
 @OnlyIn(Dist.CLIENT)
-public class RadioScreen extends Screen {
+public class RadioScreen extends Screen implements IItemScreenHistoryUpdatable {
     private static final ITextComponent messageSendText = new TranslationTextComponent("screen.radiocraft.radio.send");
     private static final ITextComponent applyText = new TranslationTextComponent("screen.radiocraft.radio.apply");
 
@@ -300,5 +300,10 @@ public class RadioScreen extends Screen {
 
     private void sendFrequencyUpdateToServer() {
         ModPacketHandler.sendToServer(new CPacketSetRadioFrequency(currentFreq, getRadioSlot()));
+    }
+
+    @Override
+    public void onHistoryUpdate() {
+        updateHistory();
     }
 }

@@ -1,6 +1,6 @@
 package com.mon1tor.radiocraft.network.packet;
 
-import com.mon1tor.radiocraft.client.gui.screen.RadioScreen;
+import com.mon1tor.radiocraft.client.gui.screen.IItemScreenHistoryUpdatable;
 import com.mon1tor.radiocraft.item.nbt.StackIdentifierNBT;
 import com.mon1tor.radiocraft.item.template.IRadioReceivableItem;
 import com.mon1tor.radiocraft.radio.client.HistoryGUIItemData;
@@ -59,9 +59,9 @@ public class SPacketDeliverMessage {
                         }
 
                     });
-                if(mc.screen instanceof RadioScreen) {
-                    RadioScreen radioScreen = (RadioScreen) mc.screen;
-                    radioScreen.updateHistory();
+                if(mc.screen instanceof IItemScreenHistoryUpdatable) {
+                    IItemScreenHistoryUpdatable screen = (IItemScreenHistoryUpdatable) mc.screen;
+                    screen.onHistoryUpdate();
                 }
             });
         });
