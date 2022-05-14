@@ -1,9 +1,10 @@
-package com.mon1tor.radiocraft.network;
+package com.mon1tor.radiocraft.network.packet;
 
 import com.mon1tor.radiocraft.item.ModItems;
 import com.mon1tor.radiocraft.item.custom.RadioItem;
 import com.mon1tor.radiocraft.item.nbt.StackIdentifierNBT;
 import com.mon1tor.radiocraft.item.template.IRadioReceivableItem;
+import com.mon1tor.radiocraft.network.ModPacketHandler;
 import com.mon1tor.radiocraft.radio.Constants;
 import com.mon1tor.radiocraft.radio.RadioMessageRegistry;
 import com.mon1tor.radiocraft.radio.history.HistoryItemType;

@@ -1,0 +1,68 @@
+{
+  "variants": {
+    "slots_charging=none,facing=east": {
+      "model": "radiocraft:block/battery_charger_none",
+      "y": 90
+    },
+    "slots_charging=none,facing=north": {
+      "model": "radiocraft:block/battery_charger_none",
+      "y": 0
+    },
+    "slots_charging=none,facing=south": {
+      "model": "radiocraft:block/battery_charger_none",
+      "y": 180
+    },
+    "slots_charging=none,facing=west": {
+      "model": "radiocraft:block/battery_charger_none",
+      "y": 270
+    },
+    "slots_charging=left,facing=east": {
+      "model": "radiocraft:block/battery_charger_left",
+      "y": 90
+    },
+    "slots_charging=left,facing=north": {
+      "model": "radiocraft:block/battery_charger_left",
+      "y": 0
+    },
+    "slots_charging=left,facing=south": {
+      "model": "radiocraft:block/battery_charger_left",
+      "y": 180
+    },
+    "slots_charging=left,facing=west": {
+      "model": "radiocraft:block/battery_charger_left",
+      "y": 270
+    },
+    "slots_charging=right,facing=east": {
+      "model": "radiocraft:block/battery_charger_right",
+      "y": 90
+    },
+    "slots_charging=right,facing=north": {
+      "model": "radiocraft:block/battery_charger_right",
+      "y": 0
+    },
+    "slots_charging=right,facing=south": {
+      "model": "radiocraft:block/battery_charger_right",
+      "y": 180
+    },
+    "slots_charging=right,facing=west": {
+      "model": "radiocraft:block/battery_charger_right",
+      "y": 270
+    },
+    "slots_charging=both,facing=east": {
+      "model": "radiocraft:block/battery_charger_both",
+      "y": 90
+    },
+    "slots_charging=both,facing=north": {
+      "model": "radiocraft:block/battery_charger_both",
+      "y": 0
+    },
+    "slots_charging=both,facing=south": {
+      "model": "radiocraft:block/battery_charger_both",
+      "y": 180
+    },
+    "slots_charging=both,facing=west": {
+      "model": "radiocraft:block/battery_charger_both",
+      "y": 270
+    }
+  }
+}

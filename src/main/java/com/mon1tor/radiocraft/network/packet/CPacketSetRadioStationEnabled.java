@@ -1,7 +1,7 @@
-package com.mon1tor.radiocraft.network;
+package com.mon1tor.radiocraft.network.packet;
 
 import com.mon1tor.radiocraft.radio.RadioMessageRegistry;
-import com.mon1tor.radiocraft.tileentity.RadioStationTile;
+import com.mon1tor.radiocraft.tileentity.custom.RadioStationTile;
 import net.minecraft.block.BlockState;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;

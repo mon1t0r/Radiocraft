@@ -8,6 +8,7 @@
   "item.radiocraft.direction_finder": "Direction finder",
   "block.radiocraft.radio_charger": "Radio charger",
   "block.radiocraft.radio_station": "Stationary radio",
+  "block.radiocraft.battery_charger": "Battery charger",
   "itemGroup.radioTab": "Radio equipment",
   "itemGroup.radioComponentsTab": "Radio components",
   "screen.radiocraft.radio_charger": "Radio charger",
@@ -43,5 +44,10 @@
   "screen.radiocraft.direction.northeast" : "Northeast",
   "screen.radiocraft.direction.southeast" : "Southeast",
   "screen.radiocraft.direction.southwest" : "Southwest",
-  "screen.radiocraft.direction.northwest" : "Northwest"
+  "screen.radiocraft.direction.northwest" : "Northwest",
+  "screen.radiocraft.battery_charger": "Battery charger",
+  "screen.radiocraft.battery_charger.noDevice": "Empty",
+  "screen.radiocraft.battery_charger.charging": "Charging...",
+  "screen.radiocraft.battery_charger.charged": "Charged",
+  "screen.radiocraft.battery_charger.status": "Status:"
 }

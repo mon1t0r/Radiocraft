@@ -1,5 +1,4 @@
 {
-	"credit": "Made with Blockbench",
 	"texture_size": [48, 48],
 	"textures": {
 		"0": "radiocraft:block/radio_charger",
@@ -128,6 +127,7 @@
 			"scale": [0.5, 0.5, 0.5]
 		},
 		"ground": {
+			"translation": [0, 2, 0],
 			"scale": [0.5, 0.5, 0.5]
 		},
 		"gui": {

@@ -1,6 +1,7 @@
 package com.mon1tor.radiocraft;
 
 import com.mon1tor.radiocraft.block.ModBlocks;
+import com.mon1tor.radiocraft.client.gui.screen.BatteryChargerScreen;
 import com.mon1tor.radiocraft.client.gui.screen.RadioChargerScreen;
 import com.mon1tor.radiocraft.client.gui.screen.RadioStationScreen;
 import com.mon1tor.radiocraft.client.sound.ModSoundEvents;
@@ -59,9 +60,11 @@ public class Radiocraft
         event.enqueueWork(() -> {
             ScreenManager.register(ModContainers.RADIO_CHARGER_CONTAINER.get(), RadioChargerScreen::new);
             ScreenManager.register(ModContainers.RADIO_STATION_CONTAINER.get(), RadioStationScreen::new);
+            ScreenManager.register(ModContainers.BATTERY_CHARGER_CONTAINER.get(), BatteryChargerScreen::new);
 
             RenderTypeLookup.setRenderLayer(ModBlocks.RADIO_CHARGER.get(), RenderType.cutout());
             RenderTypeLookup.setRenderLayer(ModBlocks.RADIO_STATION.get(), RenderType.cutout());
+            RenderTypeLookup.setRenderLayer(ModBlocks.BATTERY_CHARGER.get(), RenderType.cutout());
 
             ItemModelsProperties.register(
                     ModItems.RADIO.get(), new ResourceLocation(MOD_ID, "enabled"),

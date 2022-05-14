@@ -1,4 +1,4 @@
-package com.mon1tor.radiocraft.network;
+package com.mon1tor.radiocraft.network.packet;
 
 import com.mon1tor.radiocraft.item.custom.RadioItem;
 import com.mon1tor.radiocraft.item.nbt.StackFrequencyNBT;
@@ -11,34 +11,34 @@ import net.minecraftforge.items.CapabilityItemHandler;
 
 import java.util.function.Supplier;
 
-public class CPacketSetRadioFrequency {
+public class CPacketSetDirectionFinderFrequency {
     private final int freq;
     private final int slot;
 
-    public CPacketSetRadioFrequency(int frequency, int slot) {
+    public CPacketSetDirectionFinderFrequency(int frequency, int slot) {
         freq = frequency;
         this.slot = slot;
     }
 
-    public static void encode(CPacketSetRadioFrequency packet, PacketBuffer buf) {
+    public static void encode(CPacketSetDirectionFinderFrequency packet, PacketBuffer buf) {
         buf.writeInt(packet.freq);
         buf.writeInt(packet.slot);
     }
 
-    public static CPacketSetRadioFrequency decode(PacketBuffer buf) {
+    public static CPacketSetDirectionFinderFrequency decode(PacketBuffer buf) {
         int f = buf.readInt();
         int s = buf.readInt();
-        return new CPacketSetRadioFrequency(f, s);
+        return new CPacketSetDirectionFinderFrequency(f, s);
     }
 
-    public static void handle(CPacketSetRadioFrequency packet, Supplier<NetworkEvent.Context> context) {
+    public static void handle(CPacketSetDirectionFinderFrequency packet, Supplier<NetworkEvent.Context> context) {
         context.get().enqueueWork(() -> {
             ServerPlayerEntity player = context.get().getSender();
             player.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).ifPresent((inv) -> {
-                ItemStack radio;
-                if(packet.slot >= 0 && !(radio = inv.getStackInSlot(packet.slot)).isEmpty() && RadioItem.isEnabled(radio)
-                        && StackFrequencyNBT.getFrequency(radio) != packet.freq) {
-                    StackFrequencyNBT.setFrequency(radio, Constants.Frequency.clampFreq(packet.freq));
+                ItemStack dirFinder;
+                if(packet.slot >= 0 && !(dirFinder = inv.getStackInSlot(packet.slot)).isEmpty() && RadioItem.isEnabled(dirFinder)
+                        && StackFrequencyNBT.getFrequency(dirFinder) != packet.freq) {
+                    StackFrequencyNBT.setFrequency(dirFinder, Constants.Frequency.clampFreq(packet.freq));
                 }
             });
 

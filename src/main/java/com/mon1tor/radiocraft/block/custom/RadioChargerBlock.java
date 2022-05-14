@@ -1,20 +1,20 @@
 package com.mon1tor.radiocraft.block.custom;
 
-import com.mon1tor.radiocraft.container.RadioChargerContainer;
+import com.mon1tor.radiocraft.container.custom.RadioChargerContainer;
 import com.mon1tor.radiocraft.item.ModItems;
 import com.mon1tor.radiocraft.tileentity.ModTileEntities;
-import com.mon1tor.radiocraft.tileentity.RadioChargerTile;
+import com.mon1tor.radiocraft.tileentity.custom.RadioChargerTile;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.PushReaction;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.pathfinding.PathType;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
@@ -85,8 +85,7 @@ public class RadioChargerBlock extends HorizontalBlock {
                     player.setItemInHand(Hand.MAIN_HAND, handler.insertItem(0, heldStack, false));
                 } else if(player.isCrouching() && isRadioInside) {
                     ItemStack extracted = handler.extractItem(0, 1, false);
-                    if(isHoldingRadio && heldStack.getCount() < heldStack.getMaxStackSize()) heldStack.setCount(heldStack.getCount() + 1);
-                    else if(heldStack.isEmpty()) player.setItemInHand(Hand.MAIN_HAND, extracted);
+                    if(heldStack.isEmpty()) player.setItemInHand(Hand.MAIN_HAND, extracted);
                     else player.addItem(extracted);
                 } else {
                     INamedContainerProvider containerProvider = createContainerProvider(worldIn, pos);
@@ -125,8 +124,7 @@ public class RadioChargerBlock extends HorizontalBlock {
 
     @Override
     protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
-        builder.add(CHARGING);
-        builder.add(FACING);
+        builder.add(FACING, CHARGING);
     }
 
     @Nullable
@@ -143,8 +141,16 @@ public class RadioChargerBlock extends HorizontalBlock {
     }
 
     @Override
-    public boolean isPathfindable(BlockState pState, IBlockReader pLevel, BlockPos pPos, PathType pType) {
-        return false;
+    public void onRemove(BlockState pState, World pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
+        if (pState.hasTileEntity() && (!pState.is(pNewState.getBlock()) || !pNewState.hasTileEntity())) {
+            pLevel.getBlockEntity(pPos).getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(h -> {
+                for (int i = 0; i < h.getSlots(); ++i) {
+                    InventoryHelper.dropItemStack(pLevel, pPos.getX(), pPos.getY(), pPos.getZ(), h.getStackInSlot(i));
+                }
+            });
+
+            super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
+        }
     }
 
     @Override
@@ -152,11 +158,11 @@ public class RadioChargerBlock extends HorizontalBlock {
         boolean isCharging = state.getValue(CHARGING);
         switch (state.getValue(FACING)){
             case NORTH: return isCharging ? SHAPE_CHARGING_N : SHAPE_N;
-            case WEST: return  isCharging ? SHAPE_CHARGING_W : SHAPE_W;
-            case SOUTH: return  isCharging ? SHAPE_CHARGING_S : SHAPE_S;
-            case EAST: return  isCharging ? SHAPE_CHARGING_E : SHAPE_E;
+            case WEST: return isCharging ? SHAPE_CHARGING_W : SHAPE_W;
+            case SOUTH: return isCharging ? SHAPE_CHARGING_S : SHAPE_S;
+            case EAST: return isCharging ? SHAPE_CHARGING_E : SHAPE_E;
         }
-        return  super.getShape(state, worldIn, pos, context);
+        return super.getShape(state, worldIn, pos, context);
     }
 
     private static final VoxelShape SHAPE_N = Stream.of(

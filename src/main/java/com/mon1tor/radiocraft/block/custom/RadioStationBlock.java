@@ -1,9 +1,9 @@
 package com.mon1tor.radiocraft.block.custom;
 
 import com.mon1tor.radiocraft.block.properties.RadioStationPart;
-import com.mon1tor.radiocraft.container.RadioStationContainer;
+import com.mon1tor.radiocraft.container.custom.RadioStationContainer;
 import com.mon1tor.radiocraft.tileentity.ModTileEntities;
-import com.mon1tor.radiocraft.tileentity.RadioStationTile;
+import com.mon1tor.radiocraft.tileentity.custom.RadioStationTile;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.PushReaction;

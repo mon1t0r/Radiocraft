@@ -1,8 +1,9 @@
-package com.mon1tor.radiocraft.tileentity;
+package com.mon1tor.radiocraft.tileentity.custom;
 
-import com.mon1tor.radiocraft.block.custom.RadioChargerBlock;
+import com.mon1tor.radiocraft.block.custom.BatteryChargerBlock;
+import com.mon1tor.radiocraft.block.properties.BatteryChargerSlots;
 import com.mon1tor.radiocraft.item.ModItems;
-import com.mon1tor.radiocraft.item.custom.RadioItem;
+import com.mon1tor.radiocraft.tileentity.ModTileEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -19,30 +20,30 @@ import net.minecraftforge.items.ItemStackHandler;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class RadioChargerTile extends TileEntity implements ITickableTileEntity {
+public class BatteryChargerTile extends TileEntity implements ITickableTileEntity {
     private final ItemStackHandler itemHandler = createHandler();
     private final LazyOptional<IItemHandler> handler = LazyOptional.of(() -> itemHandler);
-    private int serverTicksCounter = 0;
+    private int ticksCount = 0;
 
-    public RadioChargerTile(TileEntityType<?> tileEntityType) {
+    public BatteryChargerTile(TileEntityType<?> tileEntityType) {
         super(tileEntityType);
     }
 
-    public RadioChargerTile() {
-        this(ModTileEntities.RADIO_CHARGER_TILE.get());
+    public BatteryChargerTile() {
+        this(ModTileEntities.BATTERY_CHARGER_TILE.get());
     }
 
     private ItemStackHandler createHandler() {
-        return new ItemStackHandler() {
+        return new ItemStackHandler(2) {
             @Override
             protected void onContentsChanged(int slot) {
-                level.setBlockAndUpdate(worldPosition, getBlockState().setValue(RadioChargerBlock.CHARGING, !getStackInSlot(slot).isEmpty()));
+                level.setBlockAndUpdate(worldPosition, getBlockState().setValue(BatteryChargerBlock.SLOTS_CHARGING, getChargingSlotsProperty(this)));
                 setChanged();
             }
 
             @Override
             public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-                return stack.getItem() == ModItems.RADIO.get();
+                return stack.getItem() == ModItems.BATTERY.get();
             }
 
             @Override
@@ -55,14 +56,15 @@ public class RadioChargerTile extends TileEntity implements ITickableTileEntity 
     @Override
     public void tick() {
         if (!this.level.isClientSide) {
-            ++serverTicksCounter;
-            if(serverTicksCounter > 100) serverTicksCounter = 0;
-            if(serverTicksCounter % 20 == 0)
+            ++ticksCount;
+            if(ticksCount > 100) ticksCount = 0;
+            if(ticksCount % 20 == 0)
                 handler.ifPresent((h) -> {
-                    ItemStack stack = h.getStackInSlot(0);
-                    if(RadioItem.isActive(stack)) RadioItem.setActive(stack, false);
-                    if(!stack.isEmpty() && stack.getDamageValue() > 0)
-                        stack.setDamageValue(stack.getDamageValue() - 1);
+                    for(int i = 0; i < h.getSlots(); ++i) {
+                        ItemStack stack = h.getStackInSlot(i);
+                        if(!stack.isEmpty() && stack.getDamageValue() > 0)
+                            stack.setDamageValue(stack.getDamageValue() - 1);
+                    }
                 });
         }
     }
@@ -86,5 +88,21 @@ public class RadioChargerTile extends TileEntity implements ITickableTileEntity 
     public CompoundNBT save(CompoundNBT nbt) {
         nbt.put("inv", itemHandler.serializeNBT());
         return super.save(nbt);
+    }
+
+    public BatteryChargerSlots getChargingSlotsProperty() {
+        return getChargingSlotsProperty(itemHandler);
+    }
+
+    public BatteryChargerSlots getChargingSlotsProperty(IItemHandler h) {
+        boolean slot0 = !h.getStackInSlot(0).isEmpty();
+        boolean slot1 = !h.getStackInSlot(1).isEmpty();
+        if(slot0 && slot1)
+            return BatteryChargerSlots.BOTH;
+        if(slot0)
+            return BatteryChargerSlots.LEFT;
+        if(slot1)
+            return BatteryChargerSlots.RIGHT;
+        return BatteryChargerSlots.NONE;
     }
 }

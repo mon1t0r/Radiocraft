@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "ABA",
+    "C#C"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:redstone_torch"
+    },
+    "B": {
+      "item": "minecraft:redstone"
+    },
+    "C": {
+      "item": "radiocraft:chip_2"
+    },
+    "#": {
+      "item": "minecraft:iron_block"
+    }
+  },
+  "result": {
+    "item": "radiocraft:battery_charger"
+  }
+}

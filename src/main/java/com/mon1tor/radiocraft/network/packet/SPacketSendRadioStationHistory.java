@@ -1,4 +1,4 @@
-package com.mon1tor.radiocraft.network;
+package com.mon1tor.radiocraft.network.packet;
 
 import com.mon1tor.radiocraft.client.gui.screen.RadioStationScreen;
 import com.mon1tor.radiocraft.radio.history.IHistoryItem;

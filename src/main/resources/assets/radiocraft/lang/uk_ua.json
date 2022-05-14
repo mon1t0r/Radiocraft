@@ -6,8 +6,9 @@
   "item.radiocraft.display": "Дисплей",
   "item.radiocraft.radio": "Рація",
   "item.radiocraft.direction_finder": "Радіопеленгатор",
-  "block.radiocraft.radio_charger": "Зарядна станція",
+  "block.radiocraft.radio_charger": "Зарядний пристрій для рації",
   "block.radiocraft.radio_station": "Стаціонарна радіостанція",
+  "block.radiocraft.battery_charger": "Зарядний пристрій для акумуляторів",
   "itemGroup.radioTab": "Радіообладнання",
   "itemGroup.radioComponentsTab": "Радіодеталі",
   "screen.radiocraft.radio_charger": "Зарядна станція",
@@ -43,5 +44,10 @@
   "screen.radiocraft.direction.northeast" : "Північний схід",
   "screen.radiocraft.direction.southeast" : "Південний схід",
   "screen.radiocraft.direction.southwest" : "Південний захід",
-  "screen.radiocraft.direction.northwest" : "Північний захід"
+  "screen.radiocraft.direction.northwest" : "Північний захід",
+  "screen.radiocraft.battery_charger": "Зарядна станція",
+  "screen.radiocraft.battery_charger.noDevice": "Пусто",
+  "screen.radiocraft.battery_charger.charging": "Зарядка...",
+  "screen.radiocraft.battery_charger.charged": "Заряджено",
+  "screen.radiocraft.battery_charger.status": "Статус:"
 }

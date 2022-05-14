@@ -1,8 +1,8 @@
 package com.mon1tor.radiocraft.radio;
 
-import com.mon1tor.radiocraft.container.RadioStationContainer;
+import com.mon1tor.radiocraft.container.custom.RadioStationContainer;
 import com.mon1tor.radiocraft.network.ModPacketHandler;
-import com.mon1tor.radiocraft.network.SPacketGetAvaliableReceivers;
+import com.mon1tor.radiocraft.network.packet.SPacketGetAvaliableReceivers;
 import com.mon1tor.radiocraft.radio.history.IHistoryItem;
 import com.mon1tor.radiocraft.radio.history.RadioStationTextHistoryItem;
 import com.mon1tor.radiocraft.util.MathUtils;

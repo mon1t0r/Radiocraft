@@ -3,7 +3,7 @@ package com.mon1tor.radiocraft.client.gui.screen;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mon1tor.radiocraft.client.ModTextures;
-import com.mon1tor.radiocraft.container.RadioChargerContainer;
+import com.mon1tor.radiocraft.container.custom.RadioChargerContainer;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
@@ -42,9 +42,8 @@ public class RadioChargerScreen extends ContainerScreen<RadioChargerContainer> {
         int chargingState = menu.getChargingState();
         this.blit(matrixStack, i + 82, j + 21, 176, chargingState * 12,12,12);
         this.blit(matrixStack, i + 53, j + 62, 176, 36, (int)(menu.getChargingProgress() * 70.0f), 6);
-        int w = this.font.width(chargingStatusText);
-        this.font.draw(matrixStack, chargingStatusText, i + 104 + (65 - w) / 2, j + 23, 0xFFFFFF);
-        w = this.font.width(chargingStatusTexts[chargingState]);
-        this.font.draw(matrixStack, chargingStatusTexts[chargingState], i + 104 + (65 - w) / 2, j + 43, chargingState == 0 ? 0xff2424 : (chargingState == 1 ? 0xfff34e : 0x69ff4e));
+
+        ScreenUtils.drawCentered(this.font, matrixStack, chargingStatusText, i + 104, j + 23, 65, 0xFFFFFF);
+        ScreenUtils.drawCentered(this.font, matrixStack, chargingStatusTexts[chargingState], i + 104, j + 43, 65, chargingState == 0 ? 0xff2424 : (chargingState == 1 ? 0xfff34e : 0x69ff4e));
     }
 }

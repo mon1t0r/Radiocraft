@@ -1,12 +1,13 @@
-package com.mon1tor.radiocraft.container;
+package com.mon1tor.radiocraft.container.custom;
 
 import com.mon1tor.radiocraft.block.ModBlocks;
+import com.mon1tor.radiocraft.container.ModContainers;
+import com.mon1tor.radiocraft.tileentity.custom.BatteryChargerTile;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -15,39 +16,30 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
-public class RadioChargerContainer extends Container {
-    private final TileEntity tileEntity;
+public class BatteryChargerContainer extends Container {
+    public final BatteryChargerTile tileEntity;
     private final PlayerEntity playerEntity;
     private final IItemHandler playerInventory;
 
-    public RadioChargerContainer(int windowId, World world, BlockPos pos, PlayerInventory playerInventory, PlayerEntity player) {
-        super(ModContainers.RADIO_CHARGER_CONTAINER.get(), windowId);
-        this.tileEntity = world.getBlockEntity(pos);
+    public BatteryChargerContainer(int windowId, World world, BlockPos pos, PlayerInventory playerInventory, PlayerEntity player) {
+        super(ModContainers.BATTERY_CHARGER_CONTAINER.get(), windowId);
+        this.tileEntity = (BatteryChargerTile) world.getBlockEntity(pos);
         this.playerEntity = player;
         this.playerInventory = new InvWrapper(playerInventory);
 
-        layoutPlayerInventorySlots(8,86);
+        layoutPlayerInventorySlots(8,105);
 
         if(tileEntity != null) {
             tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(h -> {
-                addSlot(new SlotItemHandler(h, 0, 80, 39));
+                addSlot(new SlotItemHandler(h, 0, 34, 73));
+                addSlot(new SlotItemHandler(h, 1, 126, 73));
             });
         }
     }
 
-    public int getChargingState() {
-        ItemStack stack = slots.get(36).getItem();
-        return stack.isEmpty() ? 0 : (stack.getDamageValue() > 0 ? 1 : 2);
-    }
-
-    public float getChargingProgress() {
-        ItemStack stack = slots.get(36).getItem();
-        return stack.isEmpty() ? 0.0F : (1.0F - stack.getDamageValue() / (float) stack.getMaxDamage());
-    }
-
     @Override
     public boolean stillValid(PlayerEntity playerIn) {
-        return stillValid(IWorldPosCallable.create(tileEntity.getLevel(), tileEntity.getBlockPos()), playerIn, ModBlocks.RADIO_CHARGER.get());
+        return stillValid(IWorldPosCallable.create(tileEntity.getLevel(), tileEntity.getBlockPos()), playerIn, ModBlocks.BATTERY_CHARGER.get());
     }
 
     private int addSlotRange(IItemHandler handler, int index, int x, int y, int amount, int dx) {
@@ -83,10 +75,10 @@ public class RadioChargerContainer extends Container {
         ItemStack copyOfSourceStack = sourceStack.copy();
 
         if (index < 36) {
-            if (!moveItemStackTo(sourceStack, 36, 37, false)) {
+            if (!moveItemStackTo(sourceStack, 36, 38, false)) {
                 return ItemStack.EMPTY;
             }
-        } else if (index < 37) {
+        } else if (index < 38) {
             if (!moveItemStackTo(sourceStack, 0, 36, false)) {
                 return ItemStack.EMPTY;
             }
@@ -101,5 +93,15 @@ public class RadioChargerContainer extends Container {
         }
         sourceSlot.onTake(playerEntity, sourceStack);
         return copyOfSourceStack;
+    }
+
+    public int getChargingState(int slot) {
+        ItemStack stack = slots.get(slot).getItem();
+        return stack.isEmpty() ? 0 : (stack.getDamageValue() > 0 ? 1 : 2);
+    }
+
+    public float getChargingProgress(int slot) {
+        ItemStack stack = slots.get(slot).getItem();
+        return stack.isEmpty() ? 0.0F : (1.0F - stack.getDamageValue() / (float) stack.getMaxDamage());
     }
 }

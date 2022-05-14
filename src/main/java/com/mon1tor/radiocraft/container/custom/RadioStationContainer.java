@@ -1,7 +1,8 @@
-package com.mon1tor.radiocraft.container;
+package com.mon1tor.radiocraft.container.custom;
 
 import com.mon1tor.radiocraft.block.ModBlocks;
-import com.mon1tor.radiocraft.tileentity.RadioStationTile;
+import com.mon1tor.radiocraft.container.ModContainers;
+import com.mon1tor.radiocraft.tileentity.custom.RadioStationTile;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;

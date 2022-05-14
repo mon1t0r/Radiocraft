@@ -1,12 +1,14 @@
-package com.mon1tor.radiocraft.tileentity;
+package com.mon1tor.radiocraft.tileentity.custom;
 
 import com.mon1tor.radiocraft.block.custom.RadioStationBlock;
-import com.mon1tor.radiocraft.network.*;
+import com.mon1tor.radiocraft.network.ModPacketHandler;
+import com.mon1tor.radiocraft.network.packet.*;
 import com.mon1tor.radiocraft.radio.Constants;
 import com.mon1tor.radiocraft.radio.RadioMessageRegistry;
 import com.mon1tor.radiocraft.radio.history.IHistoryItem;
 import com.mon1tor.radiocraft.radio.history.RadioStationRecieveFrequencyHistoryItem;
 import com.mon1tor.radiocraft.radio.history.RadioStationSendFrequencyHistoryItem;
+import com.mon1tor.radiocraft.tileentity.ModTileEntities;
 import javafx.util.Pair;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.ServerPlayerEntity;

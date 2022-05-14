@@ -1,35 +1,35 @@
 {
   "variants": {
     "charging=false,facing=east": {
-      "model": "radiocraft:block/charger_without_radio",
+      "model": "radiocraft:block/radio_charger_without_radio",
       "y": 90
     },
     "charging=false,facing=north": {
-      "model": "radiocraft:block/charger_without_radio",
+      "model": "radiocraft:block/radio_charger_without_radio",
       "y": 0
     },
     "charging=false,facing=south": {
-      "model": "radiocraft:block/charger_without_radio",
+      "model": "radiocraft:block/radio_charger_without_radio",
       "y": 180
     },
     "charging=false,facing=west": {
-      "model": "radiocraft:block/charger_without_radio",
+      "model": "radiocraft:block/radio_charger_without_radio",
       "y": 270
     },
     "charging=true,facing=east": {
-      "model": "radiocraft:block/charger_with_radio",
+      "model": "radiocraft:block/radio_charger_with_radio",
       "y": 90
     },
     "charging=true,facing=north": {
-      "model": "radiocraft:block/charger_with_radio",
+      "model": "radiocraft:block/radio_charger_with_radio",
       "y": 0
     },
     "charging=true,facing=south": {
-      "model": "radiocraft:block/charger_with_radio",
+      "model": "radiocraft:block/radio_charger_with_radio",
       "y": 180
     },
     "charging=true,facing=west": {
-      "model": "radiocraft:block/charger_with_radio",
+      "model": "radiocraft:block/radio_charger_with_radio",
       "y": 270
     }
   }

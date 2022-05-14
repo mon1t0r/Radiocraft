@@ -1,4 +1,4 @@
-package com.mon1tor.radiocraft.network;
+package com.mon1tor.radiocraft.network.packet;
 
 import com.mon1tor.radiocraft.client.gui.screen.RadioScreen;
 import com.mon1tor.radiocraft.item.nbt.StackIdentifierNBT;

@@ -1,6 +1,9 @@
 package com.mon1tor.radiocraft.container;
 
 import com.mon1tor.radiocraft.Radiocraft;
+import com.mon1tor.radiocraft.container.custom.BatteryChargerContainer;
+import com.mon1tor.radiocraft.container.custom.RadioChargerContainer;
+import com.mon1tor.radiocraft.container.custom.RadioStationContainer;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -26,6 +29,13 @@ public class ModContainers {
                 BlockPos pos = data.readBlockPos();
                 World world = inv.player.getCommandSenderWorld();
                 return new RadioStationContainer(windowId, world, pos, inv, inv.player);
+            }));
+
+    public static final RegistryObject<ContainerType<BatteryChargerContainer>> BATTERY_CHARGER_CONTAINER =
+            CONTAINERS.register("battery_charger_container", () -> IForgeContainerType.create((windowId, inv, data) -> {
+                BlockPos pos = data.readBlockPos();
+                World world = inv.player.getCommandSenderWorld();
+                return new BatteryChargerContainer(windowId, world, pos, inv, inv.player);
             }));
 
     public static void register(IEventBus eventBus) {
