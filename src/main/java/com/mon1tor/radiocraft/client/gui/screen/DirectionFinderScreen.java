@@ -20,6 +20,7 @@ import net.minecraft.client.gui.chat.NarratorChatListener;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.ImageButton;
+import net.minecraft.client.util.InputMappings;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
@@ -186,26 +187,14 @@ public class DirectionFinderScreen extends Screen implements IItemScreenHistoryU
     }
 
     @Override
-    public boolean charTyped(char codePoint, int modifiers) {
-        if(super.charTyped(codePoint, modifiers))
-            return true;
-        switch (codePoint){
-            case 'e':
-                this.onClose();
-                return true;
-        }
-        return false;
-    }
-
-    @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if(this.freqField.keyPressed(keyCode, scanCode, modifiers)){
-            return true;
-        }
-        if(this.messageInfoField.keyPressed(keyCode, scanCode, modifiers)) {
-            return true;
-        }
         if (super.keyPressed(keyCode, scanCode, modifiers)) {
+            return true;
+        }
+        if(this.freqField.canConsumeInput() || this.freqField.keyPressed(keyCode, scanCode, modifiers)){
+            return true;
+        }
+        if(this.messageInfoField.canConsumeInput() || this.messageInfoField.keyPressed(keyCode, scanCode, modifiers)) {
             return true;
         }
         switch (keyCode) {
@@ -217,6 +206,11 @@ public class DirectionFinderScreen extends Screen implements IItemScreenHistoryU
                     consumeHistoryItemInput();
                 }
                 break;
+        }
+        InputMappings.Input mouseKey = InputMappings.getKey(keyCode, scanCode);
+        if(this.minecraft.options.keyInventory.isActiveAndMatches(mouseKey)) {
+            this.onClose();
+            return true;
         }
         return false;
     }
